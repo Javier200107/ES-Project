@@ -1,0 +1,31 @@
+.register-container{
+  padding-top: 200px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.register-form{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding: 100px;
+  padding-top: 50px;
+  border: 1px;
+  border-style: solid;
+  border-radius: 15px;
+}
+
+.register-title{
+  font-size: 30px;
+  margin-bottom: 40px;
+  font-weight: 700;
+
+}
+
+.form-container{
+  display: flex;
+  flex-direction: column;
+  width: 225px;
+}
