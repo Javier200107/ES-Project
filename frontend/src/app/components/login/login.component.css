@@ -1,0 +1,30 @@
+.login_container{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.login_card{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: min-content;
+   height: 100%;
+   margin-top: 200px;
+   padding: 35px;
+   margin-bottom: 20px;
+    background-color: rgba(232, 229, 224, 0.26);
+}
+.title{
+  padding-bottom: 10px;
+}
+
+.settings_inputs {
+  width: 300px;
+  padding: 5px;
+}
+
+.button_login{
+  width: 100%;
+}
