@@ -1,31 +1,36 @@
 <div class="register-container">
+  <div class="register-form-container">
 
-  <div class="register-form">
-    <div class="register-title">Join Dwtter today </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 30px">
+      <img alt="Twitter logo" class="tw-logo" src="assets/icons/twitter-white.svg">
+    </div>
+
+    <div class="register-title">Join Twitter today </div>
+
     <div class="form-container">
-      <form class="example-form">
+
+      <form  class="register-form" (ngSubmit)="onPost()">
+
         <div class="form-field-container" >
-          <mat-form-field class="example-full-width custom-form" appearance="outline" color="warn">
-            <mat-label>Username</mat-label>
-            <input type="text" matInput placeholder="Ex. Dipsy">
-          </mat-form-field>
-        </div>
-        <div class="form-field-container">
-          <mat-form-field class="example-full-width custom-form" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Ex. dip@example.com">
-          </mat-form-field>
-        </div>
-        <div class="form-field-container">
-          <mat-form-field class="example-full-width custom-form" appearance="outline">
-            <mat-label>Password</mat-label>
-            <input type="password" matInput>
-          </mat-form-field>
+          <input class="text-form" type="text" name="day" [(ngModel)]="username" id="username" placeholder="Username"/>
         </div>
 
+        <div class="form-field-container">
+          <input class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
+        </div>
+
+        <div class="form-field-container">
+          <input class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
+        </div>
+
+        <div>
+          <input type="submit" value="Register" class="register-button">
+        </div>
 
       </form>
+    </div>
 
+    <div style="display: flex; justify-content: center">
       <a> Have an account already? <a routerLink="/login">Log in</a></a>
     </div>
 
