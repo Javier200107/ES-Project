@@ -48,7 +48,7 @@
   border-style: solid;
   border-radius: 3px;
   height: 45px;
-  padding-left: 5px;
+  padding-left: 10px;
   width: 230px;
   color: white;
 }
@@ -69,4 +69,17 @@
   font-weight: 600;
   padding: 8px;
   border-radius: 20px;
+  cursor: pointer;
+
+  transition: background-color;
+  transition-duration: 1s;
+}
+
+.register-button:hover{
+  background-color: #fcfcfc;
+  opacity: 0.9;
+}
+
+.register-button:active{
+  opacity: 0.7;
 }
