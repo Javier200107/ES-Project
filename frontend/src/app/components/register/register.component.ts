@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../models/User";
+import {User} from "../../models/User";
 import { Router, ActivatedRoute } from '@angular/router';
+import { SessionService} from "../../services/session.service";
 
 @Component({
   selector: 'app-register',
@@ -13,9 +14,12 @@ export class RegisterComponent implements OnInit {
   email!: string;
   password!: string;
 
-  constructor(private router : Router, private route :
-    ActivatedRoute) { }
+  sessionUser!: User;
 
+  constructor(private router : Router, private route :
+    ActivatedRoute, private sessionService: SessionService) { }
+
+  //si hi ha sessió iniciada que vagi a home
   ngOnInit(): void {
   }
 
@@ -31,13 +35,16 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    console.log(newUser)
     this.username = '';
     this.email = '';
     this.password = '';
 
     if (true){
+
+      this.sessionService.register(newUser).subscribe((user) => this.sessionUser=user);
+      console.log('Session User', this.sessionUser)
       this.router.navigate(['/home']);
+      return;
     }
   }
 
