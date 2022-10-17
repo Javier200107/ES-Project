@@ -1,0 +1,53 @@
+.login_container{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.login_card{
+   display: flex;
+   flex-direction: column;
+   width: min-content;
+   height: 100%;
+   margin-top: 200px;
+   padding: 35px;
+   margin-bottom: 20px;
+   background-color: rgba(232, 229, 224, 0.26);
+}
+.title{
+  padding-bottom: 15px;
+  align-self: center;
+}
+
+.settings_inputs {
+  width: content-box;
+  padding-bottom: 0px;
+}
+
+.button_login{
+  width: 100%;
+  align-self: end;
+}
+
+.forgot_passw {
+  display: flex;
+  justify-content: right;
+  padding-bottom: 10px;
+  font-size: small;
+}
+
+.login_buttons {
+  margin: 5px;
+  margin-bottom: 0px;
+}
+
+.container_login_button {
+   display: flex;
+   flex-direction: row;
+}
+
+.or {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
