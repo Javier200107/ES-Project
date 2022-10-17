@@ -29,3 +29,7 @@
   flex-direction: column;
   width: 225px;
 }
+
+.text-danger{
+  color: red;
+}

@@ -3,24 +3,33 @@
   <div class="register-form">
     <div class="register-title">Join Dwtter today </div>
     <div class="form-container">
-      <form class="example-form">
+      <form [formGroup]="registerForm" class="example-form">
         <div>
           <mat-form-field class="example-full-width custom-form" appearance="fill">
             <mat-label>Username</mat-label>
-            <input type="text" matInput placeholder="Ex. Dipsy">
+            <input formControlName="username" type="text" matInput placeholder="Ex. Dipsy">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field class="example-full-width custom-form" appearance="fill">
             <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Ex. dip@example.com">
+            <input formControlName="email" type="email" matInput placeholder="Ex. dip@example.com">
           </mat-form-field>
+          <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
+              Enter a valid email please
+          </label>
         </div>
         <div>
           <mat-form-field class="example-full-width custom-form" appearance="fill">
             <mat-label>Password</mat-label>
-            <input type="password" matInput>
+            <input formControlName="password" type="password" matInput>
           </mat-form-field>
+          <label class="text-danger" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
+            registerForm.controls['password'].hasError('hasUpperCase') ||
+            registerForm.controls['password'].hasError('hasLowerCase') ||
+            registerForm.controls['password'].hasError('hasMinLength')">
+              Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
+          </label>
         </div>
 
       </form>
