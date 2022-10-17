@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import pytest
 from backend.app import app
 from backend.db import db
@@ -42,7 +43,7 @@ def app_with_data(app_with_db):
         email="fernandete@gmail.com",
         username="fernandito1",
         datan=datetime.strptime("1980-12-12", "%Y-%m-%d"),
-        is_admin=0
+        is_admin=0,
     )
     account.hash_password("alonsete2042343")
     db.session.add(account)

@@ -1,11 +1,11 @@
 from datetime import datetime
+
 from backend.lock import lock
 from backend.models.accounts import AccountsModel
 from flask_restful import Resource, reqparse
 
 
 class Accounts(Resource):
-
     def get(self, username):
         account = AccountsModel.get_by_username(username)
         return {"account": account.json()}, 200 if account else 404
@@ -17,7 +17,9 @@ class Accounts(Resource):
         parser.add_argument("email", type=str, required=True, help="correu electrònic")
         parser.add_argument("nom", type=str, required=True, help="nom")
         parser.add_argument("cognom", type=str, help="cognom")
-        parser.add_argument("birthdate", type=str, required=True, help="data de naixement")
+        parser.add_argument(
+            "birthdate", type=str, required=True, help="data de naixement"
+        )
         parser.add_argument("is_admin", type=int, help="admin")
         data = parser.parse_args()
         with lock.lock:
@@ -26,7 +28,7 @@ class Accounts(Resource):
                     data["username"],
                     data["email"],
                     data["nom"],
-                    datetime.strptime(data["birthdate"], "%Y-%m-%d")
+                    datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                 )
             elif data["cognom"] is None:
                 new_account = AccountsModel(
@@ -35,7 +37,7 @@ class Accounts(Resource):
                     data["nom"],
                     datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                     None,
-                    data["is_admin"]
+                    data["is_admin"],
                 )
             elif data["is_admin"] is None:
                 new_account = AccountsModel(
@@ -44,7 +46,7 @@ class Accounts(Resource):
                     data["nom"],
                     datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                     data["cognom"],
-                    None
+                    None,
                 )
             else:
                 new_account = AccountsModel(
@@ -53,7 +55,7 @@ class Accounts(Resource):
                     data["nom"],
                     datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                     data["cognom"],
-                    data["is_admin"]
+                    data["is_admin"],
                 )
             new_account.hash_password(data["password"])
             try:

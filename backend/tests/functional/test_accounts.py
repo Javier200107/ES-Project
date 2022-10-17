@@ -9,7 +9,7 @@ def test_create_user(app_with_db):
             "email": "alex19@gmail.com",
             "cognom": "Torso",
             "birthdate": "2002-01-10",
-            "is_admin": 0
+            "is_admin": 0,
         },
     )
     # then
@@ -27,7 +27,7 @@ def test_get_user_by_username(app_with_data):
             "email": "carletes@gmail.com",
             "cognom": "Duran",
             "birthdate": "1995-01-10",
-            "is_admin": 0
+            "is_admin": 0,
         },
     )
 
@@ -53,7 +53,7 @@ def test_delete_user(app_with_data):
             "email": "emmaradu@gmail.com",
             "cognom": "Raducanu",
             "birthdate": "1998-01-10",
-            "is_admin": 0
+            "is_admin": 0,
         },
     )
 

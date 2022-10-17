@@ -10,7 +10,7 @@ usuari1 = {
     "email": "piopiuoyuoyo",
     "cognom": "Gonzalez",
     "birthdate": "2002-01-10",
-    "is_admin": 0
+    "is_admin": 0,
 }
 
 # response3 = requests.post(url3, json=usuari1)
