@@ -1,7 +1,14 @@
 name: Python Unit Test
 
-on: push
-
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+    - development
+    
 jobs:
   build:
     runs-on: ubuntu-latest
