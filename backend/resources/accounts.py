@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from flask_restful import Resource, reqparse
-from models.accounts import AccountsModel
-from lock import lock
+from backend.models.accounts import AccountsModel
+from backend.lock import lock
 
 
 class Accounts(Resource):
@@ -21,7 +21,6 @@ class Accounts(Resource):
         parser.add_argument('birthdate', type=str, required=True, help="data de naixement")
         parser.add_argument('is_admin', type=int, help="admin")
         data = parser.parse_args()
-        print(data['nom'])
         with lock.lock:
             if data['cognom'] is None and data['is_admin'] is None:
                 new_account = AccountsModel(data['username'], data['email'], data['nom'],
@@ -51,8 +50,8 @@ class Accounts(Resource):
         if account is None:
             return {'Error': "No accounts contains that username"}, 404
         try:
-            account.delete_from_bd()
+            account.delete_from_db()
         except Exception as e:
             print(e)
             return {"message": "An error occurred deleting the account."}, 500
-        return {'Error': "No account contains that username"}, 404
+        return {'message': "Account deleted successfully"}, 200

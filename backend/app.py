@@ -3,8 +3,8 @@ from flask_restful import Api
 from flask_cors import CORS
 from flask_migrate import Migrate
 
-from resources.accounts import Accounts
-from db import db
+from backend.resources.accounts import Accounts
+from backend.db import db
 
 app = Flask(__name__)
 

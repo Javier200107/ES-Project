@@ -1,4 +1,4 @@
-from db import db
+from backend.db import db
 from passlib.apps import custom_app_context as pwd_context
 
 
@@ -42,7 +42,7 @@ class AccountsModel(db.Model):
         return [account.json() for account in AccountsModel.query.all()]
 
     def hash_password(self, password):
-        self.password = pwd_context.encrypt(password)
+        self.password = pwd_context.hash(password)
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password)
