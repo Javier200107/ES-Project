@@ -13,6 +13,7 @@ class AccountsModel(db.Model):
     # 0 not admin/ 1 is admin
     is_admin = db.Column(db.Integer, nullable=False)
 
+
     def __init__(self, username, email, nom, datan, cognom="", is_admin=0):
         self.username = username
         self.email = email
@@ -24,6 +25,7 @@ class AccountsModel(db.Model):
     def json(self):
         return {'username': self.username, 'email': self.email, 'nom': self.nom, 'cognom': self.cognom,
                 'birth': self.birth.isoformat(), 'is_admin': self.is_admin, }
+      
 
     def save_to_db(self):
         db.session.add(self)
@@ -46,3 +48,4 @@ class AccountsModel(db.Model):
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password)
+

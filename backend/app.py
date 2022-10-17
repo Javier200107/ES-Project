@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from backend.resources.accounts import Accounts
 from backend.db import db
 
+
 app = Flask(__name__)
 
 # De moment es guardarà a local
