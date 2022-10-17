@@ -3,7 +3,7 @@ from passlib.apps import custom_app_context as pwd_context
 
 
 class AccountsModel(db.Model):
-    __tablename__ = 'accounts'
+    __tablename__ = "accounts"
     username = db.Column(db.String(30), primary_key=True, unique=True, nullable=False)
     email = db.Column(db.String(30), primary_key=True, unique=True, nullable=False)
     nom = db.Column(db.String(30), nullable=False)
@@ -22,8 +22,14 @@ class AccountsModel(db.Model):
         self.is_admin = is_admin
 
     def json(self):
-        return {'username': self.username, 'email': self.email, 'nom': self.nom, 'cognom': self.cognom,
-                'birth': self.birth.isoformat(), 'is_admin': self.is_admin, }
+        return {
+            "username": self.username,
+            "email": self.email,
+            "nom": self.nom,
+            "cognom": self.cognom,
+            "birth": self.birth.isoformat(),
+            "is_admin": self.is_admin,
+        }
 
     def save_to_db(self):
         db.session.add(self)
