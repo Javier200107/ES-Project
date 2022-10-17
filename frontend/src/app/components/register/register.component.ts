@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-
+import {User} from "../models/User";
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,8 +12,12 @@ export class RegisterComponent implements OnInit {
 
   public registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
-
+  constructor(private router : Router, private formBuilder: FormBuilder) { }
+  
+  username!: string;
+  email!: string;
+  password!: string;
+  
   ngOnInit(): void {
     this.buildForm()
   }
@@ -44,5 +49,47 @@ export class RegisterComponent implements OnInit {
       return valid ? null : error;
     };
   }
+
+  onPost() {
+
+    const newUser: User = {
+      username: this.username,
+      email: this.email,
+      password: this.password,
+    };
+
+    if(!this.registerFromControl(newUser)){
+      return;
+    }
+
+    console.log(newUser)
+    this.username = '';
+    this.email = '';
+    this.password = '';
+
+    if (true){
+      this.router.navigate(['/home']);
+    }
+  }
+
+
+
+  registerFromControl(user: User):Boolean{
+    if (!user.username) {
+      alert('Please add a username!');
+      return false;
+    }
+    if (!user.email) {
+      alert('Please add an email!');
+      return false;
+    }
+    if (!user.password) {
+      alert('Please add a password!');
+      return false;
+    }
+    return true;
+  }
+
+
 }
 

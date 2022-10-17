@@ -1,39 +1,36 @@
 <div class="register-container">
+  <div class="register-form-container">
 
-  <div class="register-form">
-    <div class="register-title">Join Dwtter today </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 30px">
+      <img alt="Twitter logo" class="tw-logo" src="assets/icons/twitter-white.svg">
+    </div>
+
+    <div class="register-title">Join Twitter today </div>
+
     <div class="form-container">
-      <form [formGroup]="registerForm" class="example-form">
-        <div>
-          <mat-form-field class="example-full-width custom-form" appearance="fill">
-            <mat-label>Username</mat-label>
-            <input formControlName="username" type="text" matInput placeholder="Ex. Dipsy">
-          </mat-form-field>
+
+      <form  class="register-form" (ngSubmit)="onPost()">
+
+        <div class="form-field-container" >
+          <input class="text-form" type="text" name="day" [(ngModel)]="username" id="username" placeholder="Username"/>
         </div>
-        <div>
-          <mat-form-field class="example-full-width custom-form" appearance="fill">
-            <mat-label>Email</mat-label>
-            <input formControlName="email" type="email" matInput placeholder="Ex. dip@example.com">
-          </mat-form-field>
-          <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
-              Enter a valid email please
-          </label>
+
+        <div class="form-field-container">
+          <input class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
         </div>
+
+        <div class="form-field-container">
+          <input class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
+        </div>
+
         <div>
-          <mat-form-field class="example-full-width custom-form" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input formControlName="password" type="password" matInput>
-          </mat-form-field>
-          <label class="text-danger" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
-            registerForm.controls['password'].hasError('hasUpperCase') ||
-            registerForm.controls['password'].hasError('hasLowerCase') ||
-            registerForm.controls['password'].hasError('hasMinLength')">
-              Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
-          </label>
+          <input type="submit" value="Register" class="register-button">
         </div>
 
       </form>
+    </div>
 
+    <div style="display: flex; justify-content: center">
       <a> Have an account already? <a routerLink="/login">Log in</a></a>
     </div>
 
