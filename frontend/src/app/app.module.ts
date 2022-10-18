@@ -32,7 +32,6 @@ import { MatCardModule } from "@angular/material/card";
         AppRoutingModule,
         BrowserAnimationsModule,
         FormsModule,
-
         MatInputModule,
         MatFormFieldModule,
         ReactiveFormsModule,
