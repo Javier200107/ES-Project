@@ -5,5 +5,5 @@ export interface User {
   password: string;
   nom: string;
   cognom: string;
-  birth: string;
+  birthdate: string;
 }

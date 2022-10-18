@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
       password: this.password,
       nom: "testname",
       cognom:  "testsurname",
-      birth:  "testDOB",
+      birthdate:  "2009-06-15",
     };
 
     if(!this.registerFromControl(newUser)) {
