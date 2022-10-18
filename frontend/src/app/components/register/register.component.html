@@ -18,7 +18,7 @@
         <div class="form-field-container">
           <div class="popup-container">
             <input formControlName="email" class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
-            <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
+            <label class="text-danger-1" *ngIf="registerForm.controls['email'].hasError('email')">
                 Enter a valid email please
             </label>
           </div>
@@ -27,7 +27,7 @@
         <div class="form-field-container">
           <div class="popup-container">
             <input formControlName="password" class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
-            <label class="text-danger" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
+            <label class="text-danger-2" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
               registerForm.controls['password'].hasError('hasUpperCase') ||
               registerForm.controls['password'].hasError('hasLowerCase') ||
               registerForm.controls['password'].hasError('hasMinLength')">

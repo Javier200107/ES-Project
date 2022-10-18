@@ -85,14 +85,24 @@
   opacity: 0.7;
 }
 
-.text-danger{
+.text-danger-1{
   color: red;
   font-size: 10px;
-  background-color: darkseagreen;
   margin-top: 10px;
   width: 250px;
   position: absolute;
-  bottom: -50px;
+  bottom: -20px;
+  left: 0px;
+  z-index: 3;
+}
+
+.text-danger-2{
+  color: red;
+  font-size: 10px;
+  margin-top: 10px;
+  width: 250px;
+  position: absolute;
+  bottom: -40px;
   left: 0px;
   z-index: 3;
 }
@@ -102,5 +112,5 @@
 }
 
 .btn-register {
-  margin-top: 60px;
+  margin-top: 40px;
 }
