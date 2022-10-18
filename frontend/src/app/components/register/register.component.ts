@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../models/User";
+import { User } from "../../models/User";
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService} from "../../services/session.service";
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
@@ -62,9 +62,12 @@ export class RegisterComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
+      nom: "testname",
+      cognom:  "testsurname",
+      birthdate:  "2009-06-15",
     };
 
-    if(!this.registerFromControl(newUser)){
+    if(!this.registerFromControl(newUser)) {
       return;
     }
 
