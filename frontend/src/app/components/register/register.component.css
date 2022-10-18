@@ -18,9 +18,11 @@
   border-radius: 15px;
   border-color: #1a1a1a;
 }
+
 .tw-logo{
   width: 40px;
 }
+
 .register-title{
   font-size: 30px;
   margin-bottom: 40px;
@@ -42,6 +44,7 @@
   justify-content: center;
   margin-bottom: 10px;
 }
+
 .text-form{
   background-color: var(--background);
   border-width: 1px;
@@ -57,6 +60,7 @@
   background-color: #1a1a1a;
   color: white;
 }
+
 .custom-form{
   padding-bottom: 20px;
 }

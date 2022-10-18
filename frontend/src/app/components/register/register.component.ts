@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../models/User";
+import { User } from "../../models/User";
 import { Router, ActivatedRoute } from '@angular/router';
-import { SessionService} from "../../services/session.service";
+import { SessionService } from "../../services/session.service";
 
 @Component({
   selector: 'app-register',
@@ -29,9 +29,12 @@ export class RegisterComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
+      nom: "testname",
+      cognom:  "testsurname",
+      birth:  "testDOB",
     };
 
-    if(!this.registerFromControl(newUser)){
+    if(!this.registerFromControl(newUser)) {
       return;
     }
 
