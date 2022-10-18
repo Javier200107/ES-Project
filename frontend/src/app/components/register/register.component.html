@@ -8,20 +8,36 @@
     <div class="register-title">Join Twitter today </div>
 
     <div class="form-container">
-      <form  class="register-form" (ngSubmit)="onPost()">
+
+      <form [formGroup]="registerForm" class="register-form" (ngSubmit)="onPost()">
 
         <div class="form-field-container" >
-          <input class="text-form" type="text" name="day" [(ngModel)]="username" id="username" placeholder="Username"/>
+          <input formControlName="username" class="text-form" type="text" name="day" [(ngModel)]="username" id="username" placeholder="Username"/>
         </div>
         <div class="form-field-container">
-          <input class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
+          <div class="popup-container">
+            <input formControlName="email" class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
+            <label class="text-danger-1" *ngIf="registerForm.controls['email'].hasError('email')">
+                Enter a valid email please
+            </label>
+          </div>
         </div>
         <div class="form-field-container">
-          <input class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
+          <div class="popup-container">
+            <input formControlName="password" class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
+            <label class="text-danger-2" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
+              registerForm.controls['password'].hasError('hasUpperCase') ||
+              registerForm.controls['password'].hasError('hasLowerCase') ||
+              registerForm.controls['password'].hasError('hasMinLength')">
+                Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
+            </label>
+          </div>
         </div>
 
-        <div>
-          <input type="submit" value="Register" class="register-button">
+        <div class="btn-register">
+          <input [disabled]="!(registerForm.controls['password'].valid &&
+            registerForm.controls['username'].valid && registerForm.controls['email'].valid)"
+                 type="submit" value="Register" class="register-button">
         </div>
 
       </form>
@@ -34,4 +50,3 @@
   </div>
 
 </div>
-

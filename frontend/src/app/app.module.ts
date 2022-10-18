@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatInputModule } from "@angular/material/input";
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { MatRadioModule } from "@angular/material/radio";
@@ -43,3 +44,4 @@ import { MatCardModule } from "@angular/material/card";
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
