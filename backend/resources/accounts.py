@@ -42,7 +42,7 @@ class Accounts(Resource):
             elif data["is_admin"] is None:
                 new_account = AccountsModel(
                     data["username"],
-                    data['email'],
+                    data["email"],
                     data["nom"],
                     datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                     data["cognom"],

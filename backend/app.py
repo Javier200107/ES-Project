@@ -1,11 +1,10 @@
+from backend.db import db
+from backend.resources.accounts import Accounts
+from backend.resources.login import Login
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
-
-from backend.db import db
-from backend.resources.accounts import Accounts
-from backend.resources.login import Login
 
 app = Flask(__name__)
 

@@ -1,11 +1,10 @@
 import time
 
-from flask import g, current_app
-from flask_httpauth import HTTPBasicAuth
-from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
-from passlib.apps import custom_app_context as pwd_context
-
 from backend.db import db
+from flask import current_app, g
+from flask_httpauth import HTTPBasicAuth
+from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
+from passlib.apps import custom_app_context as pwd_context
 
 auth = HTTPBasicAuth(scheme="Bearer")
 
@@ -63,8 +62,11 @@ class AccountsModel(db.Model):
         return pwd_context.verify(password, self.password)
 
     def generate_auth_token(self, expiration=600):
-        return encode({"username": self.username, "exp": int(time.time()) + expiration},
-                      current_app.secret_key, algorithm="HS256")
+        return encode(
+            {"username": self.username, "exp": int(time.time()) + expiration},
+            current_app.secret_key,
+            algorithm="HS256",
+        )
 
     @classmethod
     def verify_auth_token(cls, token):
