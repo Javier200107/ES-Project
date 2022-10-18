@@ -16,24 +16,30 @@
         </div>
 
         <div class="form-field-container">
-          <input formControlName="email" class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
-          <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
-              Enter a valid email please
-          </label>
+          <div class="popup-container">
+            <input formControlName="email" class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
+            <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
+                Enter a valid email please
+            </label>
+          </div>
         </div>
 
         <div class="form-field-container">
-          <input formControlName="password" class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
-          <label class="text-danger" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
-            registerForm.controls['password'].hasError('hasUpperCase') ||
-            registerForm.controls['password'].hasError('hasLowerCase') ||
-            registerForm.controls['password'].hasError('hasMinLength')">
-              Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
-          </label>
+          <div class="popup-container">
+            <input formControlName="password" class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
+            <label class="text-danger" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
+              registerForm.controls['password'].hasError('hasUpperCase') ||
+              registerForm.controls['password'].hasError('hasLowerCase') ||
+              registerForm.controls['password'].hasError('hasMinLength')">
+                Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
+            </label>
+          </div>
         </div>
 
-        <div>
-          <input type="submit" value="Register" class="register-button">
+        <div class="btn-register">
+          <input [disabled]="!(registerForm.controls['password'].valid &&
+            registerForm.controls['username'].valid && registerForm.controls['email'].valid)"
+                 type="submit" value="Register" class="register-button">
         </div>
 
       </form>
