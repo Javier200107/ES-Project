@@ -1,16 +1,22 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http'
 import {User} from "../models/User";
-import {Observable} from "rxjs";
 import { environment } from 'src/environments/environment';
+import {UserLogin} from "../models/UserLogin";
 
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService {
+export class SessionService{
 
-  constructor(private http:HttpClient) { }
+  error!: string
+
+
+  constructor(private http:HttpClient) {
+
+  }
 
   //Crear un element de resposta?? amb html response i objecte? de moment només user
   register(user:User): Observable<User> {
@@ -18,4 +24,10 @@ export class SessionService {
     return this.http.post<User>(`${environment.baseApiUrl}/users`, user)
   }
 
+  login(user:UserLogin): Observable<UserLogin> {
+    console.log('Post User', user)
+    return this.http.post<UserLogin>(`${environment.baseApiUrl2}/login`, user)
+      /*.pipe(
+        catchError(err => {throw 'Error en realitzar el post '; }))*/
+  }
 }

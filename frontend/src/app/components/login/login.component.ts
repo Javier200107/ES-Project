@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
+import {UserLogin} from "../../models/UserLogin";
+import {SessionService} from "../../services/session.service";
 
 @Component({
   selector: 'app-login',
@@ -10,26 +11,38 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 export class LoginComponent implements OnInit {
 
-  email!: string;
+  username!: string;
   password!: string;
+  token!: string;
 
-  constructor(private router : Router, private route : ActivatedRoute) { }
+  sessionUser!: UserLogin
+
+  constructor(private router : Router, private route : ActivatedRoute,
+              private sessionService: SessionService) { }
 
   ngOnInit(): void {
   }
 
   checkLogin() {
 
-    /*const newUser: User = {
-      username: //sacarlo de la base de datos,
-      email: this.email,
+    const user: UserLogin = {
+      username: this.username,
       password: this.password,
-    };*/
-    
-    console.log(this.email, this.password)
-    if (true){
-      this.router.navigate(['/home']);
-    }
-  }
+      token: null,
+      email: "",
+      nom: "",
+      cognom:  "",
+      birthdate:  ""
+    };
 
+    this.sessionService.login(user).subscribe(
+      (result) =>
+      {
+        if (result.token) {
+          this.token = result.token
+        }},
+      err => {console.error('Error: status = ', err.status, " and statusText = ", err.statusText),
+                        alert('Username or password are wrong, please try again!');},
+      () => this.router.navigate(['/home']))
+  }
 }
