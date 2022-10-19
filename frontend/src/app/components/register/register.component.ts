@@ -65,6 +65,7 @@ export class RegisterComponent implements OnInit {
       nom: "testname",
       cognom:  "testsurname",
       birthdate:  "2009-06-15",
+      is_admin: false
     };
 
     if(!this.registerFromControl(newUser)) {
