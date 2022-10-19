@@ -26,7 +26,7 @@ export class SessionService{
 
   login(user:UserLogin): Observable<UserLogin> {
     console.log('Post User', user)
-    return this.http.post<UserLogin>(`${environment.baseApiUrl2}/login`, user)
+    return this.http.post<UserLogin>(`${environment.baseApiUrl}/login`, user)
       /*.pipe(
         catchError(err => {throw 'Error en realitzar el post '; }))*/
   }
