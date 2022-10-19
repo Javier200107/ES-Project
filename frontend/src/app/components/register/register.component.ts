@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../models/User";
+import { User } from "../../models/User";
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService} from "../../services/session.service";
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+
 
 @Component({
   selector: 'app-register',
@@ -15,12 +17,43 @@ export class RegisterComponent implements OnInit {
   password!: string;
 
   sessionUser!: User;
+  public registerForm!: FormGroup;
 
   constructor(private router : Router, private route :
-    ActivatedRoute, private sessionService: SessionService) { }
+    ActivatedRoute, private sessionService: SessionService,
+              private formBuilder: FormBuilder) { }
 
   //si hi ha sessió iniciada que vagi a home
   ngOnInit(): void {
+    this.buildForm()
+  }
+
+  private buildForm(){
+    this.registerForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['',
+        [Validators.required,
+        Validators.minLength(8),
+        this.patternValidator(/\d/, { hasNumber: true}),
+        this.patternValidator(/[A-Z]/, { hasUpperCase: true}),
+        this.patternValidator(/[a-z]/, { hasLowerCase: true}),
+        this.patternValidator(/^.{8,}$/, {hasMinLength: true})]]
+    });
+  }
+
+  patternValidator(regex:RegExp, error: ValidationErrors): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return null; // Si control esta buit no retorna cap error
+      }
+
+      // Es comprova si compleix el requisit indicat al primer parametre
+      const valid = regex.test(control.value);
+
+      // Si compleix el requisit retorna null, sinó l'error especificat al segon parametre
+      return valid ? null : error;
+    };
   }
 
   onPost() {
@@ -29,9 +62,12 @@ export class RegisterComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
+      nom: "testname",
+      cognom:  "testsurname",
+      birthdate:  "2009-06-15",
     };
 
-    if(!this.registerFromControl(newUser)){
+    if(!this.registerFromControl(newUser)) {
       return;
     }
 
@@ -68,4 +104,3 @@ export class RegisterComponent implements OnInit {
 
 
 }
-
