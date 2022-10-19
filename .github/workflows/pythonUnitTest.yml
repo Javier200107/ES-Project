@@ -27,4 +27,4 @@ jobs:
       id: test
       working-directory: ./
       run: |
-        python -m pytest > unit-test-result.log
+        python -m pytest
