@@ -6,4 +6,5 @@ export interface User {
   nom: string;
   cognom: string;
   birthdate: string;
+  is_admin: boolean;
 }
