@@ -55,7 +55,7 @@
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  margin-bottom: 60px;
+  margin-bottom: 10px;
 }
 
 .form-field-container {
@@ -137,6 +137,12 @@
 }
 
 .btn-register {
-  margin-top: 40px;
+  margin-top: 10px;
+}
+
+.radio-btn{
+  font-size: 12px;
+  margin: 2px;
+  padding: 0;
 }
 
