@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatInputModule } from "@angular/material/input";
@@ -23,7 +24,8 @@ import { MatCardModule } from "@angular/material/card";
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
     imports: [
         BrowserModule,
