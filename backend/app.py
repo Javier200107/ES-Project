@@ -5,8 +5,13 @@ from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
+from flask import render_template
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder='dist/static',
+    template_folder='dist/templates'
+)
 
 # De moment es guardarà a local
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
@@ -25,7 +30,7 @@ api.add_resource(Login, "/login")
 
 @app.route("/")
 def index():
-    return "Hello World!"
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
