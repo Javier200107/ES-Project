@@ -1,0 +1,102 @@
+.post{
+  max-width: 520px;
+  padding: 12px 12px;
+  display: flex;
+  flex-direction: row;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+}
+.post:hover{
+  background-color: #131313;
+}
+.post-content-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-image-side {
+  width: 48px;
+  margin-right: 10px;
+}
+.post-profile-pic{
+  width: 48px;
+  border-radius: 30px;
+}
+.username{
+  color: #949494;
+}
+.content-title{
+  height: 20px;
+}
+
+
+.content-space{
+  width: 100%;
+  display: flex;
+  text-align: start;
+}
+
+
+.content-interaction {
+  height: 36px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-right: 8%;
+}
+.media-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.media-btn{
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5px;
+  padding-left: 4px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color;
+  transition-duration: 0.2s;
+  margin-right: 3px;
+}
+.btn-chat:hover{
+  background-color: rgba(1, 62, 108, 0.84);
+  color: #1c9bf0;
+}
+.num-comments:hover{
+  color: #1c9bf0;
+}
+
+.btn-rep:hover{
+  background-color: rgba(15, 68, 5, 0.73);
+  color: #177e08;
+}
+.num-rep:hover{
+  color: #177e08;
+}
+
+.btn-fav:hover{
+  background-color: rgba(93, 9, 20, 0.7);
+  color: #ec2942;
+}
+.num-likes:hover{
+  color: #ec2942;
+}
+
+.btn-up:hover{
+  background-color: rgba(1, 62, 108, 0.84);
+  color: #1c9bf0;
+}
+.media-icon{
+  font-size: 16px;
+  width: 20px;
+  height: 20px;
+}
+
