@@ -9,7 +9,7 @@ from flask_restful import Api
 app = Flask(
     __name__,
     static_folder="backend/dist/static",
-    template_folder="backend/dist/templates"
+    template_folder="backend/dist/templates",
 )
 
 # De moment es guardarà a local
