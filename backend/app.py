@@ -1,17 +1,12 @@
 from backend.db import db
 from backend.resources.accounts import Accounts
 from backend.resources.login import Login
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask import render_template
 
-app = Flask(
-    __name__,
-    static_folder='dist/static',
-    template_folder='dist/templates'
-)
+app = Flask(__name__, static_folder="dist/static", template_folder="dist/templates")
 
 # De moment es guardarà a local
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
