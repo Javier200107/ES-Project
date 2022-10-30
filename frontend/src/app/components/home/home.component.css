@@ -1,5 +1,40 @@
 .main-feed{
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 526px 1fr;
+  align-items:baseline;
+  justify-content: center;
+  height: 100%;
+}
+.home-title{
+  font-weight: 500;
+  font-size: 20px;
+  margin: 0 0 5px 0;
+  padding-left: 15px;
+  padding-top: 20px;
+  width: 100%;
+  cursor: pointer;
+}
 
+.feed{
+  border-width: 0 1px;
+  border-color: var(--main-border-color);
+  border-style: solid;
+  height: 100%;
+}
+.explore{
+  max-width: 300px;
+  padding-left: 20px;
+}
+.searchbar{
+  padding-left: 10px;
+  width: 100%;
+  height: 35px;
+  border: none;
+  border-radius: 30px;
+  background-color: #34343a;
+  color:  var(--text-color);
+}
+.searchbar:focus{
+  outline-style: solid;
+  outline-color: var(--primary);
 }

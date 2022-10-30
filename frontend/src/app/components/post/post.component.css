@@ -3,13 +3,14 @@
   padding: 12px 12px;
   display: flex;
   flex-direction: row;
-  border-color: white;
   border-style: solid;
-  border-width: 1px;
+  border-color: var(--main-border-color);
+  border-width: 0;
+  border-bottom-width: 1px;
   cursor: pointer;
 }
 .post:hover{
-  background-color: #131313;
+  background-color: rgba(9, 9, 9, 0.77);
 }
 .post-content-side {
   flex: 1;
@@ -27,6 +28,9 @@
 }
 .username{
   color: #949494;
+}
+.user-nickname:hover{
+  text-decoration-line: underline;
 }
 .content-title{
   height: 20px;

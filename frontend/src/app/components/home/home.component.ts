@@ -25,6 +25,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+  }
+
+  demanarPost(){
+
+  }
+
+  createPost() {
+
   }
 
 }
