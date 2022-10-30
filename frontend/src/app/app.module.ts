@@ -18,6 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 import { MatCardModule } from "@angular/material/card";
+import { NavbarComponent } from './components/navbar/navbar.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -25,21 +28,24 @@ import { MatCardModule } from "@angular/material/card";
     RegisterComponent,
     LoginComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    NavbarComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatCardModule,
-        MatButtonModule,
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatCardModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatToolbarModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

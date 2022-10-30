@@ -1,0 +1,24 @@
+.flexExpand {
+    flex: 1 1 auto;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--primary);
+  /*border-bottom: 1px var(--secondary) solid !important; */
+}
+
+.mat-icons:hover{color: var(--background)}
+.mat-icons {
+  color: var(--secondary);
+}
+
+.name-app {
+  color: var(--secondary)
+}
+
+.mat-slide-toggle{
+  color: var(--background);
+}
