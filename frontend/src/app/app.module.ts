@@ -14,8 +14,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatButtonModule } from '@angular/material/button';
-
-
+import {MatIconModule} from '@angular/material/icon';
 import { MatCardModule } from "@angular/material/card";
 
 @NgModule({
@@ -26,17 +25,18 @@ import { MatCardModule } from "@angular/material/card";
     HomeComponent
   ],
     imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatCardModule,
-        MatButtonModule,
+      BrowserModule,
+      HttpClientModule,
+      AppRoutingModule,
+      BrowserAnimationsModule,
+      FormsModule,
+      MatInputModule,
+      MatFormFieldModule,
+      ReactiveFormsModule,
+      MatRadioModule,
+      MatCardModule,
+      MatButtonModule,
+      MatIconModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

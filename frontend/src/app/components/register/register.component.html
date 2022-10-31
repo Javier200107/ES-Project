@@ -1,6 +1,10 @@
 <div class="register-container">
   <div class="register-form-container">
 
+    <div class="backFormButton" *ngIf="!firstSlide">
+      <span (click)="onBackBtn()" class="material-icons md-24">arrow_back</span>
+    </div>
+
     <div style="display: flex; justify-content: center; margin-bottom: 30px">
       <img alt="Twitter logo" class="tw-logo" src="assets/icons/twitter-white.svg">
     </div>
@@ -9,44 +13,81 @@
 
     <div class="form-container">
 
-      <form [formGroup]="registerForm" class="register-form" (ngSubmit)="onPost()">
-
+      <form  *ngIf="firstSlide" [formGroup]="firstForm" class="register-form" (ngSubmit)="firstSubmit()">
         <div class="form-field-container" >
           <input formControlName="username" class="text-form" type="text" name="day" [(ngModel)]="username" id="username" placeholder="Username"/>
         </div>
         <div class="form-field-container">
           <div class="popup-container">
             <input formControlName="email" class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
-            <label class="text-danger-1" *ngIf="registerForm.controls['email'].hasError('email')">
-                Enter a valid email please
+            <label class="text-danger-1" *ngIf="firstForm.controls['email'].hasError('email')">
+              Enter a valid email please
             </label>
           </div>
         </div>
         <div class="form-field-container">
           <div class="popup-container">
             <input formControlName="password" class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
-            <label class="text-danger-2" *ngIf="registerForm.controls['password'].hasError('hasNumber') ||
-              registerForm.controls['password'].hasError('hasUpperCase') ||
-              registerForm.controls['password'].hasError('hasLowerCase') ||
-              registerForm.controls['password'].hasError('hasMinLength')">
-                Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
+            <label class="text-danger-2" *ngIf="firstForm.controls['password'].hasError('hasNumber') ||
+            firstForm.controls['password'].hasError('hasUpperCase') ||
+            firstForm.controls['password'].hasError('hasLowerCase') ||
+            firstForm.controls['password'].hasError('hasMinLength')">
+              Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
             </label>
           </div>
         </div>
-
-        <div class="btn-register">
-          <input [disabled]="!(registerForm.controls['password'].valid &&
-            registerForm.controls['username'].valid && registerForm.controls['email'].valid)"
-                 type="submit" value="Register" class="register-button">
+        <div class="radio-btn-container" style="display: flex; justify-content: center;" >
+          <span  class="material-icons radio-btn">radio_button_checked</span>
+          <span  class="material-icons radio-btn">radio_button_unchecked</span>
         </div>
-
+        <div class="btn-register">
+          <input [disabled]="!(firstForm.controls['password'].valid &&
+            firstForm.controls['username'].valid && firstForm.controls['email'].valid)"
+                 type="submit" value="{{nextButton}}" class="register-button">
+        </div>
       </form>
-    </div>
 
-    <div style="display: flex; justify-content: center">
+      <form *ngIf="!firstSlide" [formGroup]="secondForm" class="register-form" (ngSubmit)="secondSubmit()">
+          <div class="form-field-container" >
+            <input formControlName="name" class="text-form" type="text" name="day" [(ngModel)]="name" id="name" placeholder="Name"/>
+            <label class="text-danger-1" *ngIf="secondForm.controls['name'].hasError('name')">
+              Enter a name please
+            </label>
+          </div>
+          <div class="form-field-container">
+            <div class="popup-container">
+              <input formControlName="surname" class="text-form" type="text" name="day" [(ngModel)]="surname" id="surname" placeholder="Surname"/>
+              <label class="text-danger-1" *ngIf="secondForm.controls['surname'].hasError('surname')">
+                Enter a surname please
+              </label>
+            </div>
+          </div>
+          <div class="form-field-container">
+            <div class="popup-container">
+              <input formControlName="birthdate" class="text-form" type="text" name="day" [(ngModel)]="birthdate" id="birthdate" placeholder="ex.2002-06-15"/>
+              <label class="text-danger-1" *ngIf="secondForm.controls['birthdate'].hasError('birthdate')">
+                Enter a valid email please
+              </label>
+            </div>
+          </div>
+        <div class="radio-btn-container" style="display: flex; justify-content: center;">
+          <span  class="material-icons radio-btn">radio_button_unchecked</span>
+          <span  class="material-icons radio-btn">radio_button_checked</span>
+        </div>
+          <div class="btn-register">
+            <input [disabled]="!(secondForm.controls['name'].valid &&
+              secondForm.controls['surname'].valid && secondForm.controls['birthdate'].valid)"
+                   type="submit" value="{{nextButton}}" class="register-button">
+        </div>
+      </form>
+
+
+
+
+    <div style="display: flex; justify-content: center; margin-top: 20px">
       <a> Have an account already? <a routerLink="/login">Log in</a></a>
     </div>
 
   </div>
-
+  </div>
 </div>
