@@ -64,7 +64,7 @@
           </div>
           <div class="form-field-container">
             <div class="popup-container">
-              <input formControlName="birthdate" class="text-form" type="text" name="day" [(ngModel)]="birthdate" id="birthdate" placeholder="ex.2002-06-15"/>
+              <input formControlName="birthdate" class="text-form" type="date" name="day" [(ngModel)]="birthdate" id="birthdate" placeholder="ex.2002-06-15"/>
               <label class="text-danger-1" *ngIf="secondForm.controls['birthdate'].hasError('birthdate')">
                 Enter a valid email please
               </label>

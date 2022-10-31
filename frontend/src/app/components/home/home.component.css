@@ -1,3 +1,5 @@
-body{
-  color: white;
+.main-feed{
+  display: grid;
+  grid-template-rows: 1fr;
+
 }
