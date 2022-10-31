@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { PostCreationService } from "../../services/post-creation.service";
+import { NewPostForm } from "../../models/NewPostForm";
 
 @Component({
   selector: 'app-create-post',
@@ -11,7 +13,7 @@ export class CreatePostComponent implements OnInit {
   public postForm!: FormGroup;
   post_content!: string;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private postCreator: PostCreationService) { }
 
   ngOnInit(): void {
     this.buildForm()
@@ -23,6 +25,12 @@ export class CreatePostComponent implements OnInit {
       alert("Post cannot be empty!")
       return;
     }
+
+    const newPost:NewPostForm = {
+      content: this.post_content,
+    }
+    this.postCreator.createPost(newPost)
+
     this.post_content = '';
   }
 
