@@ -1,29 +1,42 @@
-<mat-toolbar class="navbar">
-  <mat-toolbar-row class="container">
-    <div>
-      <!--https://materializecss.com/icons.html-->
-      <a mat-button [routerLink]="'/home'" class="mat-icons"> <i class="large material-icons">home</i> </a>
-      <a mat-button [routerLink]="'#'" class="mat-icons"> <i class="large material-icons">notifications</i> </a>
-      <a mat-button [routerLink]="'#'" class="mat-icons"> <i class="large material-icons">turned_in</i> </a>
-    </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white {{theme_sidebar}} sidebar bg">
+  <a href="/" class="mb-3 mb-md-0 me-md-auto col">
+    <span class="fs-4 options-menu name-app">MyApplication</span>
+  </a>
+  <hr class="divisor">
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="options-menu">
+      <a [routerLink]="'/home'" class="nav-link {{active_home}} form-select col" (click)="areActive('home')" aria-current="page">
+        <i class="bi bi-house-door icons"></i>Home</a>
+    </li>
+    <li class="options-menu">
+      <a [routerLink]="'#'" class="nav-link {{active_notif}} form-select col disabled" (click)="areActive('notif')">
+        <i class="bi bi-app-indicator icons disabled"></i>Notifications</a>
+    </li>
+    <li class="options-menu">
+      <a [routerLink]="'#'" class="nav-link {{active_saved}} form-select col disabled" (click)="areActive('saved')" >
+        <i class="bi bi-bookmark-heart icons disabled"></i>Saved</a>
+    </li>
     <span class="flexExpand"></span>
-    <a class="navbar-brand name-app" routerLink="/home">My Application</a>
-    <span class="flexExpand"></span>
-    <div>
-      <mat-toolbar-row>
-        <a mat-button [routerLink]="'/profile'" class="mat-icons">
-          <img
-            src="https://mdbootstrap.com/img/new/avatars/1.webp"
-            class="rounded-circle"
-            height="22"
-            alt=""
-            loading="lazy"
-          />
-          John
-        </a>
-        <mat-slide-toggle color="primary" [(ngModel)]="isChecked" (click)="changeTheme()"></mat-slide-toggle>
-        <i class="small material-icons mat-icons">{{theme}}</i>
-      </mat-toolbar-row>
+  </ul>
+  <hr class="divisor">
+  <div class="dropdown row">
+    <div class="col-md-8">
+      <a href="#" class="dropdown-toggle col" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>@UserName</strong>
+      </a>
+      <ul class="dropdown-menu {{theme_dropdown_menu}} text-small" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="#"><i class="bi bi-gear-fill icons"></i>Settings</a></li>
+        <li><a class="dropdown-item" [routerLink]="'/profile'" (click)="areActive('profile')"><i class="bi bi-person-circle icons"></i>Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-left icons"></i>Sign out</a></li>
+      </ul>
     </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+    <div class="col-md-4 col" style="align-items: center">
+      <mat-slide-toggle color="primary" [(ngModel)]="isChecked" (click)="changeTheme()"></mat-slide-toggle>
+        <i class="{{theme_icon}}" style="padding-left: 10px"></i>
+    </div>
+  </div>
+</div>

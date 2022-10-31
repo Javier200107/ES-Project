@@ -8,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   isChecked = false;
-  theme = "brightness_2"
+  theme_sidebar = "bg-dark"
+  theme_icon = "bi bi-moon-fill"
+  theme_dropdown_menu = "dropdown-menu-dark"
+  active_home = ""
+  active_notif = ""
+  active_saved = ""
 
   constructor() { }
 
@@ -17,11 +22,28 @@ export class NavbarComponent implements OnInit {
 
   changeTheme(){
     if (this.isChecked){
-      this.theme = "brightness_2"
+      this.theme_icon = "bi bi-moon-fill"
+      this.theme_sidebar = "bg-dark"
+      this.theme_dropdown_menu = "dropdown-menu-dark"
       document.documentElement.setAttribute('tema', 'dark')
     } else {
-      this.theme = "wb_sunny"
+      this.theme_icon = "bi bi-brightness-high-fill"
+      this.theme_sidebar = "bg-light"
+      this.theme_dropdown_menu = "dropdown-menu-light"
       document.documentElement.setAttribute('tema', 'light')
+    }
+  }
+
+  areActive(active: string){
+    this.active_home = ""
+    this.active_notif = ""
+    this.active_saved = ""
+    if(active == 'home'){
+      this.active_home = "active"
+    } else if (active == 'notif') {
+      this.active_notif = "active"
+    } else if (active == 'saved'){
+      this.active_saved = "active"
     }
   }
 }
