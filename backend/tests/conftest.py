@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytest
-from backend.app import app
+from app import app
 from backend.db import db
 from backend.models.accounts import AccountsModel
 from sqlalchemy import delete

@@ -1,12 +1,16 @@
 from backend.db import db
 from backend.resources.accounts import Accounts
 from backend.resources.login import Login
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="backend/dist/static",
+    template_folder="backend/dist/templates",
+)
 
 # De moment es guardarà a local
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
@@ -25,7 +29,7 @@ api.add_resource(Login, "/login")
 
 @app.route("/")
 def index():
-    return "Hello World!"
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
