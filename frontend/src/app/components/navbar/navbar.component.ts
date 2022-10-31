@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   theme_sidebar = "bg-dark"
   theme_icon = "bi bi-moon-fill"
   theme_dropdown_menu = "dropdown-menu-dark"
-  active_home = ""
+  active_home = "active"
   active_notif = ""
   active_saved = ""
 
