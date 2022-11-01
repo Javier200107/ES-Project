@@ -28,7 +28,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 api.add_resource(Accounts, "/account/<string:username>", "/account")
 api.add_resource(Login, "/login")
 api.add_resource(Posts, "/posts/<int:id>", "/posts")
-api.add_resource(UserPosts, "/posts/<int:id>", "/posts")
+api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")
 
 
 

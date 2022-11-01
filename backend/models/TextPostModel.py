@@ -18,7 +18,7 @@ class TextPostModel(db.Model):
         "AccountsModel", foreign_keys=[account_id], back_populates="textposts"
     )
     parent = db.relationship(
-        "TextPostModel", remote_side=[id], backref=db.backref('comments')
+        "TextPostModel", remote_side=[id], backref=db.backref("comments")
     )
 
     def __init__(self, text):

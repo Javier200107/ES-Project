@@ -77,9 +77,10 @@ class UserPosts(Resource):
             us=AccountsModel.get_by_username(user)
         if(us):
             posts = TextPostModel.get_groups_by_account(us.id, data["limit"], data["offset"])
-            if posts:
+            if(posts):
                 return {"posts": [post.json() for post in posts]}, 200
-            return {"message": "No posts were found"}, 404
+            else:
+                return {"message": "No posts were found"}, 404
         else:
             return {"message": "User not found"}, 404
 
