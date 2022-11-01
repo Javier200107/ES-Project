@@ -14,29 +14,31 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatButtonModule } from '@angular/material/button';
-
-
+import {MatIconModule} from '@angular/material/icon';
 import { MatCardModule } from "@angular/material/card";
+import { PostComponent } from './components/post/post.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    PostComponent
   ],
     imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatCardModule,
-        MatButtonModule,
+      BrowserModule,
+      HttpClientModule,
+      AppRoutingModule,
+      BrowserAnimationsModule,
+      FormsModule,
+      MatInputModule,
+      MatFormFieldModule,
+      ReactiveFormsModule,
+      MatRadioModule,
+      MatCardModule,
+      MatButtonModule,
+      MatIconModule,
     ],
   providers: [],
   bootstrap: [AppComponent]
