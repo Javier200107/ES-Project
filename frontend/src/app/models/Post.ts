@@ -1,7 +1,7 @@
 export interface Post {
   user: string;
   content: string;
-  date: string;
+  archived: string;
   likes: number;
   comments: number;
   reposts: number;
