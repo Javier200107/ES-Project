@@ -1,6 +1,8 @@
 from backend.db import db
+from backend.models.TextPostModel import TextPostModel
 from backend.resources.accounts import Accounts
 from backend.resources.login import Login
+from backend.resources.posts import Posts, UserPosts
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -25,6 +27,9 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 api.add_resource(Accounts, "/account/<string:username>", "/account")
 api.add_resource(Login, "/login")
+api.add_resource(Posts, "/posts/<int:id>", "/posts")
+api.add_resource(UserPosts, "/posts/<int:id>", "/posts")
+
 
 
 @app.route("/")

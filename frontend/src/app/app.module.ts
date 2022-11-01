@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { PostComponent } from './components/post/post.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 
@@ -18,6 +19,9 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatCardModule } from "@angular/material/card";
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -25,23 +29,27 @@ import { MatCardModule } from "@angular/material/card";
     RegisterComponent,
     LoginComponent,
     HomeComponent,
+    ProfileComponent,
+    NavbarComponent,
     PostComponent,
     CreatePostComponent
   ],
-    imports: [
-      BrowserModule,
-      HttpClientModule,
-      AppRoutingModule,
-      BrowserAnimationsModule,
-      FormsModule,
-      MatInputModule,
-      MatFormFieldModule,
-      ReactiveFormsModule,
-      MatRadioModule,
-      MatCardModule,
-      MatButtonModule,
-      MatIconModule,
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatCardModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatIconModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

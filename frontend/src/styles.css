@@ -1,21 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 
 html,
-body { height: 100%; }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--background);
-  color: var(--text-color);
+  color: var(--secondary);
 }
 
-:root {
-  --text-color: white;
-  --primary: #1c9bf0;
-  --secondary: #fff;
-  --background: #000;
-  --main-border-color: #3f3f3f;
+.root,
+[tema='dark'] {
+  --primary: #007B83;
+  --secondary: #FFFFFF;
+  --border: #EEEBDD;
+  --title: #FFFFFF;
+  --letter: #EEEBDD;
+  --button: #129EAF;
+  --disabled: rgba(255, 255, 255, 0.3);
+  --background: #202124;
+    /* Color card */
+  --background_card: #202124;
+  --selected_card: #131313;
+  --color_name_card: #949494;
+  --bk_comment: rgba(1, 62, 108, 0.84);
+  --bk_like: rgba(93, 9, 20, 0.7);
+  --bk_rt: rgba(15, 68, 5, 0.73);
+}
+
+[tema='light'] {
+  --primary: #F8F9FA;
+  --secondary: #5F6368;
+  --border: #202124;
+  --title: #000000;
+  --letter: #202124;
+  --button: rgba(172, 187, 229, 0.83);
+  --disabled: rgba(0, 0, 0, 0.26);
+  --background: #CEEAD6;
+  /* Color card */
+  --background_card: rgb(248,249,250);
+  --selected_card: rgba(248, 249, 250, 0.62);
+  --color_name_card: #000000;
+  --bk_comment: rgba(168, 220, 255, 0.99);
+  --bk_like: rgb(255, 176, 185);
+  --bk_rt: rgba(100, 225, 80, 0.73);
+
 }
 
 @font-face {

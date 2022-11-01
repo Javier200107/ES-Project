@@ -14,22 +14,27 @@
    height: 100%;
    padding: 35px;
    margin-bottom: 20px;
-   background-color: rgb(253, 253, 253);
+   background-color: var(--primary);
 }
 
 .title{
   padding-bottom: 15px;
   align-self: center;
+  color: var(--secondary);
 }
-
+.labels_inputs{
+  color: var(--background);
+}
 .settings_inputs {
   width: content-box;
   padding-bottom: 0px;
+  background-color: var(--primary) !important;
 }
 
 .button_login {
   width: 300px;
   align-self: end;
+  background-color: var(--button);
 }
 
 .forgot_passw {
@@ -37,11 +42,7 @@
   justify-content: right;
   padding-bottom: 10px;
   font-size: small;
-}
-
-.login_buttons {
-  margin: 5px;
-  margin-bottom: 0px;
+  color: var(--background);
 }
 
 .container_login_button {

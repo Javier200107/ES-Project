@@ -3,14 +3,15 @@
   padding: 12px 12px;
   display: flex;
   flex-direction: row;
+  border-color: var(--border-color);
+  background-color: var(--background_card);
   border-style: solid;
-  border-color: var(--main-border-color);
   border-width: 0;
   border-bottom-width: 1px;
   cursor: pointer;
 }
 .post:hover{
-  background-color: rgba(9, 9, 9, 0.77);
+  background-color: var(--selected_card);
 }
 .post-content-side {
   flex: 1;
@@ -27,7 +28,7 @@
   border-radius: 30px;
 }
 .username{
-  color: #949494;
+  color: var(--color_name_card);
 }
 .user-nickname:hover{
   text-decoration-line: underline;
@@ -74,7 +75,7 @@
 }
 
 .media-container:hover > .btn-comments {
-  background-color: rgba(1, 62, 108, 0.84);
+  background-color: var(--bk_comment);
   color: #1c9bf0;
 }
 .media-container:hover > .num-comments{
@@ -82,14 +83,14 @@
 }
 
 .media-container:hover > .btn-rep {
-  background-color: rgba(15, 68, 5, 0.73);
+  background-color: var(--bk_rt);
   color: #177e08;
 }
 .media-container:hover > .num-rep{
   color: #177e08;
 }
 .media-container:hover > .btn-likes{
-  background-color: rgba(93, 9, 20, 0.7);
+  background-color: var(--bk_like);
   color: #ec2942;
 }
 

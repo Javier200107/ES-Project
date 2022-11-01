@@ -1,0 +1,40 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white {{theme_sidebar}} sidebar bg">
+  <a href="/" class="mb-3 mb-md-0 me-md-auto col_">
+    <span class="fs-4 options-menu name-app">MyApplication</span>
+  </a>
+  <hr class="divisor">
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="options-menu">
+      <a [routerLink]="'/home'" class="nav-link {{active_home}} form-select col_" (click)="areActive('home')" aria-current="page">
+        <i class="bi bi-house-door icons"></i>Home</a>
+    </li>
+    <li class="options-menu">
+      <a [routerLink]="'#'" class="nav-link {{active_notif}} form-select col_ disabled" (click)="areActive('notif')">
+        <i class="bi bi-app-indicator icons disabled"></i>Notifications</a>
+    </li>
+    <li class="options-menu">
+      <a [routerLink]="'#'" class="nav-link {{active_saved}} form-select col_ disabled" (click)="areActive('saved')" >
+        <i class="bi bi-bookmark-heart icons disabled"></i>Saved</a>
+    </li>
+    <span class="flexExpand"></span>
+  </ul>
+  <hr class="divisor">
+  <div class="dropdown row">
+    <div class="col">
+      <a href="#" class="dropdown-toggle col_" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>@UserName</strong>
+      </a>
+      <ul class="dropdown-menu {{theme_dropdown_menu}} text-small" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item disabled" href="#"><i class="bi bi-gear-fill icons disabled"></i>Settings</a></li>
+        <li><a class="dropdown-item" [routerLink]="'/profile'" (click)="areActive('profile')"><i class="bi bi-person-circle icons"></i>Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-left icons"></i>Sign out</a></li>
+      </ul>
+    </div>
+    <div class="col col_" style="align-items: center">
+      <mat-slide-toggle color="primary" [(ngModel)]="isChecked" (click)="changeTheme()"></mat-slide-toggle>
+        <i class="{{theme_icon}}" style="padding-left: 10px"></i>
+    </div>
+  </div>
+</div>
