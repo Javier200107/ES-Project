@@ -14,8 +14,12 @@ class TextPostModel(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey("textpost.id"))
     # TODO: m'agrada, ubicacio
 
-    account = db.relationship("AccountsModel", foreign_keys=[account_id], back_populates="textposts")
-    parent = db.relationship("TextPostModel", remote_side=[id], backref=db.backref('comments'))
+    account = db.relationship(
+        "AccountsModel", foreign_keys=[account_id], back_populates="textposts"
+    )
+    parent = db.relationship(
+        "TextPostModel", remote_side=[id], backref=db.backref('comments')
+    )
 
     def __init__(self, text):
         self.text = text
@@ -28,7 +32,7 @@ class TextPostModel(db.Model):
             "archived": self.archived,
             "account_id": self.account_id,
             "account_name": self.account.username,
-            "parent_id": self.parent_id
+            "parent_id": self.parent_id,
         }
 
     def save_to_db(self):
@@ -53,4 +57,9 @@ class TextPostModel(db.Model):
 
     @classmethod
     def get_groups_by_account(cls, account_id, number, off):
-        return TextPostModel.query.filter_by(account_id=account_id).order_by(cls.time).limit(number).offset(off)
+        return (
+            TextPostModel.query.filter_by(account_id=account_id)
+            .order_by(cls.time)
+            .limit(number)
+            .offset(off)
+        )
