@@ -92,14 +92,15 @@ export class RegisterComponent implements OnInit {
     this.surname = '';
     this.birthdate = '';
 
-    this.sessionService.register(newUser).subscribe((user) => this.sessionUser=user);
+    this.sessionService.register(newUser).subscribe((user) =>{
+        if (user) {
+          this.sessionUser=user
+          console.log('Session User', this.sessionUser)
+        }},
+      err => {console.error('Error: status = ', err.status, " and statusText = ", err.statusText),
+        alert('Error on Register');},
+      () => this.router.navigate(['/home']));
 
-    if (!this.sessionUser){
-      alert('Error on Register');
-      return;
-    }
-    console.log('Session User', this.sessionUser)
-    this.router.navigate(['/home']);
   }
 
   private buildForm(){

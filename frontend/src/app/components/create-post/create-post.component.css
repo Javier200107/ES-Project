@@ -3,7 +3,7 @@
   flex-direction: row;
   padding: 12px 12px;
   border-style: solid;
-  border-color: var(--main-border-color);
+  border-color: var(--border);
   border-width: 0;
   border-bottom-width: 1px;
 }
@@ -28,7 +28,7 @@
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;
-  color: var(--text-color);
+  color: var(--letter);
 }
 .new-post-text:focus{
   outline: none;

@@ -1,8 +1,9 @@
 export interface Post {
-  user: string;
-  content: string;
-  archived: string;
-  likes: number;
-  comments: number;
-  reposts: number;
+  id: number;
+  text: string;
+  time: string;
+  archived: boolean;
+  account_id: number;
+  account_name: string;
+  parent_id?: number
 }
