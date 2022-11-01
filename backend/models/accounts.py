@@ -33,6 +33,7 @@ class AccountsModel(db.Model):
 
     def json(self):
         return {
+            "id": self.id,
             "username": self.username,
             "email": self.email,
             "nom": self.nom,
