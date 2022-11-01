@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
 html,
-body { height: 100%; }
 
 body {
   margin: 0;
@@ -10,10 +9,27 @@ body {
   color: var(--secondary);
 }
 
-:root {
-  --primary: #1c9bf0;
-  --secondary: #fff;
-  --background: #000;
+.root,
+[tema='dark'] {
+  --primary: #007B83;
+  --secondary: #FFFFFF;
+  --border: #EEEBDD;
+  --title: #FFFFFF;
+  --letter: #EEEBDD;
+  --button: #129EAF;
+  --disabled: rgba(255, 255, 255, 0.3);
+  --background: #202124;
+}
+
+[tema='light'] {
+  --primary: #F8F9FA;
+  --secondary: #5F6368;
+  --border: #202124;
+  --title: #000000;
+  --letter: #202124;
+  --button: rgba(172, 187, 229, 0.83);
+  --disabled: rgba(0, 0, 0, 0.26);
+  --background: #CEEAD6;
 }
 
 @font-face {
