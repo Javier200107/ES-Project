@@ -1,11 +1,13 @@
 <div class="post">
+
   <div class="post-image-side">
     <img class="post-profile-pic" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="">
   </div>
 
   <div class="post-content-side">
+
     <div class="content-title">
-      <span class="user-nickname">{{nickname}}</span>
+      <span class="user-nickname">{{postInfo.user}}</span>
       <span class="username"> @{{postInfo.user}}</span>
     </div>
 
@@ -15,16 +17,12 @@
 
     <div class="content-interaction">
 
-
-
       <div class="media-container">
         <div class="media-btn btn-comments">
           <div class="material-icons media-icon ">chat_bubble_outline</div>
         </div>
         <div class="num-comments">{{postInfo.comments}}</div>
       </div>
-
-
 
       <div class="media-container">
         <div class="media-btn btn-rep">
@@ -39,11 +37,13 @@
         </div>
         <div class="num-likes">{{postInfo.likes}}</div>
       </div>
+
       <div class="media-container">
         <div class="media-btn btn-up">
           <div class="material-icons media-icon">upload</div>
         </div>
       </div>
+
     </div>
 
   </div>

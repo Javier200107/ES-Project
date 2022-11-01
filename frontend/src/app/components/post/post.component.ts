@@ -8,12 +8,7 @@ import {Post} from "../../models/Post";
 })
 export class PostComponent implements OnInit {
 
-  username:string = "username";
-  nickname:string = "nickname"
-  content:string = " Here comes the content! ffgdgfdgfdgfdnvoidnbonniobnrd\n" +
-    "      brbronfsdfdsgdsgrebtreynrtnytrnytrndytrdyntrnd."
 
-  num_comments: number = 0;
   @Input() postInfo!: Post;
 
   constructor() { }

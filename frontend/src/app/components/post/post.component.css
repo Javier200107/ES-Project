@@ -6,7 +6,8 @@
   border-color: var(--border-color);
   background-color: var(--background_card);
   border-style: solid;
-  border-width: 1px;
+  border-width: 0;
+  border-bottom-width: 1px;
   cursor: pointer;
 }
 .post:hover{
@@ -28,6 +29,9 @@
 }
 .username{
   color: var(--color_name_card);
+}
+.user-nickname:hover{
+  text-decoration-line: underline;
 }
 .content-title{
   height: 20px;
