@@ -13,6 +13,8 @@ export class HomeFeedService {
   constructor(private http:HttpClient) { }
 
   getPostsFrom(params: any)  {
-    return this.http.get<Post[]>(`${environment.baseApiUrl}/feed${params}`);
+    console.log(this.http.get<Post[]>(`${environment.baseApiUrl}/posts${params}`));
+    return this.http.get<Post[]>(`${environment.baseApiUrl}/posts${params}`)
   }
+
 }

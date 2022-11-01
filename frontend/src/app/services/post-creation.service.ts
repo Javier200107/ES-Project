@@ -13,8 +13,7 @@ export class PostCreationService {
 
   constructor(private http:HttpClient) { }
 
-  createPost(newPost:NewPostForm)  { //: Observable<Post> {
-    console.log('New Post', newPost)
-    //return this.http.post<newPost>(`${environment.baseApiUrl}/account`, newPost);
+  createPost(newPost:NewPostForm)  {
+    return this.http.post<NewPostForm>(`${environment.baseApiUrl}/posts`, newPost);
   }
 }

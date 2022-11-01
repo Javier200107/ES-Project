@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Post} from "../../models/Post";
 import { HomeFeedService } from "../../services/home-feed.service";
+import { PostCreationService} from "../../services/post-creation.service";
+import { NewPostForm} from "../../models/NewPostForm";
 
 @Component({
   selector: 'app-home',
@@ -16,26 +18,13 @@ export class HomeComponent implements OnInit {
   currentPost = 0;
 
   constructor(private homeFeed: HomeFeedService) {
+    this.mockPosts();
 
-    const newPost: Post = {
-      id: 12,
-      text: "This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds",
-      time: "2022-10-02",
-      archived: false,
-      account_id: 12,
-      account_name: "kermit",
-      parent_id: 12
-    };
-    this.posts.push(newPost)
-    this.posts.push(newPost)
-    this.posts.push(newPost)
   }
 
   ngOnInit(): void {
     this.demanarPost();
-
   }
-
 
   demanarPost(){
     let requestParams = {
@@ -53,8 +42,21 @@ export class HomeComponent implements OnInit {
 
   }
 
-  createPost() {
 
+
+  mockPosts(){
+    const newPost: Post = {
+      id: 12,
+      text: "This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds",
+      time: "2022-10-02",
+      archived: false,
+      account_id: 12,
+      account_name: "kermit",
+      parent_id: 12
+    };
+    this.posts.push(newPost)
+    this.posts.push(newPost)
+    this.posts.push(newPost)
   }
 
 }
