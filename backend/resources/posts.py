@@ -12,8 +12,7 @@ class Posts(Resource):
         parser.add_argument("limit", type=int, required=True, nullable=False, help={"Number of posts to retrieve"})
         parser.add_argument("offset", type=int, required=True, nullable=False, help={"Number of posts to skip"})
         data = parser.parse_args()
-
-        posts = TextPostModel.get_groups_by_account(g.user.id, data["limit"], data["offset"])
+        posts = TextPostModel.get_groups(data["limit"], data["offset"])
         if posts:
             return {"posts": [post.json() for post in posts]}, 200
         return {"message": "No posts were found"}, 404
@@ -63,3 +62,24 @@ class Posts(Resource):
         except Exception as e:
             return {"message": "An error occurred deleting the post"}, 500
         return {"message": "Post deleted successfully!"}, 200
+
+class UserPosts(Resource):
+
+    @auth.login_required()
+    def get(self,user=None):
+        parser = reqparse.RequestParser()
+        parser.add_argument("limit", type=int, required=True, nullable=False, help={"Number of posts to retrieve"})
+        parser.add_argument("offset", type=int, required=True, nullable=False, help={"Number of posts to skip"})
+        data = parser.parse_args()
+        if(user==None):
+            us=g.user;
+        else:
+            us=AccountsModel.get_by_username(user)
+        if(us):
+            posts = TextPostModel.get_groups_by_account(us.id, data["limit"], data["offset"])
+            if posts:
+                return {"posts": [post.json() for post in posts]}, 200
+            return {"message": "No posts were found"}, 404
+        else:
+            return {"message": "User not found"}, 404
+
