@@ -25,12 +25,13 @@ export class ProfileComponent implements OnInit {
     );
 
     const newPost: Post = {
-      user: this.user,
-      content: "This is mock content for testing purposes testing testing 1231 23",
-      archived: "2022-10-02",
-      likes: 5,
-      comments:  2,
-      reposts: 0
+      id: 12,
+      text: "This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds",
+      time: "2022-10-02",
+      archived: false,
+      account_id: 12,
+      account_name: "kermit",
+      parent_id: 12
     };
     this.posts.push(newPost)
     this.posts.push(newPost)
