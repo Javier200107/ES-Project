@@ -18,12 +18,13 @@ export class HomeComponent implements OnInit {
   constructor(private homeFeed: HomeFeedService) {
 
     const newPost: Post = {
-      user: "kermit",
-      content: "This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds",
+      id: 12,
+      text: "This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds",
+      time: "2022-10-02",
       archived: "2022-10-02",
-      likes: 5,
-      comments:  2,
-      reposts: 0
+      account_id: 12,
+      account_name: "kermit",
+      parent_id: 12
     };
     this.posts.push(newPost)
     this.posts.push(newPost)
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.demanarPost();
+    this.demanarPost();
 
   }
 
@@ -41,9 +42,10 @@ export class HomeComponent implements OnInit {
       "limit": this.postsPerLoad,
       "offset": this.currentPost,
     }
-    this.homeFeed.getPostsFrom(requestParams).subscribe((posts: Post[]) => {
-      for (let postNum = 0; postNum< posts.length; postNum++){
-        this.posts.push(posts[postNum]);
+    this.homeFeed.getPostsFrom(requestParams).subscribe((newPosts: Post[]) => {
+      for (let postNum = 0; postNum< newPosts.length; postNum++){
+        this.posts.push(newPosts[postNum]);
+        this.currentPost = this.currentPost +1;
       }
     }, (error) => {
       console.log(error);
