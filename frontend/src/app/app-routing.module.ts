@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'post', component: PostComponent },
   { path: 'profile', component: ProfileComponent },
-    { path: '', component: RegisterComponent },
+  { path: '', component: RegisterComponent }
   //{ path: '**', component: PageNotFoundComponent }
 ];
 
@@ -20,4 +20,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

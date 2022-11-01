@@ -30,12 +30,9 @@ api.add_resource(Login, "/login")
 api.add_resource(Posts, "/posts/<int:id>", "/posts")
 api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")
 
-
-
 @app.route("/")
 def index():
     return render_template("index.html")
-
 
 if __name__ == "__main__":
     app.run()
