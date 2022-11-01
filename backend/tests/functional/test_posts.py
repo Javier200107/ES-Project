@@ -7,23 +7,15 @@ def _getUserToken(api):
 
 def test_getuserPosts(app_with_data):
     token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-
-    app_with_data.post("/posts", json=data, auth=(token, ""))
     data = {"limit": 10, "offset": 0}
-
     response = app_with_data.get("/uposts/fernandito1", json=data, auth=(token, ""))
-    assert response.status_code == 200 and len(response.json["posts"]) == 1
+    assert response.status_code == 200 and len(response.json["posts"]) == 2
 
 def test_getPosts(app_with_data):
     token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-
-    app_with_data.post("/posts", json=data, auth=(token, ""))
     data = {"limit": 10, "offset": 0}
-
     response = app_with_data.get("/posts", json=data, auth=(token, ""))
-    assert response.status_code == 200 and len(response.json["posts"]) == 1
+    assert response.status_code == 200 and len(response.json["posts"]) == 2
 
 def test_createPost(app_with_data):
     token = _getUserToken(app_with_data)
