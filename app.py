@@ -1,4 +1,5 @@
 from backend.db import db
+from backend.models.TextPostModel import TextPostModel
 from backend.resources.accounts import Accounts
 from backend.resources.login import Login
 from flask import Flask, render_template
