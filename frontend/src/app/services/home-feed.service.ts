@@ -14,6 +14,7 @@ export class HomeFeedService {
 
   getPostsFrom(params: any)  {
     console.log(this.http.get<Post[]>(`${environment.baseApiUrl}/posts${params}`));
+    return this.http.get<Post[]>(`${environment.baseApiUrl}/posts${params}`)
   }
 
 }
