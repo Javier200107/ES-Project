@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -19,8 +19,10 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { MatCardModule } from "@angular/material/card";
 import { NavbarComponent } from './components/navbar/navbar.component';
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatToolbarModule} from "@angular/material/toolbar";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { PostComponent } from './components/post/post.component';
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     LoginComponent,
     HomeComponent,
     ProfileComponent,
-    NavbarComponent
+    NavbarComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatCardModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -36,7 +36,7 @@
   color: var(--background);
 }
 
-.col{
+.col_{
   display: flex !important;
   align-items: center !important;
   --bs-text-opacity: 1 !important;

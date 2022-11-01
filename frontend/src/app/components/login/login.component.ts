@@ -19,10 +19,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private router : Router, private route : ActivatedRoute,
               private sessionService: SessionService) {
-    /* Esto simplemente es para que no salga la barra de navegación en login, pero SI en los otros componentes.
-      Lo que hago es borrar la clases del app.component.html "left" y "right" del id"sidebar" y id"content.
-      De otra manera se seguia guardando su espacio y la card salia centrada a la derecha*/
-    //FALTARIA COPIAR ESTO EN REGISTRO
     var element = document.getElementById("sidebar");
     var element2 = document.getElementById("content");
     if(element != null){
