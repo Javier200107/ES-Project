@@ -25,11 +25,10 @@ export class CreatePostComponent implements OnInit {
       alert("Post cannot be empty!")
       return;
     }
-
-    const newPost:NewPostForm = {
+    const postContent: NewPostForm = {
       content: this.post_content,
     }
-    this.postCreator.createPost(newPost)
+    this.postCreator.createPost(postContent)
 
     this.post_content = '';
   }
