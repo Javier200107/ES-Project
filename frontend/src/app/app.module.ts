@@ -22,6 +22,7 @@ import { MatCardModule } from "@angular/material/card";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
     MatSlideToggleModule,
     MatToolbarModule,
     MatIconModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

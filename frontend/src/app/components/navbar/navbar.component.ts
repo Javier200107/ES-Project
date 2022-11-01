@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { UserLogin } from "../../models/UserLogin";
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +17,17 @@ export class NavbarComponent implements OnInit {
   active_notif = ""
   active_saved = ""
 
-  constructor() { }
+  user!: string
+  token!: string
+
+  constructor(private router : Router, private route : ActivatedRoute) {
+    this.route.queryParams
+      .subscribe(params => {
+        this.user = params['user']
+        this.token = params['token']
+      }
+    );
+  }
 
   ngOnInit(): void {
   }
@@ -39,11 +51,14 @@ export class NavbarComponent implements OnInit {
     this.active_notif = ""
     this.active_saved = ""
     if(active == 'home'){
-      this.active_home = "active"
+      this.active_home = "active",
+      this.router.navigate(['/home'],{ queryParams: { user: this.user }})
     } else if (active == 'notif') {
       this.active_notif = "active"
     } else if (active == 'saved'){
       this.active_saved = "active"
-    }
+    } else if (active == "profile"){
+      this.router.navigate(['/profile'], {queryParams: {user: this.user}})
+     }
   }
 }

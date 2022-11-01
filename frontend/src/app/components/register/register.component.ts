@@ -28,15 +28,6 @@ export class RegisterComponent implements OnInit {
   constructor(private router : Router, private route :
     ActivatedRoute, private sessionService: SessionService,
               private formBuilder: FormBuilder) {
-    var element = document.getElementById("sidebar");
-    var element2 = document.getElementById("content");
-    if(element != null){
-      element.classList.remove("left");
-      element.remove();
-    }
-    if(element2 != null){
-      element2.classList.remove("right");
-    }
   }
 
   //si hi ha sessió iniciada que vagi a home

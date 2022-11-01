@@ -15,7 +15,6 @@ export class SessionService{
 
   error!: string
 
-
   constructor(private http:HttpClient) {
 
   }
