@@ -22,13 +22,13 @@ class TextPostModel(db.Model):
 
     def json(self):
         return {
-            'id': self.id,
-            'text': self.text,
-            'time': self.date.isoformat(),
-            'archived': self.archived,
-            'account_id': self.account_id,
-            'account_name': self.account.username,
-            'parent_id': self.parent_id
+            "id": self.id,
+            "text": self.text,
+            "time": self.time.isoformat(),
+            "archived": self.archived,
+            "account_id": self.account_id,
+            "account_name": self.account.username,
+            "parent_id": self.parent_id
         }
 
     def save_to_db(self):
@@ -52,5 +52,5 @@ class TextPostModel(db.Model):
         return TextPostModel.query.order_by(cls.time).limit(number).offset(off)
 
     @classmethod
-    def get_groups_by_account(cls, id, number, off):
-        return TextPostModel.query.where(id=id).order_by(cls.time).limit(number).offset(off)
+    def get_groups_by_account(cls, account_id, number, off):
+        return TextPostModel.query.filter_by(account_id=account_id).order_by(cls.time).limit(number).offset(off)
