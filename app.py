@@ -10,19 +10,11 @@ from flask_migrate import Migrate
 from flask_restful import Api
 
 app = Flask(__name__)
-# environment = configuration['development']
-# if config_decouple('PRODUCTION', cast=bool, default=False):
-#    environment = configuration['production']
+environment = configuration['development']
+if config_decouple('PRODUCTION', cast=bool, default=False):
+    environment = configuration['production']
 
-# app.config.from_object(environment)
-# De moment es guardarà a local
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://Javier@enginyeriadelsoftware-server:"
-    "EnginyeriaDelSoftware2022@enginyeriadelsoftware-server."
-    "postgres.database.azure.com:5432/postgres"
-)
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = "p2r5u8x/A?D(G+KbPeShVmYq3t6v9y$B"
+app.config.from_object(environment)
 
 Migrate(app, db)
 db.init_app(app)

@@ -1,6 +1,4 @@
 # Flask configuration
-from decouple import config
-
 
 class Config:
     pass
@@ -8,12 +6,13 @@ class Config:
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = config("DATABASE_URL", default="localhost")
+    SQLALCHEMY_DATABASE_URI = "postgresql://Javier@enginyeriadelsoftware-server:EnginyeriaDelSoftware2022" \
+                              "@enginyeriadelsoftware-server.postgres.database.azure.com:5432/postgres "
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STATIC_URL_PATH = ""
-    STATIC_FOLDER = "static"
-    TEMPLATE_FOLDER = "templates"
-    SECRET_KEY = config("SECRET_KEY", default="localhost")
+    STATIC_FOLDER = "/static"
+    TEMPLATE_FOLDER = "/templates"
+    SECRET_KEY = "p2r5u8x/A?D(G+KbPeShVmYq3t6v9y$B"
 
 
 class DevelopmentConfig(Config):
@@ -22,8 +21,8 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = "p2r5u8x/A?D(G+KbPeShVmYq3t6v9y$B"
     STATIC_URL_PATH = ""
-    STATIC_FOLDER = "static"
-    TEMPLATE_FOLDER = "templates"
+    STATIC_FOLDER = "/static"
+    TEMPLATE_FOLDER = "/templates"
 
 
 configuration = {"development": DevelopmentConfig, "production": ProductionConfig}
