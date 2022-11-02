@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
 html,
-body { height: 100%; }
-
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -10,8 +8,80 @@ body {
   color: var(--secondary);
 }
 
-:root {
-  --primary: #1c9bf0;
+.root,
+[tema='dark'] {
+  --primary: #007b83;
   --secondary: #fff;
-  --background: #000;
+  --border: #eeebdd;
+  --title: #fff;
+  --letter: #eeebdd;
+  --button: #129eaf;
+  --disabled: rgba(255, 255, 255, 0.3);
+  --background: #202124;
+
+  /* Color card */
+  --background_card: #202124;
+  --selected_card: #131313;
+  --color_name_card: #949494;
+  --bk_comment: rgba(1, 62, 108, 0.84);
+  --bk_like: rgba(93, 9, 20, 0.7);
+  --bk_rt: rgba(15, 68, 5, 0.73);
+}
+
+[tema='light'] {
+  --primary: #f8f9fa;
+  --secondary: #5F6368;
+  --border: #202124;
+  --title: #000;
+  --letter: #202124;
+  --button: rgba(172, 187, 229, 0.83);
+  --disabled: rgba(0, 0, 0, 0.26);
+  --background: #ceead6;
+
+  /* Color card */
+  --background_card: rgb(248, 249, 250);
+  --selected_card: rgba(248, 249, 250, 0.62);
+  --color_name_card: #000;
+  --bk_comment: rgba(168, 220, 255, 0.99);
+  --bk_like: rgb(255, 176, 185);
+  --bk_rt: rgba(100, 225, 80, 0.73);
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src:
+    local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+    url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+    url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }

@@ -12,16 +12,18 @@ auth = HTTPBasicAuth(scheme="Bearer")
 class AccountsModel(db.Model):
     __tablename__ = "accounts"
 
-    username = db.Column(db.String(30), primary_key=True, unique=True, nullable=False)
-    email = db.Column(db.String(30), primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    email = db.Column(db.String(30), unique=True, nullable=False)
     nom = db.Column(db.String(30), nullable=False)
     cognom = db.Column(db.String(30), nullable=False)
     birth = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(), nullable=False)
-    # 0 not admin/ 1 is admin
     is_admin = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, username, email, nom, datan, cognom="", is_admin=0):
+    textposts = db.relationship("TextPostModel", back_populates="account")
+
+    def __init__(self, username, email, nom, datan, cognom, is_admin=0):
         self.username = username
         self.email = email
         self.nom = nom
@@ -31,6 +33,7 @@ class AccountsModel(db.Model):
 
     def json(self):
         return {
+            "id": self.id,
             "username": self.username,
             "email": self.email,
             "nom": self.nom,

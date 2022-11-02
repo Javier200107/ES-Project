@@ -1,23 +1,42 @@
 .register-container {
-  padding-top: 200px;
+  padding-top: 7%;
   display: flex;
   align-content: center;
   justify-content: center;
 }
 
 .register-form-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: center;
-  padding: 110px;
-  padding-top: 15px;
-  padding-bottom: 70px;
+  padding: 15px 110px 70px 110px;
   border-width: 1px;
   border-style: solid;
   border-radius: 15px;
   border-color: #1a1a1a;
 }
+
+.backFormButton{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 3;
+  cursor: pointer;
+  padding-top: 2px;
+  border-radius: 30px;
+  transition: background-color;
+  transition-duration: 1s;
+}
+.backFormButton:hover {
+  background-color: #131313;
+  opacity: 0.9;
+}
+.backFormButton:active {
+  opacity: 0.7;
+}
+
 
 .tw-logo {
   width: 40px;
@@ -34,7 +53,7 @@
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  margin-bottom: 60px;
+  margin-bottom: 10px;
 }
 
 .form-field-container {
@@ -54,12 +73,12 @@
   height: 45px;
   padding-left: 10px;
   width: 230px;
-  color: white;
+  color: var(--letter);
 }
 
 .text-form:focus {
   background-color: #1a1a1a;
-  color: white;
+  color: var(--letter);
 }
 
 .custom-form {
@@ -69,7 +88,7 @@
 .register-button {
   width: 240px;
   background-color: #fcfcfc;
-  font-family: Arial, "Helvetica Neue";
+  font-family: Arial;
   font-size: 14px;
   font-weight: 600;
   padding: 8px;
@@ -96,7 +115,7 @@
   width: 250px;
   position: absolute;
   bottom: -20px;
-  left: 0px;
+  left: 0;
   z-index: 3;
 }
 
@@ -107,7 +126,7 @@
   width: 250px;
   position: absolute;
   bottom: -40px;
-  left: 0px;
+  left: 0;
   z-index: 3;
 }
 
@@ -116,6 +135,12 @@
 }
 
 .btn-register {
-  margin-top: 40px;
+  margin-top: 10px;
+}
+
+.radio-btn{
+  font-size: 12px;
+  margin: 2px;
+  padding: 0;
 }
 

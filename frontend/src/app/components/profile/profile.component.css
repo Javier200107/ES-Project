@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Asap|Open+Sans');
+.container_{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+section{
+	padding: 15px;
+}
+
+.objetfitcover > img{
+	width: 97%;
+	height: 200px;
+	object-fit: cover;
+}
+
+.image{
+  margin-top: 20px;
+  width: 95%;
+}
+
+.photo_profile{
+  align-self: end !important;
+}
+
+.mat-tab-label {
+  color: var(--title) !important;
+}
+.mat-ink-bar {
+  color: var(--selected_card)
+}

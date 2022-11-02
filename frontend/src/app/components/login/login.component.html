@@ -4,21 +4,21 @@
     <mat-card-title class="title">Sign in</mat-card-title>
 
       <mat-form-field class="settings_inputs" appearance="fill">
-        <mat-label>User name</mat-label>
-        <input [(ngModel)]='username' id = "usuari" matInput placeholder="Ex: Maria_34">
+        <mat-label class="labels_inputs">User name</mat-label>
+        <input class="labels_inputs" [(ngModel)]='username' id = "usuari" matInput>
       </mat-form-field>
 
       <mat-form-field class="settings_inputs" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input type="password" [(ngModel)]='password' id = "password" matInput placeholder="Ex. 4Rt*!3wexTdF">
+        <mat-label class="labels_inputs">Password</mat-label>
+        <input class="labels_inputs" type="password" [(ngModel)]='password' id = "password" matInput>
       </mat-form-field>
 
-      <div class="forgot_passw">
-        <a routerLink="#">Forgot password?</a>
+      <div>
+        <a class="forgot_passw" routerLink="#">Forgot password?</a>
       </div>
 
       <button class="button_login" (click)="checkLogin()" mat-raised-button color="primary">Sign in</button>
 
   </mat-card>
-  <a> Don't have an account? <a routerLink="/register">create</a></a>
+  <a> Don't have an account? <a style="color: var(--primary)" routerLink="/register">create</a></a>
 </div>
