@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
 html,
-
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -11,15 +10,15 @@ body {
 
 .root,
 [tema='dark'] {
-  --primary: #007B83;
-  --secondary: #FFFFFF;
-  --border: #EEEBDD;
-  --title: #FFFFFF;
-  --letter: #EEEBDD;
-  --button: #129EAF;
+  --primary: #007b83;
+  --secondary: #ffffff;
+  --border: #eeebdd;
+  --title: #ffffff;
+  --letter: #eeebdd;
+  --button: #129eaf;
   --disabled: rgba(255, 255, 255, 0.3);
   --background: #202124;
-    /* Color card */
+  /* Color card */
   --background_card: #202124;
   --selected_card: #131313;
   --color_name_card: #949494;
@@ -32,13 +31,13 @@ body {
   --primary: #F8F9FA;
   --secondary: #5F6368;
   --border: #202124;
-  --title: #000000;
+  --title: #000;
   --letter: #202124;
   --button: rgba(172, 187, 229, 0.83);
   --disabled: rgba(0, 0, 0, 0.26);
   --background: #CEEAD6;
   /* Color card */
-  --background_card: rgb(248,249,250);
+  --background_card: rgb(248, 249, 250);
   --selected_card: rgba(248, 249, 250, 0.62);
   --color_name_card: #000000;
   --bk_comment: rgba(168, 220, 255, 0.99);
@@ -63,7 +62,7 @@ body {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: 24px; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;

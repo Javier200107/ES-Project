@@ -1,12 +1,12 @@
+import psycopg2
 from backend.db import db
 from backend.resources.accounts import Accounts
-from backend.resources.posts import Posts, UserPosts
 from backend.resources.login import Login
+from backend.resources.posts import Posts, UserPosts
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
-import psycopg2
 
 
 app = Flask(
@@ -16,7 +16,10 @@ app = Flask(
 )
 
 # De moment es guardarà a local
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://Javier@enginyeriadelsoftware-server:EnginyeriaDelSoftware2022@enginyeriadelsoftware-server.postgres.database.azure.com:5432/postgres"
+app.config[
+    "SQLALCHEMY_DATABASE_URI"] = "postgresql://Javier@enginyeriadelsoftware-server:" \
+                                 "EnginyeriaDelSoftware2022@enginyeriadelsoftware-server." \
+                                 "postgres.database.azure.com:5432/postgres"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "p2r5u8x/A?D(G+KbPeShVmYq3t6v9y$B"
 
