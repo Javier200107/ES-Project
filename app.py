@@ -3,6 +3,7 @@ from backend.db import db
 from backend.resources.accounts import Accounts
 from backend.resources.login import Login
 from backend.resources.posts import Posts, UserPosts
+from backend.resources.like import Like,ListPostLikes,ListUserLikes
 from decouple import config as config_decouple
 from flask import Flask, render_template
 from flask_cors import CORS
@@ -26,6 +27,10 @@ api.add_resource(Accounts, "/account/<string:username>", "/account")
 api.add_resource(Login, "/login")
 api.add_resource(Posts, "/posts/<int:id>", "/posts")
 api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")
+api.add_resource(Like, "/likes/<string:account>,<int:post>","/likes/<int:post>")
+api.add_resource(ListPostLikes, "/likePlist/<int:postid>")
+api.add_resource(ListUserLikes, "/likeUlist/<int:userid>")
+
 
 
 @app.route("/")

@@ -49,11 +49,17 @@ class AccountsModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+    def rollback(self):
+        db.session.rollback(self)
+        db.session.commit()
 
     @classmethod
     def get_by_username(cls, username):
         return AccountsModel.query.filter_by(username=username).first()
 
+    @classmethod
+    def get_by_id(cls, id):
+        return AccountsModel.query.filter_by(id=id).first()
     @classmethod
     def get_all(cls):
         return cls.query.all()
