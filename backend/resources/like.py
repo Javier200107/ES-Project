@@ -78,12 +78,17 @@ class ListPostLikes(Resource):
             return {'message': "Post with id [{}] doesn't exists".format(postid)}, 404
 
 class ListUserLikes(Resource):
-    def get(self,userid):
-        account = AccountsModel.get_by_id(userid)
+    def get(self,userid=None):
+        if(userid):
+            account = AccountsModel.get_by_id(userid)
+        else:
+            account= g.user
         if (account):
             return {'ListUserLikes': [like.json() for like in account.posts_like]}, 200
         else:
             return {'message': "Account with id [{}] doesn't exists".format(userid)}, 404
+
+
 
 
 
