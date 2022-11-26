@@ -8,10 +8,13 @@ from passlib.apps import custom_app_context as pwd_context
 
 auth = HTTPBasicAuth(scheme="Bearer")
 
-
+user_following = db.Table(
+    'user_following',
+    db.Column('user_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
+    db.Column('following_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True)
+)
 class AccountsModel(db.Model):
     __tablename__ = "accounts"
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
@@ -22,6 +25,14 @@ class AccountsModel(db.Model):
     is_admin = db.Column(db.Integer, nullable=False)
 
     textposts = db.relationship("TextPostModel", back_populates="account")
+
+    following = db.relationship(
+        'AccountsModel', lambda: user_following,
+        primaryjoin=lambda: AccountsModel.id == user_following.c.user_id,
+        secondaryjoin=lambda: AccountsModel.id == user_following.c.following_id,
+        backref='followers'
+    )
+
 
     def __init__(self, username, email, nom, datan, cognom, is_admin=0):
         self.username = username
@@ -40,6 +51,9 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
+            'followers': [t.id for t in self.followers],
+            'following': [t.id for t in self.following]
+
         }
 
     def save_to_db(self):

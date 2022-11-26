@@ -5,6 +5,7 @@ from backend.resources.login import Login
 from backend.resources.posts import Posts, UserPosts
 from backend.resources.like import Like,ListPostLikes,ListUserLikes
 from decouple import config as config_decouple
+from backend.resources.follow import Follow,ListFollows,ListFollowing
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -30,6 +31,11 @@ api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")
 api.add_resource(Like, "/likes/<string:account>,<int:post>","/likes/<int:post>")
 api.add_resource(ListPostLikes, "/likePlist/<int:postid>")
 api.add_resource(ListUserLikes, "/likeUlist/<int:userid>", "/likeUlist/")
+
+api.add_resource(Follow, "/follow/<int:account1>/<int:account2>","/follow/<int:account1>")
+api.add_resource(ListFollows, "/followList/<int:accountid>","/followList/")
+api.add_resource(ListFollowing, "/followingList/<int:accountid>","/followingList/")
+
 
 
 

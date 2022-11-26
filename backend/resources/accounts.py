@@ -8,7 +8,10 @@ from flask_restful import Resource, reqparse
 class Accounts(Resource):
     def get(self, username):
         account = AccountsModel.get_by_username(username)
-        return {"account": account.json()}, 200 if account else 404
+        if(account):
+            return {'account': account.json()}, 200
+        else:
+            return 404
 
     def post(self):
         parser = reqparse.RequestParser()
