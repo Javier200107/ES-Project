@@ -21,8 +21,8 @@ def test_post_follow(app_with_data):
     acc1 = response.json["account"]
     id1 = acc1["id"]
     lenght = len(acc1["followers"])
-    response = app_with_data.post("/follow/" + str(id1), auth=(token, "")).json["Account"]
-    app_with_data.delete("/follow/" + str(id1), auth=(token, "")).json["Account"]
+    response = app_with_data.post("/follow/" + str(id1), headers={"Authorization": f"Bearer {token}"}).json["Account"]
+    app_with_data.delete("/follow/" + str(id1), headers={"Authorization": f"Bearer {token}"}).json["Account"]
     assert len(response["followers"]) == lenght + 1
 
 def test_getFollow(app_with_data):
@@ -43,9 +43,9 @@ def test_getFollow(app_with_data):
     id = acc["id"]
     lenght = len(acc["followers"])
 
-    app_with_data.post("/follow/" + str(id), auth=(token, "")).json["Account"]
-    response = app_with_data.get("/follow/" + str(id), auth=(token, ""))
-    app_with_data.delete("/follow/" + str(id), auth=(token, "")).json["Account"]
+    app_with_data.post("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"}).json["Account"]
+    response = app_with_data.get("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"})
+    app_with_data.delete("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"}).json["Account"]
     assert response.status_code == 200
 
 def test_deleteFollow(app_with_data):
@@ -66,8 +66,8 @@ def test_deleteFollow(app_with_data):
     acc = response1.json["account"]
     id = acc["id"]
     lenght = len(acc["followers"])
-    response1 = app_with_data.post("/follow/" + str(id), auth=(token, "")).json["Account"]
-    response2 = app_with_data.delete("/follow/" + str(id), auth=(token, "")).json["Account"]
+    response1 = app_with_data.post("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"}).json["Account"]
+    response2 = app_with_data.delete("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"}).json["Account"]
     assert len(response1["followers"]) - 1 == lenght == len(response2["followers"])
 
 
@@ -92,8 +92,8 @@ def test_getListFollow(app_with_data):
     acc = responselistf.json["account"]
     id = acc["id"]
     lenght = len(acc["followers"])
-    app_with_data.post("/follow/" + str(id), auth=(token, ""))
-    responselistf=app_with_data.get("/followList/" + str(id), auth=(token, "")).json['ListFollows']
+    app_with_data.post("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"})
+    responselistf=app_with_data.get("/followList/" + str(id), headers={"Authorization": f"Bearer {token}"}).json['ListFollows']
     assert len(responselistf) == lenght + 1
 
 
@@ -113,8 +113,8 @@ def test_getListFollowing(app_with_data):
     )
     acc = response.json["account"]
     id = acc["id"]
-    app_with_data.post("/follow/" + str(id), auth=(token, ""))
-    response = app_with_data.get("/followingList/", auth=(token, "")).json['ListFollowing']
+    app_with_data.post("/follow/" + str(id), headers={"Authorization": f"Bearer {token}"})
+    response = app_with_data.get("/followingList/", headers={"Authorization": f"Bearer {token}"}).json['ListFollowing']
     assert len(response) != 0
 
 
