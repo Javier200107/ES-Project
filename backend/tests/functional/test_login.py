@@ -21,7 +21,7 @@ def test_login_ok(app_with_data):
     status_code, token = response.status_code, response.json["token"]
     assert status_code == 200 and len(token) > 0
 
-    response = app_with_data.get("/login", auth=(token, ""))
+    response = app_with_data.get("/login", headers={"Authorization": f"Bearer {token}"})
     assert (
         response.status_code == 200
         and response.json["message"] == "Authorized! (fernandito1)"
