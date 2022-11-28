@@ -32,9 +32,9 @@ api.add_resource(Like, "/likes/<string:account>,<int:post>", "/likes/<int:post>"
 api.add_resource(ListPostLikes, "/likePlist/<int:postid>")
 api.add_resource(ListUserLikes, "/likeUlist/<int:userid>", "/likeUlist/")
 
-api.add_resource(Follow, "/follow/<int:account1>/<int:account2>", "/follow/<int:account1>")
-api.add_resource(ListFollows, "/followList/<int:accountid>", "/followList/")
-api.add_resource(ListFollowing, "/followingList/<int:accountid>", "/followingList/")
+api.add_resource(Follow, "/follow/<string:account1>/<string:account2>","/follow/<string:account1>")
+api.add_resource(ListFollows, "/followList/<string:account>","/followList/")
+api.add_resource(ListFollowing, "/followingList/<string:account>","/followingList/")
 
 
 @app.route("/")
