@@ -2,31 +2,34 @@ from datetime import datetime
 
 from backend.db import db
 
-taula_likes = db.Table("taula_likes",
-                                 db.Column("id", db.Integer, primary_key=True),
-                                 db.Column("post_id", db.Integer, db.ForeignKey("textpost.id")),
-                                 db.Column("account_id",db.Integer, db.ForeignKey("accounts.id")))
-class TextPostModel(db.Model):
-    __tablename__ = "textpost"
+taula_likes = db.Table(
+    "taula_likes",
+    db.Column("id", db.Integer, primary_key=True),
+    db.Column("post_id", db.Integer, db.ForeignKey("posts.id")),
+    db.Column("account_id", db.Integer, db.ForeignKey("accounts.id"))
+)
+
+
+class PostsModel(db.Model):
+    __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(280), primary_key=False, unique=False, nullable=False)
+    text = db.Column(db.String(280), unique=False, nullable=False)
     time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     archived = db.Column(db.Boolean, nullable=False, default=False)
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
-    parent_id = db.Column(db.Integer, db.ForeignKey("textpost.id"))
+    parent_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
-    # Compte que publica el post
+    # usuari que publica el post
     account = db.relationship(
-        "AccountsModel", foreign_keys=[account_id], back_populates="textposts"
+        "AccountsModel", foreign_keys=[account_id], back_populates="posts"
     )
     # llista de comentaris
     parent = db.relationship(
-        "TextPostModel", remote_side=[id], backref=db.backref("comments")
+        "PostsModel", remote_side=[id], backref=db.backref("comments")
     )
 
-    accounts_like = db.relationship("AccountsModel",secondary=taula_likes, backref=db.backref("posts_like"))
-
+    accounts_like = db.relationship("AccountsModel", secondary=taula_likes, backref=db.backref("posts_like"))
 
     def __init__(self, text):
         self.text = text
@@ -41,7 +44,6 @@ class TextPostModel(db.Model):
             "account_name": self.account.username,
             "parent_id": self.parent_id,
             'accounts_like': [t.json() for t in self.accounts_like]
-
         }
 
     def save_to_db(self):
@@ -51,14 +53,14 @@ class TextPostModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
 
-
     @classmethod
     def get_by_id(cls, id):
-        return TextPostModel.query.filter_by(id=id).first()
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
     def get_all(cls):
@@ -66,12 +68,12 @@ class TextPostModel(db.Model):
 
     @classmethod
     def get_groups(cls, number, off):
-        return TextPostModel.query.order_by(cls.time).limit(number).offset(off)
+        return cls.query.order_by(cls.time).limit(number).offset(off)
 
     @classmethod
     def get_groups_by_account(cls, account_id, number, off):
         return (
-            TextPostModel.query.filter_by(account_id=account_id)
+            cls.query.filter_by(account_id=account_id)
             .order_by(cls.time)
             .limit(number)
             .offset(off)

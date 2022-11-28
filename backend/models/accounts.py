@@ -13,8 +13,11 @@ user_following = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
     db.Column('following_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True)
 )
+
+
 class AccountsModel(db.Model):
     __tablename__ = "accounts"
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
@@ -24,7 +27,7 @@ class AccountsModel(db.Model):
     password = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Integer, nullable=False)
 
-    textposts = db.relationship("TextPostModel", back_populates="account")
+    posts = db.relationship("PostsModel", back_populates="account")
 
     following = db.relationship(
         'AccountsModel', lambda: user_following,
@@ -33,13 +36,12 @@ class AccountsModel(db.Model):
         backref='followers'
     )
 
-
-    def __init__(self, username, email, nom, datan, cognom, is_admin=0):
+    def __init__(self, username, email, nom, cognom, birth, is_admin=0):
         self.username = username
         self.email = email
         self.nom = nom
         self.cognom = cognom
-        self.birth = datan
+        self.birth = birth
         self.is_admin = is_admin
 
     def json(self):
@@ -53,7 +55,6 @@ class AccountsModel(db.Model):
             "is_admin": self.is_admin,
             'followers': [t.id for t in self.followers],
             'following': [t.id for t in self.following]
-
         }
 
     def save_to_db(self):
@@ -63,17 +64,23 @@ class AccountsModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
 
     @classmethod
     def get_by_username(cls, username):
-        return AccountsModel.query.filter_by(username=username).first()
+        return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
 
     @classmethod
     def get_by_id(cls, id):
-        return AccountsModel.query.filter_by(id=id).first()
+        return cls.query.filter_by(id=id).first()
+
     @classmethod
     def get_all(cls):
         return cls.query.all()

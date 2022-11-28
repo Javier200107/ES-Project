@@ -1,25 +1,38 @@
-def _getUserToken(api):
-    login = {"username": "fernandito1", "password": "alonsete2042343"}
-
-    response = api.post("/login", json=login)
-    return response.json["token"]
+from backend.data import data_accounts, data_posts
 
 
-def test_getuserPosts(app_with_data):
-    token = _getUserToken(app_with_data)
-    response = app_with_data.get("/uposts/fernandito1?limit=10&offset=0", headers={"Authorization": f"Bearer {token}"})
-    assert response.status_code == 200 and len(response.json["posts"]) == 6
+def createPosts(client):
+    account1, account2 = data_accounts[0], data_accounts[1]
+    client.post("/account", json=account1)
+    client.post("/account", json=account2)
+
+    client.loginAs(account1)
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    client.loginAs(account2)
+    post2 = data_posts[1]
+    post2.update({"parent_id": post["id"]})
+    assert client.post("/posts", json=post2).status_code == 201
 
 
-def test_getPosts(app_with_data):
-    token = _getUserToken(app_with_data)
-    response = app_with_data.get("/posts?limit=10&offset=0", headers={"Authorization": f"Bearer {token}"})
-    assert response.status_code == 200 and len(response.json["posts"]) == 6
+def test_getUserPosts(client):
+    createPosts(client)
+    client.loginAs(data_accounts[0])
+    username = data_accounts[0]["username"]
+
+    response = client.get(f"/uposts/{username}?limit=10&offset=0")
+    assert response.status_code == 200
+    assert len(response.json["posts"]) == 1
 
 
-def test_createPost(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
+def test_getPosts(client):
+    createPosts(client)
+    client.loginAs(data_accounts[0])
 
-    response = app_with_data.post("/posts", json=data, headers={"Authorization": f"Bearer {token}"})
-    assert response.status_code == 201
+    response = client.get("/posts?limit=10&offset=0")
+    assert response.status_code == 200
+    assert len(response.json["posts"]) == 2
+
+
+def test_createPost(client):
+    createPosts(client)
