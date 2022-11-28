@@ -22,8 +22,7 @@ export class PostCreationService {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       }),
-      json : newPost
     };
-    return this.http.post<Post>(`${environment.baseApiUrl}/posts`, httpOptions);
+    return this.http.post<Post>(`${environment.baseApiUrl}/posts`,newPost, httpOptions);
   }
 }
