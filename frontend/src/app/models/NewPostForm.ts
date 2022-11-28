@@ -1,5 +1,5 @@
 export interface NewPostForm {
-  content: string;
+  text: string;
   parent_id?: null;
 }
 

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 import { NewPostForm} from "../models/NewPostForm";
+import {Post} from "../models/Post";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,16 @@ export class PostCreationService {
 
   constructor(private http:HttpClient) { }
 
-  createPost(newPost:NewPostForm)  {
-    return this.http.post<NewPostForm>(`${environment.baseApiUrl}/posts`, newPost);
+  createPost(newPost:NewPostForm, token:String): Observable<Post> {
+    console.log(newPost)
+    console.log(token)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+      json : newPost
+    };
+    return this.http.post<Post>(`${environment.baseApiUrl}/posts`, httpOptions);
   }
 }

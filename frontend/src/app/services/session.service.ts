@@ -13,15 +13,19 @@ import {UserLogin} from "../models/UserLogin";
 })
 export class SessionService{
 
+  sessionToken!: string
   error!: string
 
   constructor(private http:HttpClient) {
 
   }
+  setToken(token:string){
+    this.sessionToken = token
+  }
 
   //Crear un element de resposta?? amb html response i objecte? de moment només user
   register(user:User): Observable<User> {
-    console.log('Post User', user)
+    console.log('Register User', user)
     return this.http.post<User>(`${environment.baseApiUrl}/account`, user);
   }
 

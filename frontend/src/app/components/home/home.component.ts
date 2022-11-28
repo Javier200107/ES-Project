@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {Post} from "../../models/Post";
 import { HomeFeedService } from "../../services/home-feed.service";
+import { SessionService } from "../../services/session.service";
 import { PostCreationService} from "../../services/post-creation.service";
 import { NewPostForm} from "../../models/NewPostForm";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -12,14 +14,20 @@ import { NewPostForm} from "../../models/NewPostForm";
 export class HomeComponent implements OnInit {
 
   posts: Post[] = []
-
   numInitialPosts = 25;
   postsPerLoad = 10;
   currentPost = 0;
+  token = "";
 
-  constructor(private homeFeed: HomeFeedService) {
-    this.mockPosts();
+  //TODO Pass a session service with the token
+  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute) {
 
+    this.route.queryParams
+      .subscribe(params => {
+          this.token = params['token']
+        }
+      );
+    console.log('token', this.token)
   }
 
   ngOnInit(): void {
@@ -31,12 +39,15 @@ export class HomeComponent implements OnInit {
       "limit": this.postsPerLoad,
       "offset": this.currentPost,
     }
-    this.homeFeed.getPostsFrom(requestParams).subscribe((newPosts: Post[]) => {
-      for (let postNum = 0; postNum< newPosts.length; postNum++){
-        this.posts.push(newPosts[postNum]);
+    // @ts-ignore
+    this.homeFeed.getPostsFrom(requestParams, this.token).subscribe((newPosts: Object) => {
+      // @ts-ignore
+      let postList = newPosts['posts']
+      for (let postNum = 0; postNum < postList.length; postNum++){
+        this.posts.push(postList[postNum]);
         this.currentPost = this.currentPost +1;
       }
-    }, (error) => {
+    }, (error: any) => {
       console.log(error);
     })
 
