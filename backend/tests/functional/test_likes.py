@@ -1,106 +1,67 @@
-def _getUserToken(api):
-    login = {"username": "fernandito1", "password": "alonsete2042343"}
-
-    response = api.post("/login", json=login)
-    return response.json["token"]
+from backend.data import data_accounts, data_posts
 
 
-def test_postLike(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-    response = app_with_data.post(
-        "/posts", json=data, headers={"Authorization": f"Bearer {token}"}
-    )
-    post = response.json["post"]
-    id = post["id"]
-    l = app_with_data.post(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
-    a = l.json["Post"]
-    assert len(a["accounts_like"]) != 0
+def test_postLike(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    response = client.post("/likes/" + str(post["id"]))
+    assert len(response.json["Post"]["accounts_like"]) == 1
 
 
-def test_deleteLike(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-    response = app_with_data.post(
-        "/posts", json=data, headers={"Authorization": f"Bearer {token}"}
-    )
+def test_deleteLike(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
 
-    post = response.json["post"]
-    id = post["id"]
-    app_with_data.post(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
-    response = app_with_data.delete(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+    client.post("/likes/" + str(post["id"]))
+
+    response = client.delete("/likes/" + str(post["id"]))
     assert response.status_code == 200
 
 
-def test_getLike(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-    response = app_with_data.post(
-        "/posts", json=data, headers={"Authorization": f"Bearer {token}"}
-    )
-    post = response.json["post"]
-    id = post["id"]
-    app_with_data.get(
-        "/likes/fernandito1," + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
-    assert response.status_code == 201
+def test_getLike(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+    username = data_accounts[0]
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    response = client.get(f"/likes/{username}," + str(post["id"]))
+    assert response.status_code == 404
 
 
-def test_getListPostLikes(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-    response = app_with_data.post(
-        "/posts", json=data, headers={"Authorization": f"Bearer {token}"}
-    )
-    post = response.json["post"]
-    id = post["id"]
-    app_with_data.post(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
-    list = app_with_data.get(
-        "/likePlist/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    ).json["ListPostLikes"]
-    assert len(list) == 1
+def test_getListPostLikes(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+    client.post("/likes/" + str(post["id"]))
+
+    response = client.get("/likePlist/" + str(post["id"]))
+    assert len(response.json["ListPostLikes"]) == 1
 
 
-def test_getListUserLikes(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-    response = app_with_data.post(
-        "/posts", json=data, headers={"Authorization": f"Bearer {token}"}
-    )
-    post = response.json["post"]
-    list1 = app_with_data.get(
-        "/likeUlist/", headers={"Authorization": f"Bearer {token}"}
-    ).json["ListUserLikes"]
-    id = post["id"]
-    app_with_data.post(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
-    list = app_with_data.get(
-        "/likeUlist/", headers={"Authorization": f"Bearer {token}"}
-    ).json["ListUserLikes"]
-    assert len(list1) + 1 == len(list)
+def test_getListUserLikes(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    list1 = client.get("/likeUlist/").json["ListUserLikes"]
+    client.post("/likes/" + str(post["id"]))
+    list2 = client.get("/likeUlist/").json["ListUserLikes"]
+    assert len(list1) + 1 == len(list2)
 
 
-def test_DoubleLike(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
-    response = app_with_data.post(
-        "/posts", json=data, headers={"Authorization": f"Bearer {token}"}
-    )
-    post = response.json["post"]
-    id = post["id"]
-    app_with_data.post(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
-    response = app_with_data.post(
-        "/likes/" + str(id), headers={"Authorization": f"Bearer {token}"}
-    )
+def test_DoubleLike(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    client.post("/likes/" + str(post["id"]))
+    response = client.post("/likes/" + str(post["id"]))
     assert response.status_code == 404
