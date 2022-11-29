@@ -32,12 +32,13 @@ export class ProfileComponent implements OnInit {
   }
 
   getPostsUserArchived () {
+    this.postsArchived = []
     const posts: GetNumPosts = {
       limit: 10,
       offset: 0
     }
 
-    this.postCreationService.getPostsUser(posts, this.token).subscribe(
+    this.postCreationService.getPostsUserArchived(posts, this.token).subscribe(
       (result) => {
         for (const post of result.posts) {
           this.postsArchived.push(post)
@@ -47,6 +48,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getPostsUser () {
+    this.posts = []
     const posts: GetNumPosts = {
       limit: 10,
       offset: 0

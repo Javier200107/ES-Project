@@ -5,6 +5,8 @@ import { NewPostForm } from '../models/NewPostForm'
 import { GetNumPosts } from '../models/GetNumPosts'
 import { Post } from '../models/Post'
 import { GetPost } from '../models/GetPost'
+import {Observable} from "rxjs";
+import {ArchivedPost} from "../models/ArchivedPost";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +31,7 @@ export class PostCreationService {
       }
     }
 
-    return this.http.get<GetPost>(`${environment.baseApiUrl}/posts`,
+    return this.http.get<GetPost>(`${environment.baseApiUrl}/uposts`,
       headerOptions
     )
   }
@@ -46,7 +48,21 @@ export class PostCreationService {
         archived: 1
       }
     }
-    return this.http.get<GetPost>(`${environment.baseApiUrl}/posts`,
+    return this.http.get<GetPost>(`${environment.baseApiUrl}/uposts`,
+      headerOptions
+    )
+  }
+
+  changeToArchivedPost(id: number, archived: number, token: String): Observable<any> {
+    console.log("Entramos en el segundo metodo")
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      })
+    }
+    return this.http.put(`${environment.baseApiUrl}/posts/${id}`,
+      {archived: !archived},
       headerOptions
     )
   }

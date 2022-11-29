@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
       id: 12,
       text: 'This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds',
       time: '2022-10-02',
-      archived: false,
+      archived: 0,
       account_id: 12,
       account_name: 'kermit',
       parent_id: 12,
