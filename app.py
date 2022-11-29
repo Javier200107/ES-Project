@@ -15,11 +15,13 @@ app.config.from_object(environment)
 db.init_app(app)
 Migrate(app, db)
 
-# Atm, always start clean, recreating all the tables in the database
-with app.app_context():
-    db.drop_all()
-    db.create_all()
-    # TODO: init with some data
+print(f"-> PRODUCTION={app.config['PRODUCTION']}, RECREATE_DB_ON_STARTUP={app.config['RECREATE_DB_ON_STARTUP']}")
+
+if app.config["RECREATE_DB_ON_STARTUP"]:
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+        # TODO: init with some data
 
 api = Api(app)
 CORS(app, resources={r"/*": {"origins": "*"}})

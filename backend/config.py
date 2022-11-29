@@ -8,6 +8,7 @@ _PRODUCTION = config_decouple("PRODUCTION", cast=bool, default=False)
 
 class Config(object):
     PRODUCTION = _PRODUCTION
+    RECREATE_DB_ON_STARTUP = config_decouple("RECREATE_DB_ON_STARTUP", cast=bool, default=False)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = config_decouple("SECRET_KEY", default="p2r5u8x/A?D(G+KbPeShVmYq3t6v9y$B")
     STATIC_URL_PATH = ""
