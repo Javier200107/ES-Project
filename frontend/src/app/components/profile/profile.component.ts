@@ -20,11 +20,12 @@ export class ProfileComponent implements OnInit {
   constructor (private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
-        this.user = params.user
-        this.token = params.token
+        this.user = params["user"]
+        this.token = params["token"]
       }
       )
     this.getPostsUser()
+    this.getPostsUserArchived()
   }
 
   ngOnInit (): void {
@@ -39,7 +40,7 @@ export class ProfileComponent implements OnInit {
     this.postCreationService.getPostsUser(posts, this.token).subscribe(
       (result) => {
         for (const post of result.posts) {
-          this.posts.push(post)
+          this.postsArchived.push(post)
         }
       }
     )
