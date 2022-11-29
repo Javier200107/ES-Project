@@ -11,7 +11,7 @@ class Like(Resource):
     def get(self, account, post):
         post = PostsModel.get_by_id(post)
         acc = AccountsModel.get_by_username(account)
-        if post:
+        if acc and post:
             accounts = post.accounts_like
             if accounts:
                 for i in accounts:
@@ -21,14 +21,14 @@ class Like(Resource):
             else:
                 return {'message': "Post with Id [{}] doesn't have likes".format(post)}, 404
         else:
-            return {'message': "Post with Id [{}] doesn't exists".format(post)}, 404
+            return {'message': "Post with Id [{}] or Account [{}] doesn't exist".format(post, account)}, 404
 
     @auth.login_required()
     def post(self, post):
         with lock.lock:
             acc = AccountsModel.get_by_username(g.user.username)
             pt = PostsModel.get_by_id(post)
-            if acc and post:
+            if acc and pt:
                 accounts = pt.accounts_like
                 if accounts:
                     for i in accounts:
@@ -42,14 +42,14 @@ class Like(Resource):
                     pt.rollback()
                     return {"message": "An error occurred inserting the Like."}, 500
             else:
-                return {'message': "Post with Id [{}] or Account with Id [{}] doesn't exists".format(post, acc.id)}, 404
+                return {'message': "Post with Id [{}] or Account doesn't exist".format(post)}, 404
 
     @auth.login_required()
     def delete(self, post):
         with lock.lock:
             acc = AccountsModel.get_by_username(g.user.username)
             pt = PostsModel.get_by_id(post)
-            if acc and post:
+            if acc and pt:
                 accounts = pt.accounts_like
                 if accounts:
                     for i in accounts:
@@ -65,7 +65,7 @@ class Like(Resource):
                 else:
                     return {'message': "Post with Id [{}] doesn't have likes".format(post)}, 404
             else:
-                return {'message': "Post with Id [{}] or Account with Id [{}] doesn't exists".format(post, acc.id)}, 404
+                return {'message': "Post with Id [{}] or Account doesn't exist".format(post)}, 404
 
 
 class ListPostLikes(Resource):
