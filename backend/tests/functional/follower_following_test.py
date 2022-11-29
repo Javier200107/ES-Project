@@ -3,6 +3,7 @@ def _getUserToken(api):
     response = api.post("/login", json=login)
     return response.json["token"]
 
+
 # He afegit delete al final dels mètodes ja que si no hi ha conflictes al executar tots els tests seguits
 def test_post_follow(app_with_data):
     token = _getUserToken(app_with_data)
@@ -20,10 +21,15 @@ def test_post_follow(app_with_data):
     )
     acc1 = response.json["account"]
     user = acc1["username"]
-    lenght = len(acc1["followers"])
-    response = app_with_data.post("/follow/" + user, headers={"Authorization": f"Bearer {token}"}).json["Account"]
-    app_with_data.delete("/follow/" + user, headers={"Authorization": f"Bearer {token}"}).json["Account"]
-    assert len(response["followers"]) == lenght + 1
+    length = len(acc1["followers"])
+    response = app_with_data.post(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["Account"]
+    app_with_data.delete(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["Account"]
+    assert len(response["followers"]) == length + 1
+
 
 def test_getFollow(app_with_data):
     token = _getUserToken(app_with_data)
@@ -42,10 +48,17 @@ def test_getFollow(app_with_data):
     acc = response.json["account"]
     user = acc["username"]
 
-    app_with_data.post("/follow/" + user, headers={"Authorization": f"Bearer {token}"}).json["Account"]
-    response = app_with_data.get("/follow/" + user, headers={"Authorization": f"Bearer {token}"})
-    app_with_data.delete("/follow/" + user, headers={"Authorization": f"Bearer {token}"}).json["Account"]
+    app_with_data.post(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["Account"]
+    response = app_with_data.get(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    )
+    app_with_data.delete(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["Account"]
     assert response.status_code == 200
+
 
 def test_deleteFollow(app_with_data):
     token = _getUserToken(app_with_data)
@@ -64,14 +77,14 @@ def test_deleteFollow(app_with_data):
 
     acc = response1.json["account"]
     user = acc["username"]
-    lenght = len(acc["followers"])
-    response1 = app_with_data.post("/follow/" + user, headers={"Authorization": f"Bearer {token}"}).json["Account"]
-    response2 = app_with_data.delete("/follow/" + user, headers={"Authorization": f"Bearer {token}"}).json["Account"]
-    assert len(response1["followers"]) - 1 == lenght == len(response2["followers"])
-
-
-
-
+    length = len(acc["followers"])
+    response1 = app_with_data.post(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["Account"]
+    response2 = app_with_data.delete(
+        "/follow/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["Account"]
+    assert len(response1["followers"]) - 1 == length == len(response2["followers"])
 
 
 def test_getListFollow(app_with_data):
@@ -90,10 +103,12 @@ def test_getListFollow(app_with_data):
     )
     acc = responselistf.json["account"]
     user = acc["username"]
-    lenght = len(acc["followers"])
+    length = len(acc["followers"])
     app_with_data.post("/follow/" + user, headers={"Authorization": f"Bearer {token}"})
-    responselistf=app_with_data.get("/followList/" + user, headers={"Authorization": f"Bearer {token}"}).json['ListFollows']
-    assert len(responselistf) == lenght + 1
+    responselistf = app_with_data.get(
+        "/followList/" + user, headers={"Authorization": f"Bearer {token}"}
+    ).json["ListFollows"]
+    assert len(responselistf) == length + 1
 
 
 def test_getListFollowing(app_with_data):
@@ -112,9 +127,10 @@ def test_getListFollowing(app_with_data):
     )
     acc = response.json["account"]
     username = acc["username"]
-    app_with_data.post("/follow/" + username, headers={"Authorization": f"Bearer {token}"})
-    response = app_with_data.get("/followingList/", headers={"Authorization": f"Bearer {token}"}).json['ListFollowing']
+    app_with_data.post(
+        "/follow/" + username, headers={"Authorization": f"Bearer {token}"}
+    )
+    response = app_with_data.get(
+        "/followingList/", headers={"Authorization": f"Bearer {token}"}
+    ).json["ListFollowing"]
     assert len(response) != 0
-
-
-

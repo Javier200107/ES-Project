@@ -2,10 +2,14 @@ from datetime import datetime
 
 from backend.db import db
 
-taula_likes = db.Table("taula_likes",
-                                 db.Column("id", db.Integer, primary_key=True),
-                                 db.Column("post_id", db.Integer, db.ForeignKey("textpost.id")),
-                                 db.Column("account_id",db.Integer, db.ForeignKey("accounts.id")))
+taula_likes = db.Table(
+    "taula_likes",
+    db.Column("id", db.Integer, primary_key=True),
+    db.Column("post_id", db.Integer, db.ForeignKey("textpost.id")),
+    db.Column("account_id", db.Integer, db.ForeignKey("accounts.id")),
+)
+
+
 class TextPostModel(db.Model):
     __tablename__ = "textpost"
 
@@ -25,8 +29,9 @@ class TextPostModel(db.Model):
         "TextPostModel", remote_side=[id], backref=db.backref("comments")
     )
 
-    accounts_like = db.relationship("AccountsModel",secondary=taula_likes, backref=db.backref("posts_like"))
-
+    accounts_like = db.relationship(
+        "AccountsModel", secondary=taula_likes, backref=db.backref("posts_like")
+    )
 
     def __init__(self, text):
         self.text = text
@@ -40,8 +45,8 @@ class TextPostModel(db.Model):
             "account_id": self.account_id,
             "account_name": self.account.username,
             "parent_id": self.parent_id,
-            'accounts_like': [t.json() for t in self.accounts_like],
-            'num_likes': len(self.accounts_like)
+            "accounts_like": [t.json() for t in self.accounts_like],
+            "num_likes": len(self.accounts_like),
         }
 
     def save_to_db(self):
@@ -51,10 +56,10 @@ class TextPostModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
-
 
     @classmethod
     def get_by_id(cls, id):

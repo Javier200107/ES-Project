@@ -1,16 +1,28 @@
-from flask_restful import Resource, reqparse
-
-from backend.models.TextPostModel import TextPostModel
 from backend.models.accounts import AccountsModel, auth, g
+from backend.models.TextPostModel import TextPostModel
+from flask_restful import Resource, reqparse
 
 
 class Posts(Resource):
-
     @auth.login_required()
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("limit", type=int, required=True, nullable=False, help={"Number of posts to retrieve"}, location='args')
-        parser.add_argument("offset", type=int, required=True, nullable=False, help={"Number of posts to skip"}, location='args')
+        parser.add_argument(
+            "limit",
+            type=int,
+            required=True,
+            nullable=False,
+            help={"Number of posts to retrieve"},
+            location="args",
+        )
+        parser.add_argument(
+            "offset",
+            type=int,
+            required=True,
+            nullable=False,
+            help={"Number of posts to skip"},
+            location="args",
+        )
         data = parser.parse_args()
         posts = TextPostModel.get_groups(data["limit"], data["offset"])
         if posts:
@@ -20,8 +32,16 @@ class Posts(Resource):
     @auth.login_required()
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("text", type=str, required=True, nullable=False, help={"Text of the post"})
-        parser.add_argument("parent_id", type=int, required=False, nullable=True, help={"Parent of the post"})
+        parser.add_argument(
+            "text", type=str, required=True, nullable=False, help={"Text of the post"}
+        )
+        parser.add_argument(
+            "parent_id",
+            type=int,
+            required=False,
+            nullable=True,
+            help={"Parent of the post"},
+        )
         data = parser.parse_args()
         new_post = TextPostModel(data["text"])
         new_post.account = AccountsModel.get_by_username(g.user.username)
@@ -36,7 +56,9 @@ class Posts(Resource):
     @auth.login_required()
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument("archived", type=bool, required=True, nullable=False, help={"Archive post"})
+        parser.add_argument(
+            "archived", type=bool, required=True, nullable=False, help={"Archive post"}
+        )
         data = parser.parse_args()
         post = TextPostModel.get_by_id(id)
         if post is None:
@@ -65,19 +87,34 @@ class Posts(Resource):
 
 
 class UserPosts(Resource):
-
     @auth.login_required()
     def get(self, user=None):
         parser = reqparse.RequestParser()
-        parser.add_argument("limit", type=int, required=True, nullable=False, help={"Number of posts to retrieve"}, location='args')
-        parser.add_argument("offset", type=int, required=True, nullable=False, help={"Number of posts to skip"}, location='args')
+        parser.add_argument(
+            "limit",
+            type=int,
+            required=True,
+            nullable=False,
+            help={"Number of posts to retrieve"},
+            location="args",
+        )
+        parser.add_argument(
+            "offset",
+            type=int,
+            required=True,
+            nullable=False,
+            help={"Number of posts to skip"},
+            location="args",
+        )
         data = parser.parse_args()
         if user is None:
             us = g.user
         else:
             us = AccountsModel.get_by_username(user)
         if us:
-            posts = TextPostModel.get_groups_by_account(us.id, data["limit"], data["offset"])
+            posts = TextPostModel.get_groups_by_account(
+                us.id, data["limit"], data["offset"]
+            )
             if posts:
                 return {"posts": [post.json() for post in posts]}, 200
             else:

@@ -1,13 +1,16 @@
 # Flask configuration
 
+
 class Config:
     pass
 
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = "postgresql://Javier@enginyeriadelsoftware-server:EnginyeriaDelSoftware2022" \
-                              "@enginyeriadelsoftware-server.postgres.database.azure.com:5432/postgres "
+    SQLALCHEMY_DATABASE_URI = (
+        "postgresql://Javier@enginyeriadelsoftware-server:EnginyeriaDelSoftware2022"
+        "@enginyeriadelsoftware-server.postgres.database.azure.com:5432/postgres "
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STATIC_URL_PATH = ""
     STATIC_FOLDER = "/static"

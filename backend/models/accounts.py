@@ -9,10 +9,14 @@ from passlib.apps import custom_app_context as pwd_context
 auth = HTTPTokenAuth(scheme="Bearer")
 
 user_following = db.Table(
-    'user_following',
-    db.Column('user_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
-    db.Column('following_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True)
+    "user_following",
+    db.Column("user_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
+    db.Column(
+        "following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True
+    ),
 )
+
+
 class AccountsModel(db.Model):
     __tablename__ = "accounts"
     id = db.Column(db.Integer, primary_key=True)
@@ -27,12 +31,12 @@ class AccountsModel(db.Model):
     textposts = db.relationship("TextPostModel", back_populates="account")
 
     following = db.relationship(
-        'AccountsModel', lambda: user_following,
+        "AccountsModel",
+        lambda: user_following,
         primaryjoin=lambda: AccountsModel.id == user_following.c.user_id,
         secondaryjoin=lambda: AccountsModel.id == user_following.c.following_id,
-        backref='followers'
+        backref="followers",
     )
-
 
     def __init__(self, username, email, nom, datan, cognom, is_admin=0):
         self.username = username
@@ -51,9 +55,8 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
-            'followers': [t.id for t in self.followers],
-            'following': [t.id for t in self.following]
-
+            "followers": [t.id for t in self.followers],
+            "following": [t.id for t in self.following],
         }
 
     def save_to_db(self):
@@ -63,6 +66,7 @@ class AccountsModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
@@ -74,6 +78,7 @@ class AccountsModel(db.Model):
     @classmethod
     def get_by_id(cls, id):
         return AccountsModel.query.filter_by(id=id).first()
+
     @classmethod
     def get_all(cls):
         return cls.query.all()

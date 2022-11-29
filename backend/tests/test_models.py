@@ -1,5 +1,5 @@
-from backend.models.TextPostModel import TextPostModel
 from backend.models.accounts import AccountsModel
+from backend.models.TextPostModel import TextPostModel
 
 
 def test_posts(app_with_data):

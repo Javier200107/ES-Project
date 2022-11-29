@@ -8,8 +8,8 @@ from flask_restful import Resource, reqparse
 class Accounts(Resource):
     def get(self, username):
         account = AccountsModel.get_by_username(username)
-        if(account):
-            return {'account': account.json()}, 200
+        if account:
+            return {"account": account.json()}, 200
         else:
             return 404
 

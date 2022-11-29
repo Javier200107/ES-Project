@@ -14,7 +14,7 @@ class MyLock(object):
         return cls.__singleton_instance
 
     def __init__(self):
-        """ Virtually private constructor. """
+        """Virtually private constructor."""
         if MyLock.__singleton_instance is not None:
             raise Exception("This class is a singleton!")
         else:
