@@ -2,7 +2,8 @@ from decouple import config as config_decouple
 
 _AzureDB = (
     "postgresql://Javier@enginyeriadelsoftware-server:"
-    "EnginyeriaDelSoftware2022@enginyeriadelsoftware-server.postgres.database.azure.com:5432/postgres"
+    "EnginyeriaDelSoftware2022@enginyeriadelsoftware-server."
+    "postgres.database.azure.com:5432/postgres"
 )
 
 _PRODUCTION = config_decouple("PRODUCTION", cast=bool, default=False)
