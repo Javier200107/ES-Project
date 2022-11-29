@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
         if (result.token) {
           this.token = result.token
           user.token = result.token
+          this.sessionService.setToken(result.token)
         }
       },
       err => {

@@ -45,6 +45,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+
   areActive (active: string) {
     this.active_home = ''
     this.active_notif = ''
