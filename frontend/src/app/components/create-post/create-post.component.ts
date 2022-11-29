@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { PostCreationService } from "../../services/post-creation.service";
-import { NewPostForm } from "../../models/NewPostForm";
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { PostCreationService } from '../../services/post-creation.service'
+import { NewPostForm } from '../../models/NewPostForm'
 
 @Component({
   selector: 'app-create-post',
@@ -9,33 +9,32 @@ import { NewPostForm } from "../../models/NewPostForm";
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent implements OnInit {
+  public postForm!: FormGroup
+  post_content!: string
 
-  public postForm!: FormGroup;
-  post_content!: string;
+  constructor (private formBuilder: FormBuilder, private postCreator: PostCreationService) { }
 
-  constructor(private formBuilder: FormBuilder, private postCreator: PostCreationService) { }
-
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.buildForm()
   }
 
-  createPost() {
+  createPost () {
     console.log(this.post_content)
-    if(!this.post_content){
-      alert("Post cannot be empty!")
-      return;
+    if (!this.post_content) {
+      alert('Post cannot be empty!')
+      return
     }
     const postContent: NewPostForm = {
-      content: this.post_content,
+      content: this.post_content
     }
     this.postCreator.createPost(postContent)
 
-    this.post_content = '';
+    this.post_content = ''
   }
 
-  private buildForm() {
+  private buildForm () {
     this.postForm = this.formBuilder.group({
       postText: ['']
-    });
+    })
   }
 }

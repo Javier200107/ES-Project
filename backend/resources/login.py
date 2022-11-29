@@ -1,3 +1,4 @@
+from backend.lock import lock
 from backend.models.accounts import AccountsModel, auth, g
 from flask_restful import Resource, reqparse
 
@@ -37,5 +38,6 @@ class Login(Resource):
         if not account.verify_password(password):
             return {"message": "Invalid password!"}, 404
 
-        token = account.generate_auth_token()
-        return {"token": token}, 200
+        with lock.lock:
+            token = account.generate_auth_token()
+            return {"token": token}, 200

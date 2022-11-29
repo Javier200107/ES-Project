@@ -1,66 +1,35 @@
-def test_create_user(app_with_db):
-    # when
-    response = app_with_db.post(
-        "/account",
-        json={
-            "username": "Alejandro19",
-            "password": "_mypass1293_",
-            "nom": "Alejandro",
-            "email": "alex19@gmail.com",
-            "cognom": "Torso",
-            "birthdate": "2002-01-10",
-            "is_admin": 0,
-        },
-    )
-    # then
-    assert response.status_code == 201
+from backend.data import data_accounts
 
 
-def test_get_user_by_username(app_with_data):
-    # given
-    app_with_data.post(
-        "/account",
-        json={
-            "username": "CarlesCJB",
-            "password": "foewfeof213",
-            "nom": "Carles",
-            "email": "carletes@gmail.com",
-            "cognom": "Duran",
-            "birthdate": "1995-01-10",
-            "is_admin": 0,
-        },
-    )
+def test_create_user(client):
+    account = data_accounts[0]
 
-    # when
-    response = app_with_data.get(
-        "/account/CarlesCJB",
-    )
+    assert client.post("/account", json=account).status_code == 201
+    assert client.post("/account", json=account).status_code == 409
 
-    # then
+
+def test_get_user(client):
+    account = data_accounts[0]
+    username = account["username"]
+
+    client.post("/account", json=data_accounts[1])
+    client.loginAs(data_accounts[1])
+
+    assert client.get(f"/account/{username}").status_code == 404
+
+    client.post("/account", json=account)
+
+    response = client.get(f"/account/{username}")
     assert response.status_code == 200
-    data = response.json
-    assert data["account"]["username"] == "CarlesCJB"
+    assert response.json["account"]["username"] == username
 
 
-def test_delete_user(app_with_data):
-    # given
-    app_with_data.post(
-        "/account",
-        json={
-            "username": "EmmaRadu",
-            "password": "20o31fnka",
-            "nom": "Emma",
-            "email": "emmaradu@gmail.com",
-            "cognom": "Raducanu",
-            "birthdate": "1998-01-10",
-            "is_admin": 0,
-        },
-    )
+def test_delete_user(client):
+    account = data_accounts[0]
+    username = account["username"]
 
-    # when
-    response = app_with_data.delete(
-        "/account/EmmaRadu",
-    )
+    client.post("/account", json=account)
+    client.loginAs(account)
 
-    # then
-    assert response.status_code == 200
+    assert client.delete(f"/account/{username}").status_code == 200
+    assert client.delete(f"/account/{username}").status_code == 401

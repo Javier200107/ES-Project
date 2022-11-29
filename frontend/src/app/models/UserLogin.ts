@@ -3,7 +3,7 @@ export interface UserLogin {
   email: string;
   password: string;
   nom: string,
-  cognom:  string,
-  birthdate:  string
+  cognom: string,
+  birthdate: string
   token: any
 }
