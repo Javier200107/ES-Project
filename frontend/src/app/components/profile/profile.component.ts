@@ -22,13 +22,13 @@ export class ProfileComponent implements OnInit {
     account_id: 12,
     account_name: 'kermit',
     parent_id: 12
-  };
+  }
 
   constructor (private sessionService: SessionService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
-        this.user = params['user']
-        this.token = params['token']
+        this.user = params.user
+        this.token = params.token
       }
       )
 
