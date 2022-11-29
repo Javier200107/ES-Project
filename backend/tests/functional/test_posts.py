@@ -36,3 +36,24 @@ def test_getPosts(client):
 
 def test_createPost(client):
     createPosts(client)
+
+
+def test_updatePost(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+    username = data_accounts[0]["username"]
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    response = client.put(f"/posts/{post['id']}", json={"archived": True})
+    assert response.status_code == 200
+    assert client.get(f"/uposts/{username}?limit=10&offset=0").json["posts"][0]["archived"]
+
+
+def test_deletePost(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    assert client.delete(f"/posts/1").status_code == 404
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+    assert client.delete(f"/posts/{post['id']}").status_code == 200
