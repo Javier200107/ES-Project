@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { Post } from '../../models/Post'
-import { SessionService } from '../../services/session.service'
 import { ActivatedRoute } from '@angular/router'
 import { PostCreationService } from '../../services/post-creation.service'
 import { GetNumPosts } from '../../models/GetNumPosts'
