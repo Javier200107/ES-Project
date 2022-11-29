@@ -6,7 +6,7 @@ taula_likes = db.Table(
     "taula_likes",
     db.Column("id", db.Integer, primary_key=True),
     db.Column("post_id", db.Integer, db.ForeignKey("posts.id")),
-    db.Column("account_id", db.Integer, db.ForeignKey("accounts.id"))
+    db.Column("account_id", db.Integer, db.ForeignKey("accounts.id")),
 )
 
 
@@ -29,7 +29,9 @@ class PostsModel(db.Model):
         "PostsModel", remote_side=[id], backref=db.backref("comments")
     )
 
-    accounts_like = db.relationship("AccountsModel", secondary=taula_likes, backref=db.backref("posts_like"))
+    accounts_like = db.relationship(
+        "AccountsModel", secondary=taula_likes, backref=db.backref("posts_like")
+    )
 
     def __init__(self, text):
         self.text = text
@@ -43,8 +45,8 @@ class PostsModel(db.Model):
             "account_id": self.account_id,
             "account_name": self.account.username,
             "parent_id": self.parent_id,
-            'accounts_like': [t.json() for t in self.accounts_like],
-            'num_likes': len(self.accounts_like)
+            "accounts_like": [t.json() for t in self.accounts_like],
+            "num_likes": len(self.accounts_like),
         }
 
     def save_to_db(self):

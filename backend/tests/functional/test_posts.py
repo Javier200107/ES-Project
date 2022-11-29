@@ -35,7 +35,9 @@ def test_getPosts(client):
     response = client.get("/posts?limit=10&offset=0")
     assert response.status_code == 200
     assert len(response.json["posts"]) == 2
-    assert response.json["posts"][0]["parent_id"] is not None  # most recent post is first in the list
+    assert (
+        response.json["posts"][0]["parent_id"] is not None
+    )  # most recent post is first in the list
 
 
 def test_createPost(client):
@@ -51,7 +53,9 @@ def test_updatePost(client):
 
     response = client.put(f"/posts/{post['id']}", json={"archived": True})
     assert response.status_code == 200
-    assert client.get(f"/uposts/{username}?limit=10&offset=0").json["posts"][0]["archived"]
+    assert client.get(f"/uposts/{username}?limit=10&offset=0").json["posts"][0][
+        "archived"
+    ]
 
 
 def test_deletePost(client):

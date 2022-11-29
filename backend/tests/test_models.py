@@ -1,6 +1,6 @@
 from backend.data import data_accounts
-from backend.models.posts import PostsModel
 from backend.models.accounts import AccountsModel
+from backend.models.posts import PostsModel
 
 
 def test_posts(client):
