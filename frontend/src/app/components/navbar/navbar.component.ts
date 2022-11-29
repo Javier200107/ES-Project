@@ -51,13 +51,13 @@ export class NavbarComponent implements OnInit {
     this.active_saved = ''
     if (active == 'home') {
       this.active_home = 'active',
-      this.router.navigate(['/home'], { queryParams: { user: this.user } })
+      this.router.navigate(['/home'], { queryParams: { user: this.user, token: this.token } })
     } else if (active == 'notif') {
       this.active_notif = 'active'
     } else if (active == 'saved') {
       this.active_saved = 'active'
     } else if (active == 'profile') {
-      this.router.navigate(['/profile'], { queryParams: { user: this.user } })
+      this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
     }
   }
 }
