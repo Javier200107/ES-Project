@@ -5,8 +5,8 @@
 ## Pre-requisites
 You need to have NodeJS and Docker installed on your computer to run MegaLinter locally with MegaLinter Runner.
 
-https://nodejs.org/en/  
-https://www.docker.com/
+<https://nodejs.org/en/>  
+<https://www.docker.com/>
 
 ## Global installation
 
