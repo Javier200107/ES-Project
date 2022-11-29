@@ -4,6 +4,7 @@ import { PostCreationService } from "../../services/post-creation.service";
 import { NewPostForm } from "../../models/NewPostForm";
 import {SessionService} from "../../services/session.service";
 import {Post} from "../../models/Post";
+import { NewPostForm } from '../../models/NewPostForm'
 
 @Component({
   selector: 'app-create-post',
@@ -11,6 +12,7 @@ import {Post} from "../../models/Post";
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent implements OnInit {
+
   @Input() token!: string;
   public postForm!: FormGroup;
   post_content!: string;
@@ -31,6 +33,7 @@ export class CreatePostComponent implements OnInit {
     }
     const postContent: NewPostForm = {
       text: this.post_content,
+
     }
     this.postCreator.createPost(postContent, this.token).subscribe((newPost: Post) =>{
       this.newPost = newPost;
@@ -38,14 +41,12 @@ export class CreatePostComponent implements OnInit {
       console.log(error);
     })
 
-
-
-    this.post_content = '';
+    this.post_content = ''
   }
 
-  private buildForm() {
+  private buildForm () {
     this.postForm = this.formBuilder.group({
       postText: ['']
-    });
+    })
   }
 }

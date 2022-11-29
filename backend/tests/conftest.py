@@ -1,56 +1,65 @@
-from datetime import datetime
-
 import pytest
-from app import app
+from app import app as my_app
 from backend.db import db
-from backend.models.accounts import AccountsModel
-from sqlalchemy import delete
+from flask.testing import FlaskClient
 
 
-@pytest.fixture(scope="session")
-def flask_app():
-    my_app = app
-    my_app.config.update(
-        {
-            "TESTING": True,
+class CustomClient(FlaskClient):
+    def __init__(self, *args, **kwargs):
+        super(CustomClient, self).__init__(*args, **kwargs)
+        self.account = {}
+        self.accountToken = ""
+
+    def _setAuthHeader(self, kwargs):
+        if self.accountToken:
+            kwargs.setdefault("headers", {})
+            kwargs["headers"].update({"Authorization": f"Bearer {self.accountToken}"})
+
+    def open(self, *args, **kwargs):
+        if "method" in kwargs and kwargs["method"] in ("GET", "POST", "PUT", "DELETE"):
+            self._setAuthHeader(kwargs)
+        return super().open(*args, **kwargs)
+
+    def loginAs(self, account):
+        self.account = account.copy()
+        login = {
+            "username": self.account["username"],
+            "password": self.account["password"],
         }
-    )
-    client = my_app.test_client()
-    ctx = my_app.test_request_context()
 
-    ctx.push()
+        response = super().post("/login", json=login)
+        if response.json and "token" in response.json:
+            self.accountToken = response.json["token"]
 
-    yield client
-
-    ctx.pop()
+    def logOut(self):
+        self.accountToken = ""
 
 
-@pytest.fixture(scope="session")
-def app_with_db(flask_app):
-    db.create_all()
+@pytest.fixture()
+def flask_app():
+    app = my_app
+    app.config.update({"TESTING": True})
 
-    yield flask_app
+    if app.config["PRODUCTION"]:
+        raise AssertionError(
+            "Running the tests using the production PostgresSQL DB on Azure it's not recommended, "
+            "because it's slow and the available number of queries is limited."
+        )
 
-    db.session.close()
-    db.drop_all()
+    # Setup
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+
+    with app.app_context():
+        yield app
+
+    # Cleanup
+    with app.app_context():
+        db.drop_all()
 
 
-@pytest.fixture
-def app_with_data(app_with_db):
-    account = AccountsModel(
-        nom="Fernand",
-        cognom="Alonso",
-        email="fernandete@gmail.com",
-        username="fernandito1",
-        datan=datetime.strptime("1980-12-12", "%Y-%m-%d"),
-        is_admin=0,
-    )
-    account.hash_password("alonsete2042343")
-    db.session.add(account)
-
-    db.session.commit()
-
-    yield app_with_db
-
-    db.session.execute(delete(AccountsModel))
-    db.session.commit()
+@pytest.fixture()
+def client(flask_app):
+    flask_app.test_client_class = CustomClient
+    return flask_app.test_client()

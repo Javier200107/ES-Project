@@ -11,14 +11,14 @@
   flex-direction: column;
   align-content: center;
   justify-content: center;
-  padding: 15px 110px 70px 110px;
+  padding: 15px 110px 70px;
   border-width: 1px;
   border-style: solid;
   border-radius: 15px;
   border-color: #1a1a1a;
 }
 
-.backFormButton{
+.backFormButton {
   position: absolute;
   top: 20px;
   left: 20px;
@@ -29,20 +29,21 @@
   transition: background-color;
   transition-duration: 1s;
 }
+
 .backFormButton:hover {
   background-color: #131313;
   opacity: 0.9;
 }
+
 .backFormButton:active {
   opacity: 0.7;
 }
-
 
 .tw-logo {
   width: 40px;
 }
 
-.register-title{
+.register-title {
   font-size: 30px;
   margin-bottom: 40px;
   font-weight: 700;
@@ -94,7 +95,6 @@
   padding: 8px;
   border-radius: 20px;
   cursor: pointer;
-
   transition: background-color;
   transition-duration: 1s;
 }
@@ -138,9 +138,8 @@
   margin-top: 10px;
 }
 
-.radio-btn{
+.radio-btn {
   font-size: 12px;
   margin: 2px;
   padding: 0;
 }
-

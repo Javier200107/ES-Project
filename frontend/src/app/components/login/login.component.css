@@ -7,27 +7,29 @@
   padding-bottom: 150px;
 }
 
-.login_card{
-   display: flex;
-   flex-direction: column;
-   width: min-content;
-   height: 100%;
-   padding: 35px;
-   margin-bottom: 20px;
-   background-color: var(--primary);
+.login_card {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  height: 100%;
+  padding: 35px;
+  margin-bottom: 20px;
+  background-color: var(--primary);
 }
 
-.title{
+.title {
   padding-bottom: 15px;
   align-self: center;
   color: var(--secondary);
 }
-.labels_inputs{
+
+.labels_inputs {
   color: var(--background);
 }
+
 .settings_inputs {
   width: content-box;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   background-color: var(--primary) !important;
 }
 
@@ -46,8 +48,8 @@
 }
 
 .container_login_button {
-   display: flex;
-   flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .or {

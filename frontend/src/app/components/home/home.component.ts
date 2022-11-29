@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import {Post} from "../../models/Post";
 import { HomeFeedService } from "../../services/home-feed.service";
@@ -12,7 +13,6 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
   posts: Post[] = []
   numInitialPosts = 25;
   postsPerLoad = 10;
@@ -28,16 +28,17 @@ export class HomeComponent implements OnInit {
         }
       );
     console.log('token', this.token)
+
   }
 
-  ngOnInit(): void {
-    this.demanarPost();
+  ngOnInit (): void {
+    this.demanarPost()
   }
 
-  demanarPost(){
-    let requestParams = {
-      "limit": this.postsPerLoad,
-      "offset": this.currentPost,
+  demanarPost () {
+    const requestParams = {
+      limit: this.postsPerLoad,
+      offset: this.currentPost
     }
     // @ts-ignore
     this.homeFeed.getPostsFrom(requestParams, this.token).subscribe((newPosts: Object) => {
@@ -50,24 +51,21 @@ export class HomeComponent implements OnInit {
     }, (error: any) => {
       console.log(error);
     })
-
   }
 
-
-
-  mockPosts(){
+  mockPosts () {
     const newPost: Post = {
       id: 12,
-      text: "This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds",
-      time: "2022-10-02",
-      archived: false,
+      text: 'This is mock content for testing purposes testing testing 1231 23fdsfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfsdsfd vsdsfdsfds',
+      time: '2022-10-02',
+      archived: 0,
       account_id: 12,
-      account_name: "kermit",
-      parent_id: 12
-    };
+      account_name: 'kermit',
+      parent_id: 12,
+      accounts_like: []
+    }
     this.posts.push(newPost)
     this.posts.push(newPost)
     this.posts.push(newPost)
   }
-
 }

@@ -1,5 +1,4 @@
-import { TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing'
 import { SessionService } from './session.service';
 import {User} from "../models/User";
 import {HttpClient} from "@angular/common/http";
@@ -8,10 +7,11 @@ import {of} from "rxjs";
 describe('SessionService', () => {
   let service: SessionService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
+
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SessionService);
-  });
+    TestBed.configureTestingModule({})
+    service = TestBed.inject(SessionService)
+  })
 
   it('should be created', () => {
     expect(service).toBeTruthy();

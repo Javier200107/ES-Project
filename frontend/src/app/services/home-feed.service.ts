@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { Post} from "../models/Post";
 import {UserLogin} from "../models/UserLogin";
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class HomeFeedService {
+  constructor (private http:HttpClient) { }
 
   constructor(private http:HttpClient) { }
 
@@ -25,6 +25,6 @@ export class HomeFeedService {
 
     // @ts-ignore
     return this.http.get<Object>(`${environment.baseApiUrl}/posts`, httpOptions)
-  }
 
+  }
 }
