@@ -1,4 +1,4 @@
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 from backend.lock import lock
 from backend.models.accounts import AccountsModel, auth, g
@@ -35,6 +35,8 @@ class Follow(Resource):
         if acc1 and acc2:
             follow = acc1.followers
             following = acc2.following
+            if (acc1.id == acc2.id):
+                return {'message': "An account cannot follow itself"}, 404
             if follow:
                 for i in follow:
                     if i.id == acc2.id:
@@ -108,3 +110,26 @@ class ListFollowing(Resource):
             return {'ListFollowing': [f.json() for f in acc.following]}, 200
         else:
             return {'message': "Account [{}] doesn't exist".format(account)}, 404
+
+
+class PostsFollowing(Resource):
+    @auth.login_required()
+    def get(self, user=None):
+        parser = reqparse.RequestParser()
+        parser.add_argument("limit", type=int, required=True, nullable=False, help={"Number of posts to retrieve"},
+                            location='args')
+        parser.add_argument("offset", type=int, required=True, nullable=False, help={"Number of posts to skip"},
+                            location='args')
+        data = parser.parse_args()
+        if (user == None):
+            us = g.user;
+        else:
+            us = AccountsModel.get_by_username(user)
+        if (us):
+            posts = us.followed_posts_and_self(data["limit"], data["offset"])
+            if (posts):
+                return {"posts": [post.json() for post in posts]}, 200
+            else:
+                return {"message": "No posts were found"}, 404
+        else:
+            return {"message": "User not found"}, 404

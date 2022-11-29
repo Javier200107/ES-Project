@@ -1,5 +1,7 @@
 import time
 
+from sqlalchemy.orm import object_session, aliased
+from backend.models.posts import PostsModel
 from backend.db import db
 from flask import current_app, g
 from flask_httpauth import HTTPTokenAuth
@@ -68,6 +70,17 @@ class AccountsModel(db.Model):
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
+
+    def followed_posts_and_self(self,number,off):
+        user_id = self.id
+        Poster = aliased(AccountsModel, name="poster")
+        return ((
+            object_session(self)
+            .query(PostsModel)
+            .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
+            .filter(Poster.followers.any(AccountsModel.id == user_id))
+            ).union(PostsModel.query.filter_by(account_id=user_id)).order_by(PostsModel.time).limit(number)
+            .offset(off))
 
     @classmethod
     def get_by_username(cls, username):

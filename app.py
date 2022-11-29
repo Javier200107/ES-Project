@@ -4,7 +4,7 @@ from backend.resources.accounts import Accounts
 from backend.resources.login import Login
 from backend.resources.posts import Posts, UserPosts
 from backend.resources.like import Like, ListPostLikes, ListUserLikes
-from backend.resources.follow import Follow, ListFollows, ListFollowing
+from backend.resources.follow import Follow,ListFollows,ListFollowing,PostsFollowing
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -37,6 +37,7 @@ api.add_resource(ListUserLikes, "/likeUlist/<int:userid>", "/likeUlist/")
 api.add_resource(Follow, "/follow/<string:account1>/<string:account2>", "/follow/<string:account1>")
 api.add_resource(ListFollows, "/followList/<string:account>", "/followList/")
 api.add_resource(ListFollowing, "/followingList/<string:account>", "/followingList/")
+api.add_resource(PostsFollowing, "/followingPosts/","/followingPosts/<string:user>")
 
 
 @app.route("/")
