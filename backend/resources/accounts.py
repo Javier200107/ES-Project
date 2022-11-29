@@ -6,33 +6,59 @@ from flask_restful import Resource, reqparse
 
 
 class Accounts(Resource):
-
     @auth.login_required()
     def get(self, username):
         account = AccountsModel.get_by_username(username)
         if account:
             return {"account": account.json()}, 200
-        return {'message': f"Could not find an account with username [{username}]"}, 404
+        return {"message": f"Could not find an account with username [{username}]"}, 404
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("username", type=str, required=True, nullable=False, help="nom d'usuari")
-        parser.add_argument("password", type=str, required=True, nullable=False, help="contrasenya")
-        parser.add_argument("email", type=str, required=True, nullable=False, help="correu electrònic")
+        parser.add_argument(
+            "username", type=str, required=True, nullable=False, help="nom d'usuari"
+        )
+        parser.add_argument(
+            "password", type=str, required=True, nullable=False, help="contrasenya"
+        )
+        parser.add_argument(
+            "email", type=str, required=True, nullable=False, help="correu electrònic"
+        )
         parser.add_argument("nom", type=str, required=True, nullable=False, help="nom")
-        parser.add_argument("cognom", type=str, required=True, nullable=False, help="cognom")
-        parser.add_argument("birthdate", type=str, required=True, nullable=False, help="data de naixement")
-        parser.add_argument("is_admin", type=int, required=False, nullable=False, default=0, help="admin")
+        parser.add_argument(
+            "cognom", type=str, required=True, nullable=False, help="cognom"
+        )
+        parser.add_argument(
+            "birthdate",
+            type=str,
+            required=True,
+            nullable=False,
+            help="data de naixement",
+        )
+        parser.add_argument(
+            "is_admin",
+            type=int,
+            required=False,
+            nullable=False,
+            default=0,
+            help="admin",
+        )
         data = parser.parse_args()
 
         with lock.lock:
             if AccountsModel.get_by_username(data["username"]):
-                return {'message': "An account with this username already exists!"}, 409
+                return {"message": "An account with this username already exists!"}, 409
             if AccountsModel.get_by_email(data["email"]):
-                return {'message': "An account with this email already exists!"}, 409
+                return {"message": "An account with this email already exists!"}, 409
             try:
-                new_account = AccountsModel(data["username"], data["email"], data["nom"], data["cognom"],
-                                            datetime.strptime(data["birthdate"], "%Y-%m-%d"), data["is_admin"])
+                new_account = AccountsModel(
+                    data["username"],
+                    data["email"],
+                    data["nom"],
+                    data["cognom"],
+                    datetime.strptime(data["birthdate"], "%Y-%m-%d"),
+                    data["is_admin"],
+                )
                 new_account.hash_password(data["password"])
                 new_account.save_to_db()
             except Exception:

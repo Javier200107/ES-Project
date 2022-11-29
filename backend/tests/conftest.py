@@ -1,12 +1,10 @@
 import pytest
-from flask.testing import FlaskClient
-
 from app import app as my_app
 from backend.db import db
+from flask.testing import FlaskClient
 
 
 class CustomClient(FlaskClient):
-
     def __init__(self, *args, **kwargs):
         super(CustomClient, self).__init__(*args, **kwargs)
         self.account = {}
@@ -24,7 +22,10 @@ class CustomClient(FlaskClient):
 
     def loginAs(self, account):
         self.account = account.copy()
-        login = {"username": self.account["username"], "password": self.account["password"]}
+        login = {
+            "username": self.account["username"],
+            "password": self.account["password"],
+        }
 
         response = super().post("/login", json=login)
         if response.json and "token" in response.json:
@@ -40,8 +41,10 @@ def flask_app():
     app.config.update({"TESTING": True})
 
     if app.config["PRODUCTION"]:
-        raise AssertionError("Running the tests using the production PostgresSQL DB on Azure it's not recommended, "
-                             "because it's slow and the available number of queries is limited.")
+        raise AssertionError(
+            "Running the tests using the production PostgresSQL DB on Azure it's not recommended, "
+            "because it's slow and the available number of queries is limited."
+        )
 
     # Setup
     with app.app_context():

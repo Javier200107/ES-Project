@@ -1,19 +1,21 @@
 import time
 
-from sqlalchemy.orm import object_session, aliased
-from backend.models.posts import PostsModel
 from backend.db import db
+from backend.models.posts import PostsModel
 from flask import current_app, g
 from flask_httpauth import HTTPTokenAuth
 from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
 from passlib.apps import custom_app_context as pwd_context
+from sqlalchemy.orm import aliased, object_session
 
 auth = HTTPTokenAuth(scheme="Bearer")
 
 user_following = db.Table(
-    'user_following',
-    db.Column('user_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
-    db.Column('following_id', db.Integer, db.ForeignKey("accounts.id"), primary_key=True)
+    "user_following",
+    db.Column("user_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
+    db.Column(
+        "following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True
+    ),
 )
 
 
@@ -32,10 +34,11 @@ class AccountsModel(db.Model):
     posts = db.relationship("PostsModel", back_populates="account")
 
     following = db.relationship(
-        'AccountsModel', lambda: user_following,
+        "AccountsModel",
+        lambda: user_following,
         primaryjoin=lambda: AccountsModel.id == user_following.c.user_id,
         secondaryjoin=lambda: AccountsModel.id == user_following.c.following_id,
-        backref='followers'
+        backref="followers",
     )
 
     def __init__(self, username, email, nom, cognom, birth, is_admin=0):
@@ -55,8 +58,8 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
-            'followers': [t.id for t in self.followers],
-            'following': [t.id for t in self.following]
+            "followers": [t.id for t in self.followers],
+            "following": [t.id for t in self.following],
         }
 
     def save_to_db(self):
@@ -71,16 +74,21 @@ class AccountsModel(db.Model):
         db.session.rollback(self)
         db.session.commit()
 
-    def followed_posts_and_self(self,number,off):
+    def followed_posts_and_self(self, number, off):
         user_id = self.id
         Poster = aliased(AccountsModel, name="poster")
-        return ((
-            object_session(self)
-            .query(PostsModel)
-            .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
-            .filter(Poster.followers.any(AccountsModel.id == user_id))
-            ).union(PostsModel.query.filter_by(account_id=user_id)).order_by(PostsModel.time).limit(number)
-            .offset(off))
+        return (
+            (
+                object_session(self)
+                .query(PostsModel)
+                .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
+                .filter(Poster.followers.any(AccountsModel.id == user_id))
+            )
+            .union(PostsModel.query.filter_by(account_id=user_id))
+            .order_by(PostsModel.time)
+            .limit(number)
+            .offset(off)
+        )
 
     @classmethod
     def get_by_username(cls, username):
