@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
       account_id: 12,
       account_name: 'kermit',
       parent_id: 12,
-      accounts_like: [],
+      accounts_like: []
     }
     this.posts.push(newPost)
     this.posts.push(newPost)

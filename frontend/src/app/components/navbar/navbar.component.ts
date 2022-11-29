@@ -22,8 +22,8 @@ export class NavbarComponent implements OnInit {
   constructor (private router : Router, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
-        this.user = params["user"]
-        this.token = params["token"]
+        this.user = params.user
+        this.token = params.token
       }
       )
   }
