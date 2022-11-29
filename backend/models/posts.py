@@ -15,8 +15,8 @@ class PostsModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(280), unique=False, nullable=False)
-    time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    archived = db.Column(db.Boolean, nullable=False, default=False)
+    time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    archived = db.Column(db.Integer, nullable=False, default=0)
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
@@ -69,13 +69,12 @@ class PostsModel(db.Model):
 
     @classmethod
     def get_groups(cls, number, off):
-        return cls.query.order_by(cls.time).limit(number).offset(off)
+        return cls.query.order_by(cls.time.desc()).limit(number).offset(off).all()
 
     @classmethod
-    def get_groups_by_account(cls, account_id, number, off):
-        return (
-            cls.query.filter_by(account_id=account_id)
-            .order_by(cls.time)
-            .limit(number)
-            .offset(off)
-        )
+    def get_groups_by_account(cls, account_id, number, off, archived):
+        if archived is None:
+            q = cls.query.filter_by(account_id=account_id)
+        else:
+            q = cls.query.filter_by(account_id=account_id, archived=archived)
+        return q.order_by(cls.time.desc()).limit(number).offset(off).all()

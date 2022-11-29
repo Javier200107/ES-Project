@@ -24,6 +24,9 @@ def test_getUserPosts(client):
     assert response.status_code == 200
     assert len(response.json["posts"]) == 1
 
+    response = client.get(f"/uposts/{username}?limit=10&offset=0&archived=1")
+    assert response.status_code == 404
+
 
 def test_getPosts(client):
     createPosts(client)
@@ -32,6 +35,7 @@ def test_getPosts(client):
     response = client.get("/posts?limit=10&offset=0")
     assert response.status_code == 200
     assert len(response.json["posts"]) == 2
+    assert response.json["posts"][0]["parent_id"] is not None  # most recent post is first in the list
 
 
 def test_createPost(client):

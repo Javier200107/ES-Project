@@ -39,7 +39,7 @@ class Posts(Resource):
     @auth.login_required()
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument("archived", type=bool, required=True, nullable=False, help={"Archive post"})
+        parser.add_argument("archived", type=bool, required=True, nullable=False, help={"Archive the post"})
         data = parser.parse_args()
 
         with lock.lock:
@@ -74,18 +74,18 @@ class UserPosts(Resource):
     @auth.login_required()
     def get(self, user=None):
         parser = reqparse.RequestParser()
-        parser.add_argument("limit", type=int, required=True, nullable=False, help={"Number of posts to retrieve"}, location='args')
-        parser.add_argument("offset", type=int, required=True, nullable=False, help={"Number of posts to skip"}, location='args')
+        parser.add_argument("limit", type=int, required=False, nullable=False, default=100, location='args')
+        parser.add_argument("offset", type=int, required=False, nullable=False, default=0, location='args')
+        parser.add_argument("archived", type=int, required=False, nullable=True, default=None, location='args')
         data = parser.parse_args()
-        if user is None:
-            us = g.user
-        else:
-            us = AccountsModel.get_by_username(user)
-        if us:
-            posts = PostsModel.get_groups_by_account(us.id, data["limit"], data["offset"])
-            if posts:
-                return {"posts": [post.json() for post in posts]}, 200
-            else:
-                return {"message": "No posts were found"}, 404
-        else:
+
+        account = g.user if user is None else AccountsModel.get_by_username(user)
+        if not account:
             return {"message": "User not found"}, 404
+        if account.id != g.user.id and data["archived"]:
+            return {"message": "Archived posts can only be seen by the owner"}, 403
+
+        posts = PostsModel.get_groups_by_account(account.id, data["limit"], data["offset"], data["archived"])
+        if posts:
+            return {"posts": [post.json() for post in posts]}, 200
+        return {"message": "No posts were found"}, 404
