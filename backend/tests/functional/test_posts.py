@@ -1,25 +1,67 @@
-def _getUserToken(api):
-    login = {"username": "fernandito1", "password": "alonsete2042343"}
-
-    response = api.post("/login", json=login)
-    return response.json["token"]
+from backend.data import data_accounts, data_posts
 
 
-def test_getuserPosts(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"limit": 10, "offset": 0}
-    response = app_with_data.get("/uposts/fernandito1", json=data, auth=(token, ""))
-    assert response.status_code == 200 and len(response.json["posts"]) == 2
+def createPosts(client):
+    account1, account2 = data_accounts[0], data_accounts[1]
+    client.post("/account", json=account1)
+    client.post("/account", json=account2)
 
-def test_getPosts(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"limit": 10, "offset": 0}
-    response = app_with_data.get("/posts", json=data, auth=(token, ""))
-    assert response.status_code == 200 and len(response.json["posts"]) == 2
+    client.loginAs(account1)
+    post = client.post("/posts", json=data_posts[0]).json["post"]
 
-def test_createPost(app_with_data):
-    token = _getUserToken(app_with_data)
-    data = {"text": "New cool post", "parent_id": None}
+    client.loginAs(account2)
+    post2 = data_posts[1]
+    post2.update({"parent_id": post["id"]})
+    assert client.post("/posts", json=post2).status_code == 201
 
-    response = app_with_data.post("/posts", json=data, auth=(token, ""))
-    assert response.status_code == 201
+
+def test_getUserPosts(client):
+    createPosts(client)
+    client.loginAs(data_accounts[0])
+    username = data_accounts[0]["username"]
+
+    response = client.get(f"/uposts/{username}?limit=10&offset=0")
+    assert response.status_code == 200
+    assert len(response.json["posts"]) == 1
+
+    response = client.get(f"/uposts/{username}?limit=10&offset=0&archived=1")
+    assert response.status_code == 404
+
+
+def test_getPosts(client):
+    createPosts(client)
+    client.loginAs(data_accounts[0])
+
+    response = client.get("/posts?limit=10&offset=0")
+    assert response.status_code == 200
+    assert len(response.json["posts"]) == 2
+    assert (
+        response.json["posts"][0]["parent_id"] is not None
+    )  # most recent post is first in the list
+
+
+def test_createPost(client):
+    createPosts(client)
+
+
+def test_updatePost(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+    username = data_accounts[0]["username"]
+
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+
+    response = client.put(f"/posts/{post['id']}", json={"archived": True})
+    assert response.status_code == 200
+    assert client.get(f"/uposts/{username}?limit=10&offset=0").json["posts"][0][
+        "archived"
+    ]
+
+
+def test_deletePost(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    assert client.delete(f"/posts/1").status_code == 404
+    post = client.post("/posts", json=data_posts[0]).json["post"]
+    assert client.delete(f"/posts/{post['id']}").status_code == 200

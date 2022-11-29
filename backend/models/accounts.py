@@ -1,12 +1,22 @@
 import time
 
 from backend.db import db
+from backend.models.posts import PostsModel
 from flask import current_app, g
-from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
 from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
 from passlib.apps import custom_app_context as pwd_context
+from sqlalchemy.orm import aliased, object_session
 
-auth = HTTPBasicAuth(scheme="Bearer")
+auth = HTTPTokenAuth(scheme="Bearer")
+
+user_following = db.Table(
+    "user_following",
+    db.Column("user_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
+    db.Column(
+        "following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True
+    ),
+)
 
 
 class AccountsModel(db.Model):
@@ -21,14 +31,22 @@ class AccountsModel(db.Model):
     password = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Integer, nullable=False)
 
-    textposts = db.relationship("TextPostModel", back_populates="account")
+    posts = db.relationship("PostsModel", back_populates="account")
 
-    def __init__(self, username, email, nom, datan, cognom, is_admin=0):
+    following = db.relationship(
+        "AccountsModel",
+        lambda: user_following,
+        primaryjoin=lambda: AccountsModel.id == user_following.c.user_id,
+        secondaryjoin=lambda: AccountsModel.id == user_following.c.following_id,
+        backref="followers",
+    )
+
+    def __init__(self, username, email, nom, cognom, birth, is_admin=0):
         self.username = username
         self.email = email
         self.nom = nom
         self.cognom = cognom
-        self.birth = datan
+        self.birth = birth
         self.is_admin = is_admin
 
     def json(self):
@@ -40,6 +58,8 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
+            "followers": [t.id for t in self.followers],
+            "following": [t.id for t in self.following],
         }
 
     def save_to_db(self):
@@ -50,9 +70,37 @@ class AccountsModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    def rollback(self):
+        db.session.rollback(self)
+        db.session.commit()
+
+    def followed_posts_and_self(self, number, off):
+        user_id = self.id
+        Poster = aliased(AccountsModel, name="poster")
+        return (
+            (
+                object_session(self)
+                .query(PostsModel)
+                .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
+                .filter(Poster.followers.any(AccountsModel.id == user_id))
+            )
+            .union(PostsModel.query.filter_by(account_id=user_id))
+            .order_by(PostsModel.time)
+            .limit(number)
+            .offset(off)
+        )
+
     @classmethod
     def get_by_username(cls, username):
-        return AccountsModel.query.filter_by(username=username).first()
+        return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
     def get_all(cls):
@@ -86,8 +134,8 @@ class AccountsModel(db.Model):
         return user
 
 
-@auth.verify_password
-def verify_password(token, password):
+@auth.verify_token
+def verify_token(token):
     account = AccountsModel.verify_auth_token(token)
     if account is not None:
         g.user = account
