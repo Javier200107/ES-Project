@@ -5,5 +5,6 @@ export interface Post {
   archived: boolean;
   account_id: number;
   account_name: string;
-  parent_id?: number
+  parent_id?: number;
+  accounts_like:[];
 }
