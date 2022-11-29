@@ -19,8 +19,8 @@ export class ProfileComponent implements OnInit {
   constructor (private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
-        this.user = params['user']
-        this.token = params['token']
+        this.user = params.user
+        this.token = params.token
       }
       )
   }
