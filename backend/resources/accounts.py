@@ -6,6 +6,7 @@ from flask_restful import Resource, reqparse
 
 
 class Accounts(Resource):
+
     @auth.login_required()
     def get(self, username):
         account = AccountsModel.get_by_username(username)
@@ -79,3 +80,18 @@ class Accounts(Resource):
         except Exception:
             return {"message": "An error occurred deleting the account."}, 500
         return {"message": "Account deleted successfully!"}, 200
+
+
+class AccountsList(Resource):
+
+    @auth.login_required()
+    def get(self, username):
+        parser = reqparse.RequestParser()
+        parser.add_argument("limit", type=int, required=False, nullable=False, default=100, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, default=0, location="args")
+        data = parser.parse_args()
+
+        accounts = AccountsModel.get_like_username(username, data['limit'], data['offset'])
+        if accounts:
+            return {"accounts": [account.username for account in accounts]}, 200
+        return {"message": f"Could not find any account username matching [{username}]"}, 404

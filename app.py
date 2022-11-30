@@ -1,6 +1,6 @@
 from backend.config import environment
 from backend.db import db
-from backend.resources.accounts import Accounts
+from backend.resources.accounts import Accounts, AccountsList
 from backend.resources.follow import Follow, ListFollowing, ListFollows, PostsFollowing
 from backend.resources.like import Like, ListPostLikes, ListUserLikes
 from backend.resources.login import Login
@@ -29,6 +29,7 @@ api = Api(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 api.add_resource(Accounts, "/account/<string:username>", "/account")
+api.add_resource(AccountsList, "/accounts/search/<string:username>")
 api.add_resource(Login, "/login")
 api.add_resource(Posts, "/posts/<int:id>", "/posts")
 api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")

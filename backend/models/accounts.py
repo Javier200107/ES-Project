@@ -1,5 +1,7 @@
 import time
 
+from sqlalchemy import func
+
 from backend.db import db
 from backend.models.posts import PostsModel
 from flask import current_app, g
@@ -93,6 +95,11 @@ class AccountsModel(db.Model):
     @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_like_username(cls, username, number, off):
+        q = cls.query.filter(cls.username.like(f"%{username}%"))
+        return q.order_by(func.lower(cls.username)).limit(number).offset(off).all()
 
     @classmethod
     def get_by_email(cls, email):
