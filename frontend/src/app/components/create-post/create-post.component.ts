@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { PostCreationService } from "../../services/post-creation.service";
 import { NewPostForm } from "../../models/NewPostForm";
-import {SessionService} from "../../services/session.service";
 import {Post} from "../../models/Post";
 
 @Component({
