@@ -6,6 +6,7 @@ from flask import current_app, g
 from flask_httpauth import HTTPTokenAuth
 from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
 from passlib.apps import custom_app_context as pwd_context
+from sqlalchemy import func
 from sqlalchemy.orm import aliased, object_session
 
 auth = HTTPTokenAuth(scheme="Bearer")
@@ -93,6 +94,11 @@ class AccountsModel(db.Model):
     @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_like_username(cls, username, number, off):
+        q = cls.query.filter(cls.username.like(f"%{username}%"))
+        return q.order_by(func.lower(cls.username)).limit(number).offset(off).all()
 
     @classmethod
     def get_by_email(cls, email):

@@ -4,11 +4,9 @@
   </div>
 
   <div class="feed">
-    <div class="home-title">Home</div>
+    <div class="home-title"><h1>Community</h1></div>
 
-    <app-create-post [token]="token" (newPostEvent)="addPost($event)" ></app-create-post>
-
-    <div *ngFor="let post of posts">
+    <div *ngFor="let post of posts2">
       <app-post [postInfo]="post" ></app-post>
     </div>
   </div>
@@ -19,4 +17,5 @@
   </div>
 
 </div>
+
 

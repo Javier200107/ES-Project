@@ -61,7 +61,7 @@ class Posts(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument(
             "archived",
-            type=bool,
+            type=int,
             required=True,
             nullable=False,
             help={"Archive the post"},
