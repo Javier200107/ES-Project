@@ -8,15 +8,13 @@
 	  </div>
   </div>
   <div class="container_" style="margin-top: 230px">
-    <mat-tab-group>
+    <div class="mat-action-row">
+      <h1>{{idUser}}</h1>
+    </div>
+    <mat-tab-group style="width: 500px">
       <mat-tab label="Posts">
-        <div *ngFor="let post of posts">
-          <app-post [postInfo]="post" ></app-post>
-        </div>
-      </mat-tab>
-      <mat-tab label="Archived posts">
-        <div *ngFor="let post of posts">
-          <app-post [postInfo]="post" ></app-post>
+        <div *ngFor="let post of postsUser">
+          <app-post [postInfo]="post"></app-post>
         </div>
       </mat-tab>
     </mat-tab-group>

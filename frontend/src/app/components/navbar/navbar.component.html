@@ -16,6 +16,10 @@
       <a [routerLink]="'#'" class="nav-link {{active_saved}} form-select col_ disabled" (click)="areActive('saved')" >
         <i class="bi bi-bookmark-heart icons disabled"></i>Saved</a>
     </li>
+    <li class="options-menu">
+      <a [routerLink]="'#'" class="nav-link {{active_user}} form-select col_" (click)="areActive('profileUser')" >
+        <i class="bi bi-person-circle icons"></i>Username - {{nameUser}}</a>
+    </li>
     <span class="flexExpand"></span>
   </ul>
   <hr class="divisor">

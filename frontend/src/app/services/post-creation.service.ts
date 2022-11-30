@@ -13,7 +13,15 @@ import {ArchivedPost} from "../models/ArchivedPost";
   providedIn: 'root'
 })
 export class PostCreationService {
-  constructor (private http:HttpClient) { }
+
+  headers = new HttpHeaders(
+    {
+      'Content-Type': 'application/json',
+    }
+  )
+
+  constructor (private http:HttpClient) {
+  }
 
   createPost(newPost:NewPostForm, token:String): Observable<Post> {
     console.log(newPost)
@@ -85,13 +93,9 @@ export class PostCreationService {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }),
-      params: {
-        limit: 10,
-        offset: 0,
-        archived: 0
-      }
     }
     console.log("La URL es "+ `${environment.baseApiUrl}/uposts/${idUser}`)
+    console.log("El token es "+token)
     return this.http.get<GetPost>(`${environment.baseApiUrl}/uposts/${idUser}`,
       headerOptions
     )
