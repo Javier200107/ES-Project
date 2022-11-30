@@ -9,7 +9,6 @@ import {UserLogin} from "../models/UserLogin";
   providedIn: 'root'
 })
 export class HomeFeedService {
-  constructor (private http:HttpClient) { }
 
   constructor(private http:HttpClient) { }
 

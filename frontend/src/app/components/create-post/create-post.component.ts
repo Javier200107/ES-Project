@@ -4,7 +4,6 @@ import { PostCreationService } from "../../services/post-creation.service";
 import { NewPostForm } from "../../models/NewPostForm";
 import {SessionService} from "../../services/session.service";
 import {Post} from "../../models/Post";
-import { NewPostForm } from '../../models/NewPostForm'
 
 @Component({
   selector: 'app-create-post',
