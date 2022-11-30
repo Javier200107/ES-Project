@@ -14,6 +14,8 @@ export class ProfileUserComponent implements OnInit {
   user!: string
   token!: string
   idUser!: string
+  nameButton!: string
+  numSeguidores!: number
 
   constructor(private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
@@ -23,10 +25,49 @@ export class ProfileUserComponent implements OnInit {
         this.idUser = params["idUser"]
       }
       )
-    this.getPostsUser()
   }
 
   ngOnInit(): void {
+    this.nameButton = "Follow"
+    this.getPostsUser()
+    this.isFollow()
+    this.numFollowings()
+  }
+
+  isFollow() {
+    this.postCreationService.isFollowUser(this.idUser, this.token).subscribe(
+      (result) => {
+        if(result.message != `Account [${this.idUser}] doesn't follow any account`) {
+          this.nameButton = "UnFollow"
+        }
+      }
+    )
+  }
+
+  numFollowings() {
+    this.postCreationService.followList(this.idUser, this.token).subscribe(
+      (result) => {
+          this.numSeguidores = result.ListFollows.length
+      }
+    )
+  }
+
+  unFollowOrFollow() {
+      if(this.nameButton == "Follow"){
+          this.postCreationService.follow(this.idUser, this.token).subscribe(
+          (result) => {
+              this.nameButton = "unFollow"
+              this.numFollowings()
+          }
+          )
+      } else {
+        this.postCreationService.unfollow(this.idUser, this.token).subscribe(
+          (result) => {
+              this.nameButton = "Follow"
+              this.numFollowings()
+          }
+          )
+      }
   }
 
   getPostsUser () {
