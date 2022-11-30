@@ -82,26 +82,25 @@ export class RegisterComponent implements OnInit {
       cognom: this.surname,
       birthdate: this.birthdate,
       is_admin: false
-    }
+    };
 
-    this.username = ''
-    this.email = ''
-    this.password = ''
-    this.name = ''
-    this.surname = ''
-    this.birthdate = ''
+    this.username = '';
+    this.email = '';
+    this.password = '';
+    this.name = '';
+    this.surname = '';
+    this.birthdate = '';
 
-    this.sessionService.register(newUser).subscribe((user) => {
-      if (user) {
-        this.sessionUser = user
-        console.log('Session User', this.sessionUser)
-      }
-    },
-    err => {
-      console.error('Error: status = ', err.status, ' and statusText = ', err.statusText),
-      alert('Error on Register')
-    },
-    () => this.router.navigate(['/home']))
+    this.sessionService.register(newUser).subscribe(
+      (user) =>
+      {
+          if (user) {
+          this.sessionUser=user
+          console.log('Session User', this.sessionUser)
+        }},
+      err => {console.error('Error: status = ', err.status, " and statusText = ", err.statusText),
+        alert('Error on Register');},
+      () => this.router.navigate(['/login']));
   }
 
   private buildForm () {

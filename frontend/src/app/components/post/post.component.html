@@ -7,7 +7,7 @@
   <div class="post-content-side">
 
     <div class="content-title">
-      <span class="user-nickname">{{postInfo.account_name}}</span>
+      <span class="user-nickname" (click)="goToProfileUser(postInfo.account_name)">{{postInfo.account_name}}</span>
       <span class="username"> @{{postInfo.account_name}}</span>
     </div>
 
@@ -39,8 +39,8 @@
       </div>
 
       <div class="media-container">
-        <div class="media-btn btn-up">
-          <div class="material-icons media-icon">upload</div>
+        <div class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
+          <div class="material-icons media-icon">archived</div>
         </div>
       </div>
 

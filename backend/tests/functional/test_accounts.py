@@ -33,3 +33,20 @@ def test_delete_user(client):
 
     assert client.delete(f"/account/{username}").status_code == 200
     assert client.delete(f"/account/{username}").status_code == 401
+
+
+def test_find_user(client):
+    account = data_accounts[0].copy()
+    usernames = ["Clex", "Alex", "Blex", "blex", "ferr", "124jt"]
+
+    for user in usernames:
+        account["username"], account["email"] = user, user
+        client.post("/account", json=account)
+
+    client.loginAs(account)
+    assert client.get("/accounts/search/LeX").json["accounts"] == [
+        "Alex",
+        "Blex",
+        "blex",
+        "Clex",
+    ]
