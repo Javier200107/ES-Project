@@ -1,13 +1,12 @@
 import time
 
-from sqlalchemy import func
-
 from backend.db import db
 from backend.models.posts import PostsModel
 from flask import current_app, g
 from flask_httpauth import HTTPTokenAuth
 from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
 from passlib.apps import custom_app_context as pwd_context
+from sqlalchemy import func
 from sqlalchemy.orm import aliased, object_session
 
 auth = HTTPTokenAuth(scheme="Bearer")

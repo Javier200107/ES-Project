@@ -44,4 +44,9 @@ def test_find_user(client):
         client.post("/account", json=account)
 
     client.loginAs(account)
-    assert client.get("/accounts/search/LeX").json["accounts"] == ["Alex", "Blex", "blex", "Clex"]
+    assert client.get("/accounts/search/LeX").json["accounts"] == [
+        "Alex",
+        "Blex",
+        "blex",
+        "Clex",
+    ]
