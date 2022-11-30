@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
 import { Post } from '../../models/Post'
 import {PostCreationService} from "../../services/post-creation.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-post',
@@ -16,7 +16,7 @@ export class PostComponent implements OnInit {
   user!: string
   token!: string
 
-  constructor (private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  constructor (private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
         this.user = params["user"]
@@ -28,6 +28,14 @@ export class PostComponent implements OnInit {
 
   ngOnInit (): void {
     console.log(this.postInfo)
+  }
+
+  goToProfileUser(account_name: string){
+    if (this.user != account_name){
+      this.router.navigate(['/profileUser'], { queryParams: { user: this.user, token: this.token, idUser: account_name } })
+    } else {
+      this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
+    }
   }
 
   archivedPost(id: number, archived: number) {
