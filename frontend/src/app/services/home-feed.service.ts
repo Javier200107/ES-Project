@@ -10,6 +10,8 @@ import {UserLogin} from "../models/UserLogin";
 })
 export class HomeFeedService {
 
+  constructor(private http:HttpClient) { }
+
   getPostsFrom(params: any, token: String): Observable<Object>  {
     console.log(token)
     const httpOptions = {
