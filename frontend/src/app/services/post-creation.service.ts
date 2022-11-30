@@ -66,4 +66,22 @@ export class PostCreationService {
       headerOptions
     )
   }
+
+  getPostsSpecificUser(getPostsForm: GetNumPosts, token: String, idUser: string) {
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }),
+      params: {
+        limit: 10,
+        offset: 0,
+        archived: 0
+      }
+    }
+    console.log("La URL es "+ `${environment.baseApiUrl}/uposts/${idUser}`)
+    return this.http.get<GetPost>(`${environment.baseApiUrl}/uposts/${idUser}`,
+      headerOptions
+    )
+  }
 }

@@ -22,7 +22,8 @@ import { MatCardModule } from '@angular/material/card'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatTabsModule } from '@angular/material/tabs'
+import { MatTabsModule } from '@angular/material/tabs';
+import { ProfileUserComponent } from './components/profile-user/profile-user.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatTabsModule } from '@angular/material/tabs'
     ProfileComponent,
     NavbarComponent,
     PostComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    ProfileUserComponent
   ],
   imports: [
     BrowserModule,
