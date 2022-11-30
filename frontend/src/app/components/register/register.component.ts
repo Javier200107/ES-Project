@@ -101,26 +101,6 @@ export class RegisterComponent implements OnInit {
       err => {console.error('Error: status = ', err.status, " and statusText = ", err.statusText),
         alert('Error on Register');},
       () => this.router.navigate(['/login']));
-
-
-    this.username = ''
-    this.email = ''
-    this.password = ''
-    this.name = ''
-    this.surname = ''
-    this.birthdate = ''
-
-    this.sessionService.register(newUser).subscribe((user) => {
-      if (user) {
-        this.sessionUser = user
-        console.log('Session User', this.sessionUser)
-      }
-    },
-    err => {
-      console.error('Error: status = ', err.status, ' and statusText = ', err.statusText),
-      alert('Error on Register')
-    },
-    () => this.router.navigate(['/home']))
   }
 
   private buildForm () {
