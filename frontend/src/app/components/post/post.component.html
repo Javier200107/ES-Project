@@ -7,7 +7,7 @@
   <div class="post-content-side">
 
     <div class="content-title">
-      <span class="user-nickname">{{postInfo.account_name}}</span>
+      <span class="user-nickname" (click)="goToProfileUser(postInfo.account_name)">{{postInfo.account_name}}</span>
       <span class="username"> @{{postInfo.account_name}}</span>
     </div>
 
