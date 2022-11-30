@@ -23,11 +23,16 @@ export class ProfileComponent implements OnInit {
         this.token = params['token']
       }
       )
+  }
+
+  ngOnInit (): void {
     this.getPostsUser()
     this.getPostsUserArchived()
   }
 
-  ngOnInit (): void {
+  refreshListPosts () {
+    this.getPostsUser()
+    this.getPostsUserArchived()
   }
 
   getPostsUserArchived () {

@@ -8,15 +8,15 @@
 	  </div>
   </div>
   <div class="container_" style="margin-top: 230px">
-    <mat-tab-group>
+    <mat-tab-group style="width: 500px">
       <mat-tab label="Posts">
         <div *ngFor="let post of posts">
-          <app-post [postInfo]="post" ></app-post>
+          <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
         </div>
       </mat-tab>
       <mat-tab label="Archived posts">
         <div *ngFor="let post of postsArchived">
-          <app-post [postInfo]="post" ></app-post>
+          <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
         </div>
       </mat-tab>
     </mat-tab-group>

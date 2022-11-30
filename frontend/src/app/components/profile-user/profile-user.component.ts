@@ -3,7 +3,6 @@ import {Post} from "../../models/Post";
 import {PostCreationService} from "../../services/post-creation.service";
 import {ActivatedRoute} from "@angular/router";
 import {GetNumPosts} from "../../models/GetNumPosts";
-import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-profile-user',
@@ -11,7 +10,7 @@ import {environment} from "../../../environments/environment";
   styleUrls: ['./profile-user.component.css']
 })
 export class ProfileUserComponent implements OnInit {
-  posts: Post[] = []
+  postsUser: Post[] = []
   user!: string
   token!: string
   idUser!: string
@@ -31,17 +30,16 @@ export class ProfileUserComponent implements OnInit {
   }
 
   getPostsUser () {
-    this.posts = []
     const posts: GetNumPosts = {
       limit: 10,
       offset: 0
     }
-    this.postCreationService.getPostsSpecificUser(posts, this.token, "hola").subscribe(
+    this.postCreationService.getPostsSpecificUser(posts, this.token, this.idUser).subscribe(
       (result) => {
-        console.log("Result = "+result.posts)
+        console.log(result.posts)
         for (const post of result.posts) {
-          console.log("Result = " + post.account_name)
-          this.posts.push(post)
+          this.postsUser.push(post)
+          console.log(post.id)
         }
       }
     )

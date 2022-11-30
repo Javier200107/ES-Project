@@ -6,6 +6,7 @@ import { HomeComponent } from './components/home/home.component'
 import { ProfileComponent } from './components/profile/profile.component'
 import { PostComponent } from './components/post/post.component'
 import {ProfileUserComponent} from "./components/profile-user/profile-user.component";
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,7 +20,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), HttpClientModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

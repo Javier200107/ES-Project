@@ -1,9 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core'
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
 import { Post } from '../../models/Post'
 import {PostCreationService} from "../../services/post-creation.service";
 import {ActivatedRoute} from "@angular/router";
-import {Observable} from "rxjs";
-import {ProfileComponent} from "../profile/profile.component";
 
 @Component({
   selector: 'app-post',
@@ -12,10 +10,13 @@ import {ProfileComponent} from "../profile/profile.component";
 })
 export class PostComponent implements OnInit {
   @Input() postInfo!: Post
+
+  @Output() postArchived: EventEmitter<any> = new EventEmitter();
+
   user!: string
   token!: string
 
-  constructor (private profileComponent: ProfileComponent ,private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  constructor (private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
         this.user = params["user"]
@@ -30,12 +31,9 @@ export class PostComponent implements OnInit {
   }
 
   archivedPost(id: number, archived: number) {
-    console.log("LLegaaamos al metodo de archivar")
     this.postCreationService.changeToArchivedPost(id, archived, this.token).subscribe(
       (result) => {
-        console.log("Return = "+result)
-          this.profileComponent.getPostsUserArchived()
-          this.profileComponent.getPostsUser()
+        this.postArchived.emit()
       }
     )
   }
