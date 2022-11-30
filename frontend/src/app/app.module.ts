@@ -23,7 +23,8 @@ import { NavbarComponent } from './components/navbar/navbar.component'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTabsModule } from '@angular/material/tabs';
-import { ProfileUserComponent } from './components/profile-user/profile-user.component'
+import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { CommunityComponent } from './components/community/community.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ProfileUserComponent } from './components/profile-user/profile-user.com
     NavbarComponent,
     PostComponent,
     CreatePostComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    CommunityComponent
   ],
   imports: [
     BrowserModule,
