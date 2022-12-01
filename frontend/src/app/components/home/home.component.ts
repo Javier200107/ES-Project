@@ -35,6 +35,10 @@ export class HomeComponent implements OnInit {
     this.demanarPost()
   }
 
+  addPost(newPost: Post){
+    this.posts.push(newPost)
+  }
+
   demanarPost () {
     const requestParams = {
       limit: this.postsPerLoad,

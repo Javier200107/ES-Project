@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { PostCreationService } from "../../services/post-creation.service";
 import { NewPostForm } from "../../models/NewPostForm";
-import {SessionService} from "../../services/session.service";
 import {Post} from "../../models/Post";
 
 @Component({
@@ -13,6 +12,8 @@ import {Post} from "../../models/Post";
 export class CreatePostComponent implements OnInit {
 
   @Input() token!: string;
+  @Output() newPostEvent = new EventEmitter<Post>();
+
   public postForm!: FormGroup;
   post_content!: string;
 
@@ -35,7 +36,12 @@ export class CreatePostComponent implements OnInit {
 
     }
     this.postCreator.createPost(postContent, this.token).subscribe((newPost: Post) =>{
-      this.newPost = newPost;
+
+      // @ts-ignore
+      console.log(newPost['post'])
+      // @ts-ignore
+      this.newPostEvent.emit(newPost['post'])
+
     }, (error: any) => {
       console.log(error);
     })

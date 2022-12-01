@@ -17,15 +17,13 @@ export class SessionService{
 
   constructor (private http:HttpClient) {
   }
-  
+
   setToken(token:string){
     this.sessionToken = token
   }
 
   register(user:User): Observable<User> {
-    console.log('Register User', user)
     return this.http.post<User>(`${environment.baseApiUrl}/account`, user);
-
   }
 
   login (user:UserLogin): Observable<UserLogin> {
