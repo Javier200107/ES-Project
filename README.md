@@ -98,14 +98,7 @@
     </tr>
     <tr>
         <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/account</code></pre></th>
-    <tr>
         <td>GET</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-        <td>POST</td>
         <td><pre>
 { 
   "username": "Buenas",
@@ -120,7 +113,14 @@
 { 
   "token": String
 }</pre></td>
-<tr>
+    <tr>
+        <td>GET</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
         <td>PUT</td>
         <td></td>
         <td></td>
