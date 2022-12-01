@@ -14,7 +14,7 @@
 > el tag `<pre>`. 
 > A la columna de `body`, si podeu subratllar els paràmetres que no siguin necessaris per fer la request.
 
-### Registre
+### [Registre](/backend/resources/accounts.py)
 
 <table>
     <tr>
@@ -83,7 +83,7 @@
     </tr>
 </table>
 
-### Login
+### [Login](/backend/resources/login.py)
 <table>
     <tr>
         <th colspan="6" scope="rowgroup">Login</th>
@@ -136,7 +136,7 @@
     </tr>
 </table>
 
-### Posts
+### [Posts](/backend/resources/posts.py)
 <table>
     <tr>
         <th colspan="6" scope="rowgroup">Posts</th>
@@ -222,7 +222,7 @@
     </tr>
 </table>
 
-### Likes
+### [Likes](/backend/resources/like.py)
 <table>
     <tr>
         <th colspan="6" scope="rowgroup">Like</th>
@@ -321,7 +321,7 @@
     </tr>
 </table>
 
-### Follow
+### [Follow](/backend/resources/follow.py)
 <table>
     <tr>
         <th colspan="6" scope="rowgroup">Posts</th>
