@@ -31,7 +31,7 @@ class Posts(Resource):
         return {"message": "No posts were found"}, 404
 
     @auth.login_required()
-    def post(self):
+    def post(self, id=None):
         parser = reqparse.RequestParser()
         parser.add_argument(
             "text", type=str, required=True, nullable=False, help={"Text of the post"}
@@ -50,6 +50,8 @@ class Posts(Resource):
             new_post.account = AccountsModel.get_by_username(g.user.username)
             if "parent_id" in data:
                 new_post.parent = PostsModel.get_by_id(data["parent_id"])
+            if (id):
+                new_post.community = 1
             try:
                 new_post.save_to_db()
             except Exception:
