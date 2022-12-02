@@ -3,6 +3,7 @@ import {Post} from "../../models/Post";
 import {HomeFeedService} from "../../services/home-feed.service";
 import {ActivatedRoute} from "@angular/router";
 
+
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',

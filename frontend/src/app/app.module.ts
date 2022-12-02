@@ -24,7 +24,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
-import { CommunityComponent } from './components/community/community.component'
+import { CommunityComponent } from './components/community/community.component';
+import { UserSearchComponent } from './components/user-search/user-search.component';
+import { UserItemComponent } from './components/user-item/user-item.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { CommunityComponent } from './components/community/community.component'
     PostComponent,
     CreatePostComponent,
     ProfileUserComponent,
-    CommunityComponent
+    CommunityComponent,
+    UserSearchComponent,
+    UserItemComponent
   ],
   imports: [
     BrowserModule,

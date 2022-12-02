@@ -1,0 +1,17 @@
+<div class="user-info" >
+
+  <div class="pfp-container">
+    <img (click)="goToProfile()" class="profile-pic" src="assets/img/profilePic.png" alt="">
+
+    <div class="username-container">
+      <div (click)="goToProfile()" >@{{username}}</div>
+    </div>
+
+  </div>
+
+  <div class="follow-button-container" (click)="followUser()" >
+    {{followText}}
+  </div>
+
+
+</div>

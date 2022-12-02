@@ -1,0 +1,63 @@
+.user-info{
+  width: 350px;
+  margin: 5px;
+  padding: 0 10px 0 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 27px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--secondary);
+}
+
+.pfp-container {
+  width: 100px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.profile-pic {
+  width: 48px;
+  height: 48px;
+  border-radius: 35px;
+  cursor: pointer;
+}
+.profile-pic:hover{
+  opacity: 0.8;
+}
+
+.username-container{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 10px;
+}
+.username-container:hover{
+  opacity: 0.8;
+}
+
+.follow-button-container{
+  height: 30px;
+  width: 60px;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 2px 5px;
+  cursor: pointer;
+  animation-delay: 1s;
+}
+.follow-button-container:hover{
+  opacity: 0.8;
+}
+.follow-button-container:active{
+  opacity: 0.5;
+}
