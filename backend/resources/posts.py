@@ -126,15 +126,17 @@ class UserPosts(Resource):
             location="args",
         )
         data = parser.parse_args()
-
+        same=0;
         account = g.user if user is None else AccountsModel.get_by_username(user)
         if not account:
             return {"message": "User not found"}, 404
-        if account.id != g.user.id and data["archived"]:
-            return {"message": "Archived posts can only be seen by the owner"}, 403
+        if account.id != g.user.id:
+            same=1
+            if data["archived"]:
+                return {"message": "Archived posts can only be seen by the owner"}, 403
 
         posts = PostsModel.get_groups_by_account(
-            account.id, data["limit"], data["offset"], data["archived"]
+            account.id, data["limit"], data["offset"], data["archived"],same
         )
         if posts:
             return {"posts": [post.json() for post in posts]}, 200

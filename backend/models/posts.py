@@ -75,9 +75,13 @@ class PostsModel(db.Model):
     def get_groups(cls, number, off):
         return cls.query.filter_by(archived=0,community=0).order_by(cls.time.desc()).limit(number).offset(off).all()
     @classmethod
-    def get_groups_by_account(cls, account_id, number, off, archived):
+    def get_groups_by_account(cls, account_id, number, off, archived,same):
         if archived is None:
-            q = cls.query.filter_by(account_id=account_id)
+            if(same==0): #si és el mateix user
+                q = cls.query.filter_by(account_id=account_id)
+            else:
+                q = cls.query.filter_by(account_id=account_id,community=0)
+
         else:
-            q = cls.query.filter_by(account_id=account_id, archived=archived)
+                q = cls.query.filter_by(account_id=account_id, archived=archived)
         return q.order_by(cls.time.desc()).limit(number).offset(off).all()
