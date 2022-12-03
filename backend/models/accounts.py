@@ -81,12 +81,12 @@ class AccountsModel(db.Model):
         return (
             (
                 object_session(self)
-                .query(PostsModel)
+                .query(PostsModel).filter_by(archived=0)
                 .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
                 .filter(Poster.followers.any(AccountsModel.id == user_id))
             )
-            .union(PostsModel.query.filter_by(account_id=user_id))
-            .order_by(PostsModel.time)
+            .union(PostsModel.query.filter_by(account_id=user_id,archived=0))
+            .order_by(PostsModel.time.desc())
             .limit(number)
             .offset(off)
         )
