@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Post} from "../../models/Post";
+import {SearchService} from "../../services/search.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-search',
@@ -9,13 +10,23 @@ import {Post} from "../../models/Post";
 export class UserSearchComponent implements OnInit {
 
   users: string[] = []
-  constructor() { }
+
   srchString: String = ''
   resultStr: String = ''
   searched: boolean = false
   foundUsers: boolean = false
-
   token = "";
+
+  constructor(private searchService: SearchService, private route : ActivatedRoute) {
+
+    this.route.queryParams
+      .subscribe(params => {
+          this.token = params['token']
+        }
+      );
+    console.log('token', this.token)
+
+  }
 
   ngOnInit(): void {
 
@@ -24,10 +35,26 @@ export class UserSearchComponent implements OnInit {
   searchUsers(userString:String){
     if(userString){
       console.log(userString)
-      this.searched = true
+
       this.resultStr = userString;
       this.srchString = '';
+
+      this.searchService.searchUser(userString, this.token).subscribe((userList: Object) => {
+        console.log(userList)
+        // @ts-ignore
+        let usrList = userList['accounts']
+
+        this.searched = true
+        this.srchString = '';
+        for (let postNum = 0; postNum < usrList.length; postNum++){
+          this.users.push(usrList[postNum]);
+        }
+      }, (error: any) => {
+        console.log(error);
+      })
     }
+
+
   }
 
 
