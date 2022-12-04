@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SearchService} from "../../services/search.service";
 import {ActivatedRoute} from "@angular/router";
+import {User} from "../../models/User";
 
 @Component({
   selector: 'app-user-search',
@@ -9,19 +10,21 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class UserSearchComponent implements OnInit {
 
-  users: string[] = []
+  users: string[] = [];
 
-  srchString: String = ''
-  resultStr: String = ''
-  searched: boolean = false
-  foundUsers: boolean = false
+  srchString: String = '';
+  resultStr: String = '';
+  searched: boolean = false;
+  foundUsers: boolean = false;
   token = "";
+  activeUser!: User;
 
   constructor(private searchService: SearchService, private route : ActivatedRoute) {
 
     this.route.queryParams
       .subscribe(params => {
           this.token = params['token']
+          this.activeUser = params['user']
         }
       );
     console.log('token', this.token)
@@ -50,6 +53,7 @@ export class UserSearchComponent implements OnInit {
           this.users.push(usrList[postNum]);
         }
       }, (error: any) => {
+        this.users = []
         console.log(error);
       })
     }

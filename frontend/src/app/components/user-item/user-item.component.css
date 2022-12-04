@@ -10,8 +10,16 @@
   border-width: 1px;
   border-style: solid;
   border-color: var(--secondary);
+  cursor: pointer;
 }
 
+.user-info:hover{
+  opacity: 0.8;
+}
+
+.user-info:active{
+  opacity: 0.5;
+}
 .pfp-container {
   width: 100px;
   margin-right: 10px;
@@ -27,9 +35,6 @@
   border-radius: 35px;
   cursor: pointer;
 }
-.profile-pic:hover{
-  opacity: 0.8;
-}
 
 .username-container{
   display: flex;
@@ -39,9 +44,7 @@
   font-size: 18px;
   margin-left: 10px;
 }
-.username-container:hover{
-  opacity: 0.8;
-}
+
 
 .follow-button-container{
   height: 30px;

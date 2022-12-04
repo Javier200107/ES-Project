@@ -1,17 +1,20 @@
-<div class="user-info" >
+<div class="user-info" (click)="goToProfile()" >
 
   <div class="pfp-container">
-    <img (click)="goToProfile()" class="profile-pic" src="assets/img/profilePic.png" alt="">
+    <img class="profile-pic" src="assets/img/profilePic.png" alt="">
 
     <div class="username-container">
-      <div (click)="goToProfile()" >@{{username}}</div>
+      <div>@{{username}}</div>
     </div>
 
   </div>
 
-  <div class="follow-button-container" (click)="followUser()" >
+  <!--  <div class="follow-button-container" (click)="followUser()" >
     {{followText}}
-  </div>
+  </div> -->
 
+  <div>
+    <div class="material-icons media-icon">arrow_forward_ios</div>
+  </div>
 
 </div>

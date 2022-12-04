@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Input} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PostCreationService} from "../../services/post-creation.service";
 
 @Component({
   selector: 'app-user-item',
@@ -12,14 +14,30 @@ export class UserItemComponent implements OnInit {
 
   following: Boolean = false;
   followText: String = 'Follow';
+  isYou: boolean = false;
 
-  constructor() { }
+  user!: string
+  token!: string
 
+  constructor(private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  this.route.queryParams
+    .subscribe(params => {
+      this.user = params["user"]
+      this.token = params["token"]
+    }
+    )
+  }
   ngOnInit(): void {
+
   }
 
   goToProfile(){
-    console.log(this.username)
+
+    if (this.user != this.username){
+      this.router.navigate(['/profileUser'], { queryParams: { user: this.user, token: this.token, idUser: this.username } })
+    } else {
+      this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
+    }
   }
 
   followUser(){
@@ -30,8 +48,5 @@ export class UserItemComponent implements OnInit {
       this.following = true;
       this.followText = 'Unfollow';
     }
-
-
-
   }
 }
