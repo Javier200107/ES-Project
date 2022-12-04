@@ -27,7 +27,7 @@ class PostsModel(db.Model):
     )
     # llista de comentaris
     parent = db.relationship(
-        "PostsModel", remote_side=[id], backref=db.backref("comments")
+        "PostsModel", remote_side=[id], backref=db.backref("comments", cascade="all, delete-orphan")
     )
 
     accounts_like = db.relationship(
@@ -48,7 +48,8 @@ class PostsModel(db.Model):
             "parent_id": self.parent_id,
             "accounts_like": [t.json() for t in self.accounts_like],
             "num_likes": len(self.accounts_like),
-            "community": self.community
+            "community": self.community,
+            "num_comments": len(self.comments) if self.comments else 0
         }
 
     def save_to_db(self):
@@ -73,15 +74,22 @@ class PostsModel(db.Model):
 
     @classmethod
     def get_groups(cls, number, off):
-        return cls.query.filter_by(archived=0,community=0).order_by(cls.time.desc()).limit(number).offset(off).all()
+        return cls.query.filter_by(archived=0,community=0,parent_id=None).order_by(cls.time.desc()).limit(number).offset(off).all()
     @classmethod
     def get_groups_by_account(cls, account_id, number, off, archived,same):
         if archived is None:
             if(same==0): #si és el mateix user
-                q = cls.query.filter_by(account_id=account_id)
+                q = cls.query.filter_by(account_id=account_id,parent_id=None)
             else:
-                q = cls.query.filter_by(account_id=account_id,community=0)
+                q = cls.query.filter_by(account_id=account_id,community=0,parent_id=None)
 
         else:
-                q = cls.query.filter_by(account_id=account_id, archived=archived)
+                if(archived==1):
+                    q = cls.query.filter_by(account_id=account_id, archived=archived)
+                else:
+                    q = cls.query.filter_by(account_id=account_id, archived=archived,parent_id=None)
         return q.order_by(cls.time.desc()).limit(number).offset(off).all()
+
+    @classmethod
+    def get_comments(cls, number, off,id):
+        return cls.query.filter_by(archived=0, parent_id =id).order_by(cls.time.desc()).limit(number).offset(off).all()

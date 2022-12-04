@@ -85,7 +85,7 @@ class AccountsModel(db.Model):
                 .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
                 .filter(Poster.followers.any(AccountsModel.id == user_id))
             )
-            .union(PostsModel.query.filter_by(account_id=user_id,archived=0))
+            .union(PostsModel.query.filter_by(account_id=user_id,archived=0,parent_id=None))
             .order_by(PostsModel.time.desc())
             .limit(number)
             .offset(off)

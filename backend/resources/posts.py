@@ -141,3 +141,30 @@ class UserPosts(Resource):
         if posts:
             return {"posts": [post.json() for post in posts]}, 200
         return {"message": "No posts were found"}, 404
+
+
+class Comments(Resource):
+    @auth.login_required()
+    def get(self,id):
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            "limit",
+            type=int,
+            required=True,
+            nullable=False,
+            help={"Number of posts to retrieve"},
+            location="args",
+        )
+        parser.add_argument(
+            "offset",
+            type=int,
+            required=True,
+            nullable=False,
+            help={"Number of posts to skip"},
+            location="args",
+        )
+        data = parser.parse_args()
+        posts = PostsModel.get_comments(data["limit"], data["offset"],id)
+        if posts:
+            return {"comments": [post.json() for post in posts]}, 200
+        return {"message": "No comments were found"}, 404
