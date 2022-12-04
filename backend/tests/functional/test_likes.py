@@ -29,7 +29,7 @@ def test_getLike(client):
 
     post = client.post("/posts", json=data_posts[0]).json["post"]
 
-    response = client.get(f"/likes/{username}," + str(post["id"]))
+    response = client.get(f"/likes/{username}/" + str(post["id"]))
     assert response.status_code == 404
 
 
