@@ -59,8 +59,8 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
-            "followers": [t.id for t in self.followers],
-            "following": [t.id for t in self.following],
+            "followers": [t.username for t in self.followers],
+            "following": [t.username for t in self.following],
         }
 
     def save_to_db(self):
