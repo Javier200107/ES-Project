@@ -7,6 +7,17 @@
   align-items: center;
 }
 
+.columnNomUser {
+    display: flex;
+    justify-content: center;
+}
+
+.rowButtonFollow {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+}
+
 section {
   padding: 15px;
 }

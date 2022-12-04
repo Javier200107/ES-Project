@@ -220,6 +220,34 @@
         <td></td>
         <td></td>
     </tr>
+<tr>
+        <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/posts/</code></pre></th>
+    <tr>
+        <td>GET</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <td>POST</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    <tr>
+        <td>PUT</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>DELETE</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
 
 ### [Likes](/backend/resources/like.py)

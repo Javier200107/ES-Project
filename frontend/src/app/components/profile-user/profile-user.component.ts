@@ -3,6 +3,8 @@ import {Post} from "../../models/Post";
 import {PostCreationService} from "../../services/post-creation.service";
 import {ActivatedRoute} from "@angular/router";
 import {GetNumPosts} from "../../models/GetNumPosts";
+import {FollowService} from "../../services/follow.service";
+import {InfoUserCreated} from "../../models/InfoUserCreated";
 
 @Component({
   selector: 'app-profile-user',
@@ -11,13 +13,19 @@ import {GetNumPosts} from "../../models/GetNumPosts";
 })
 export class ProfileUserComponent implements OnInit {
   postsUser: Post[] = []
+  listFollowers: InfoUserCreated[] = []
   user!: string
   token!: string
   idUser!: string
   nameButton!: string
   numSeguidores!: number
+  showFiller = false;
 
-  constructor(private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  constructor(
+    private followService: FollowService,
+    private postCreationService: PostCreationService,
+    private route : ActivatedRoute
+  ) {
     this.route.queryParams
     .subscribe(params => {
         this.user = params["user"]
@@ -35,7 +43,7 @@ export class ProfileUserComponent implements OnInit {
   }
 
   isFollow() {
-    this.postCreationService.isFollowUser(this.idUser, this.token).subscribe(
+    this.followService.isFollowUser(this.idUser, this.token).subscribe(
       (result) => {
         if(result.message != `Account [${this.idUser}] doesn't follow any account`) {
           this.nameButton = "UnFollow"
@@ -45,23 +53,24 @@ export class ProfileUserComponent implements OnInit {
   }
 
   numFollowings() {
-    this.postCreationService.followList(this.idUser, this.token).subscribe(
+    this.followService.followList(this.idUser, this.token).subscribe(
       (result) => {
           this.numSeguidores = result.ListFollows.length
+          this.listFollowers = result.ListFollows
       }
     )
   }
 
   unFollowOrFollow() {
       if(this.nameButton == "Follow"){
-          this.postCreationService.follow(this.idUser, this.token).subscribe(
+          this.followService.follow(this.idUser, this.token).subscribe(
           (result) => {
               this.nameButton = "unFollow"
               this.numFollowings()
           }
           )
       } else {
-        this.postCreationService.unfollow(this.idUser, this.token).subscribe(
+        this.followService.unfollow(this.idUser, this.token).subscribe(
           (result) => {
               this.nameButton = "Follow"
               this.numFollowings()

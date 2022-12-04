@@ -25,6 +25,8 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
 import { CommunityComponent } from './components/community/community.component'
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -37,25 +39,27 @@ import { CommunityComponent } from './components/community/community.component'
     PostComponent,
     CreatePostComponent,
     ProfileUserComponent,
-    CommunityComponent
+    CommunityComponent,
+    UserComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatTabsModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatTabsModule,
+        MatSidenavModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
