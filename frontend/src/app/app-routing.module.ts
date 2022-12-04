@@ -8,6 +8,7 @@ import { PostComponent } from './components/post/post.component'
 import {ProfileUserComponent} from "./components/profile-user/profile-user.component";
 import {HttpClientModule} from "@angular/common/http";
 import {CommunityComponent} from "./components/community/community.component";
+import {UserSearchComponent} from "./components/user-search/user-search.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'profileUser', component: ProfileUserComponent },
   { path: 'community', component: CommunityComponent },
+  { path: 'userSearch', component: UserSearchComponent },
   { path: '', component: RegisterComponent }
   // { path: '**', component: PageNotFoundComponent }
 ]
