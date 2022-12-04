@@ -79,15 +79,20 @@ class PostsModel(db.Model):
     def get_groups_by_account(cls, account_id, number, off, archived,same):
         if archived is None:
             if(same==0): #si és el mateix user
-                q = cls.query.filter_by(account_id=account_id,parent_id=None)
+                q = cls.query.filter_by(account_id=account_id,archived=0,parent_id=None)
             else:
-                q = cls.query.filter_by(account_id=account_id,community=0,parent_id=None)
+                q = cls.query.filter_by(account_id=account_id,archived=0,community=0,parent_id=None)
 
         else:
-                if(archived==1):
-                    q = cls.query.filter_by(account_id=account_id, archived=archived)
-                else:
+            if(archived==1): # si es archived no serà mai un altre user
+                q = cls.query.filter_by(account_id=account_id, archived=archived) # Mostres també els comentaris
+                                                                                # archivats
+            else:
+                if (same == 0):  # si és el mateix user
                     q = cls.query.filter_by(account_id=account_id, archived=archived,parent_id=None)
+                    #No mostres els comentaris no archivats
+                else:
+                    q = cls.query.filter_by(account_id=account_id, archived=archived, community=0,parent_id=None)
         return q.order_by(cls.time.desc()).limit(number).offset(off).all()
 
     @classmethod
