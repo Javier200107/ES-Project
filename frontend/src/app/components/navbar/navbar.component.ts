@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   active_notif = ''
   active_saved = ''
   active_community = ''
+  active_user_search = ''
 
   user!: string
   token!: string
@@ -53,6 +54,7 @@ export class NavbarComponent implements OnInit {
     this.active_notif = ''
     this.active_saved = ''
     this.active_community = ''
+    this.active_user_search = ''
     if (active == 'home') {
       this.active_home = 'active',
       this.router.navigate(['/home'], { queryParams: { user: this.user, token: this.token } })
@@ -65,6 +67,9 @@ export class NavbarComponent implements OnInit {
     } else if (active == 'community'){
       this.active_community = 'active'
       this.router.navigate(['/community'], { queryParams: { user: this.user, token: this.token } })
+    }else if (active == 'userSearch') {
+      this.active_user_search = 'active'
+      this.router.navigate(['/userSearch'], {queryParams: {user: this.user, token: this.token}})
     }
   }
 }

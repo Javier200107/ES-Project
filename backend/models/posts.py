@@ -19,6 +19,7 @@ class PostsModel(db.Model):
     archived = db.Column(db.Integer, nullable=False, default=0)
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    community = db.Column(db.Integer, nullable=False, default=0)
 
     # usuari que publica el post
     account = db.relationship(
@@ -45,8 +46,9 @@ class PostsModel(db.Model):
             "account_id": self.account_id,
             "account_name": self.account.username,
             "parent_id": self.parent_id,
-            "accounts_like": [t.json() for t in self.accounts_like],
+            "accounts_like": [t.username for t in self.accounts_like],
             "num_likes": len(self.accounts_like),
+            "community": self.community
         }
 
     def save_to_db(self):
@@ -71,12 +73,18 @@ class PostsModel(db.Model):
 
     @classmethod
     def get_groups(cls, number, off):
-        return cls.query.order_by(cls.time.desc()).limit(number).offset(off).all()
-
+        return cls.query.filter_by(archived=0,community=0).order_by(cls.time.desc()).limit(number).offset(off).all()
     @classmethod
-    def get_groups_by_account(cls, account_id, number, off, archived):
+    def get_groups_by_account(cls, account_id, number, off, archived,same):
         if archived is None:
-            q = cls.query.filter_by(account_id=account_id)
+            if(same==0): #si és el mateix user
+                q = cls.query.filter_by(account_id=account_id,archived=0)
+            else:
+                q = cls.query.filter_by(account_id=account_id,archived=0,community=0)
+
         else:
-            q = cls.query.filter_by(account_id=account_id, archived=archived)
+            if (same == 0):  # si és el mateix user
+                q = cls.query.filter_by(account_id=account_id, archived=archived)
+            else:
+                q = cls.query.filter_by(account_id=account_id, archived=archived, community=0)
         return q.order_by(cls.time.desc()).limit(number).offset(off).all()
