@@ -136,6 +136,20 @@
     </tr>
 </table>
 
+## post.json 
+
+"id": self.id,<br/>
+"text": text del post,<br/>
+"time": hora de publicació,<br/>
+"archived": archivat(1) o no archivat(0),<br/>
+"account_id": id del compte que ha publicat el post ,<br/>
+"account_name": nom del compte que ha publicat el post,<br/>
+"parent_id": id del post comentat (en cas de ser un comentari),<br/>
+"accounts_like": json de comptes que han donat like,<br/>
+"num_likes": numero de likes del post ,<br/>
+"community": post realitzat a community (1) o no (0)
+            
+
 ### [Posts](/backend/resources/posts.py)
 <table>
     <tr>
@@ -150,19 +164,26 @@
         <td>Retorna</td>
     </tr>
     <tr>
-        <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/posts</code></pre></th>
+        <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/posts, posts/*int:id*</code></pre></th>
     <tr>
         <td>GET</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{ 
+  "limit": 10,
+  "offset": 0
+        }</td>
+        <td>Retorna els posts per la main page, tots els posts excepte els archivats i els posts de community</td>
+        <td>No posts</td>
+        <td>return {"posts": [post.json() for post in posts]}, 200  </td>
     </tr>
         <td>POST</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{ 
+  "text": "text del post",
+  "parent_id": 1
+        }</td>
+        <td>Permet afegir un post, si es coloca un int a la URL (/posts/1 per exemple), es marcarà community com a 1, si no community =0 </td>
+        <td>error al crear post</td>
+        <td>return {"post": new_post.json()}, 201
+</td>
     <tr>
         <td>PUT</td>
         <td></td>
@@ -193,61 +214,26 @@
         <td>Retorna</td>
     </tr>
     <tr>
-        <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/uposts</code></pre></th>
+        <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/uposts, /uposts/*string:user*</code></pre></th>
     <tr>
         <td>GET</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{ 
+  "limit": 10,
+  "offset": 0,
+  "archived":0
+        }</td>
+        <td> -Retorna els posts de l'usuari (archivats o no segons el valor d'archived)<br/>         
+            -Són els posts de l'usuari amb el nom concret de l'string, si no és passa string, retorna els del usuari loguejat.<br/>             
+            -En cas de retornar els posts d'un usuari diferent del loguejat no retorna els posts de community<br/>
+        </td>
+        <td>
+            · No userr<br/>
+            · Archived posts can only be seen by the owner<br/>
+            · No posts                     
+        </td>
+        <td>return {"posts": [post.json() for post in posts]}, 200  </td>
     </tr>
-        <td>POST</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    <tr>
-        <td>PUT</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>DELETE</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-<tr>
-        <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/posts/</code></pre></th>
-    <tr>
-        <td>GET</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-        <td>POST</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    <tr>
-        <td>PUT</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>DELETE</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+        
 </table>
 
 ### [Likes](/backend/resources/like.py)
