@@ -37,6 +37,7 @@ export class UserSearchComponent implements OnInit {
 
   searchUsers(userString:String){
     if(userString){
+      this.users = []
       console.log(userString)
 
       this.resultStr = userString;
