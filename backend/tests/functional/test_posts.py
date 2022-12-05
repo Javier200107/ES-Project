@@ -47,12 +47,10 @@ def test_updatePost(client):
     client.post("/account", json=data_accounts[0])
     client.loginAs(data_accounts[0])
     username = data_accounts[0]["username"]
-
     post = client.post("/posts", json=data_posts[0]).json["post"]
-
     response = client.put(f"/posts/{post['id']}", json={"archived": 1})
     assert response.status_code == 200
-    assert client.get(f"/uposts/{username}").json["posts"][0]["archived"] == 1
+    assert client.get(f"/uposts/{username}?archived=1").json["posts"][0]["archived"] == 1
 
 
 def test_deletePost(client):

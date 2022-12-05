@@ -46,7 +46,7 @@ class PostsModel(db.Model):
             "account_id": self.account_id,
             "account_name": self.account.username,
             "parent_id": self.parent_id,
-            "accounts_like": [t.json() for t in self.accounts_like],
+            "accounts_like": [t.username for t in self.accounts_like],
             "num_likes": len(self.accounts_like),
             "community": self.community,
             "num_comments": len(self.comments) if self.comments else 0

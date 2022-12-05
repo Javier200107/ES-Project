@@ -11,7 +11,7 @@ class Posts(Resource):
         parser.add_argument(
             "limit",
             type=int,
-            required=True,
+            required=False,
             nullable=False,
             help={"Number of posts to retrieve"},
             location="args",
@@ -19,7 +19,7 @@ class Posts(Resource):
         parser.add_argument(
             "offset",
             type=int,
-            required=True,
+            required=False,
             nullable=False,
             help={"Number of posts to skip"},
             location="args",

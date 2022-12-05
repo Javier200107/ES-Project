@@ -6,11 +6,14 @@ from flask_restful import Resource
 
 class Like(Resource):
     @auth.login_required()
-    def get(self, account, post):
-        post = PostsModel.get_by_id(post)
-        acc = AccountsModel.get_by_username(account)
-        if acc and post:
-            accounts = post.accounts_like
+    def get(self,post, account=None):
+        pt = PostsModel.get_by_id(post)
+        if not account:
+            acc = g.user
+        else:
+            acc = AccountsModel.get_by_username(account)
+        if acc and pt:
+            accounts = pt.accounts_like
             if accounts:
                 for i in accounts:
                     if i.id == acc.id:
@@ -101,7 +104,7 @@ class ListPostLikes(Resource):
     def get(self, postid):
         post = PostsModel.get_by_id(postid)
         if post:
-            return {"ListPostLikes": [like.json() for like in post.accounts_like]}, 200
+            return {"ListPostLikes": [like.username for like in post.accounts_like]}, 200
         else:
             return {"message": "Post with id [{}] doesn't exists".format(postid)}, 404
 

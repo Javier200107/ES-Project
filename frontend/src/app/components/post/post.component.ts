@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+
   @Input() postInfo!: Post
 
   @Output() postArchived: EventEmitter<any> = new EventEmitter();
@@ -29,6 +30,7 @@ export class PostComponent implements OnInit {
   ngOnInit (): void {
     console.log(this.postInfo)
   }
+
 
   goToProfileUser(account_name: string){
     if (this.user != account_name){
