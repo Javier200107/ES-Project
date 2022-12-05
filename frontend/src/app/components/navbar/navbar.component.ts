@@ -8,7 +8,6 @@ import { UserLogin } from '../../models/UserLogin'
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  nameUser = "Geronimo" //TODO Canviar el nombre por el del usuario que hayas creado en la base de datos
   isChecked = false
   theme_sidebar = 'bg-dark'
   theme_icon = 'bi bi-moon-fill'

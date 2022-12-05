@@ -3,6 +3,8 @@ import { Post } from '../../models/Post'
 import { ActivatedRoute } from '@angular/router'
 import { PostCreationService } from '../../services/post-creation.service'
 import { GetNumPosts } from '../../models/GetNumPosts'
+import {InfoUserCreated} from "../../models/InfoUserCreated";
+import {FollowService} from "../../services/follow.service";
 
 @Component({
   selector: 'app-profile',
@@ -13,10 +15,20 @@ import { GetNumPosts } from '../../models/GetNumPosts'
 export class ProfileComponent implements OnInit {
   posts: Post[] = []
   postsArchived: Post[] = []
+
+  listFollowersOrFollowing: InfoUserCreated[] = []
+  listFollowers:  InfoUserCreated[] = []
+  listFollowings:  InfoUserCreated[] = []
+
   user!: string
   token!: string
 
-  constructor (private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  numSeguidores!: number
+  numSeguidos!: number
+  isFollowersVisible = false
+  isFollowingVisible = false
+
+  constructor (private followService: FollowService,private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
         this.user = params['user']
@@ -28,6 +40,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit (): void {
     this.getPostsUser()
     this.getPostsUserArchived()
+    this.getListFollowers()
+    this.getListFollowings()
   }
 
   refreshListPosts () {
@@ -65,5 +79,62 @@ export class ProfileComponent implements OnInit {
         }
       }
     )
+  }
+
+  getListFollowers() {
+    this.followService.followList(this.user, this.token).subscribe(
+      (result) => {
+          this.listFollowers = []
+          this.numSeguidores = result.ListFollows.length
+          this.listFollowers = result.ListFollows
+          if(this.isFollowersVisible) {
+            this.listFollowersOrFollowing = this.listFollowers
+          }
+          if(this.isFollowersVisible) {
+            this.listFollowersOrFollowing = this.listFollowers
+          }
+      }
+    )
+  }
+
+  getListFollowings() {
+    this.followService.followingList(this.user, this.token).subscribe(
+      (result) => {
+          this.numSeguidos = result.ListFollowing.length
+          this.listFollowings = result.ListFollowing
+      }
+    )
+  }
+
+   onFollowersTextClicked() {
+    this.listFollowersOrFollowing = []
+    if (this.isFollowingVisible) {
+      this.isFollowingVisible = false
+      this.isFollowersVisible = true
+      this.listFollowersOrFollowing = this.listFollowers
+    } else {
+      this.isFollowersVisible = !this.isFollowersVisible;
+      if(this.isFollowersVisible){
+        this.listFollowersOrFollowing = this.listFollowers
+      }
+    }
+  }
+
+  onFollowingTextClicked() {
+    this.listFollowersOrFollowing = []
+    if (this.isFollowersVisible) {
+      this.isFollowersVisible = false
+      this.isFollowingVisible = true
+      this.listFollowersOrFollowing = this.listFollowings
+    } else {
+      this.isFollowingVisible = !this.isFollowingVisible;
+      if(this.isFollowingVisible){
+        this.listFollowersOrFollowing = this.listFollowings
+      }
+    }
+  }
+
+  visibilityComponentUser() {
+    return !(!this.isFollowingVisible && !this.isFollowersVisible);
   }
 }

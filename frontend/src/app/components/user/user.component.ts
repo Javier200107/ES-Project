@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {PostCreationService} from "../../services/post-creation.service";
 import {Post} from "../../models/Post";
 import {User} from "../../models/User";
 import {InfoUserCreated} from "../../models/InfoUserCreated";
+import {FollowService} from "../../services/follow.service";
 
 @Component({
   selector: 'app-user',
@@ -13,12 +14,19 @@ import {InfoUserCreated} from "../../models/InfoUserCreated";
 export class UserComponent implements OnInit {
 
   @Input() userInfo!: InfoUserCreated
+  @Input() userAccount!: string
+  @Input() isFollowers!: boolean
+
+  @Output() onButtonFollowClicked: EventEmitter<any> = new EventEmitter();
 
   user!: string
   token!: string
   list: any
+  disabled = ""
+  textButton = "Follow"
+  buttonActived = ""
 
-  constructor(private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  constructor(private followService: FollowService, private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
         this.user = params["user"]
@@ -38,23 +46,35 @@ export class UserComponent implements OnInit {
     }
   }
 
-  // @ts-ignore
   accountFollowsUser() {
-    if(this.userInfo.username == this.user) {
-      return false
-    }
-
     let bool = true
     this.list = this.userInfo.followers
-    console.log(this.list)
-    if (this.list) {
-      for (let users in this.list) {
-        // @ts-ignore
-        if (users.id == this.idUserAccount) {
-          bool = false
+    if(this.userAccount == this.user && this.isFollowers){
+      if (this.list) {
+        for(let user of this.list) {
+          if (user == this.user) {
+            this.disabled = "disabled"
+            this.textButton = ""
+            this.buttonActived = "bi bi-check2-circle"
+          }
         }
       }
+      console.log("Esoooo;")
+      console.log(this.list)
       return bool
     }
+    return false
+  }
+
+  follow() {
+    this.followService.follow(this.userInfo.username, this.token).subscribe(
+      (result) => {
+        this.list.push(`${this.userInfo.username}`)
+        this.disabled = "disabled"
+        this.textButton = ""
+        this.buttonActived = "bi bi-check2-circle"
+        this.onButtonFollowClicked.emit()
+      }
+    )
   }
 }
