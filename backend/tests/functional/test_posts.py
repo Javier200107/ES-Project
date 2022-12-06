@@ -11,7 +11,6 @@ def createPosts(client):
 
     client.loginAs(account2)
     post2 = data_posts[1]
-    post2.update({"parent_id": post["id"]})
     assert client.post("/posts", json=post2).status_code == 201
 
 
@@ -36,7 +35,7 @@ def test_getPosts(client):
     assert response.status_code == 200
     assert len(response.json["posts"]) == 2
     assert (
-        response.json["posts"][0]["parent_id"] is not None
+        response.json["posts"][0]["id"] ==2
     )  # most recent post is first in the list
 
 
