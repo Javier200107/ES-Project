@@ -6,7 +6,6 @@ import { GetNumPosts } from '../models/GetNumPosts'
 import { Post } from '../models/Post'
 import { GetPost } from '../models/GetPost'
 import {Observable} from "rxjs";
-import {ArchivedPost} from "../models/ArchivedPost";
 import {MessageBackend} from "../models/MessageBackend";
 import {Follow} from "../models/Follow";
 
@@ -35,6 +34,18 @@ export class PostCreationService {
       }),
     };
     return this.http.post<Post>(`${environment.baseApiUrl}/posts`,newPost, httpOptions);
+  }
+
+  createCommunityPost(newPost:NewPostForm, token:String): Observable<Post> {
+    console.log(newPost)
+    console.log(token)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    return this.http.post<Post>(`${environment.baseApiUrl}/posts/1`,newPost, httpOptions);
   }
 
   getPostsUser (getPostsForm: GetNumPosts, token: String) {

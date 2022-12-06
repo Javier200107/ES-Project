@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Post} from "../../models/Post";
 import {HomeFeedService} from "../../services/home-feed.service";
 import {ActivatedRoute} from "@angular/router";
+import {NewPostForm} from "../../models/NewPostForm";
+import {PostCreationService} from "../../services/post-creation.service";
 
 
 @Component({
@@ -19,7 +21,7 @@ export class CommunityComponent implements OnInit {
   user!: string
 
   //TODO Pass a session service with the token
-  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute) {
+  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute, private postCreator: PostCreationService) {
 
     this.route.queryParams
       .subscribe(params => {
@@ -51,5 +53,21 @@ export class CommunityComponent implements OnInit {
     }, (error: any) => {
       console.log(error);
     })
+  }
+
+  addPost(newPost: NewPostForm){
+
+    this.postCreator.createCommunityPost(newPost, this.token).subscribe((newPost: Post) =>{
+
+      // @ts-ignore
+      console.log(newPost['post'])
+      // @ts-ignore
+      this.posts2.push(newPost['post'])
+
+    }, (error: any) => {
+      console.log(error);
+    })
+
+
   }
 }
