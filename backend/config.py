@@ -19,8 +19,9 @@ class Config(object):
         "SECRET_KEY", default="p2r5u8x/A?D(G+KbPeShVmYq3t6v9y$B"
     )
     STATIC_URL_PATH = ""
-    STATIC_FOLDER = "/static"
-    TEMPLATE_FOLDER = "/templates"
+    STATIC_FOLDER = "static"
+    TEMPLATE_FOLDER = "templates"
+    MAX_CONTENT_LENGTH = 50 * 1000 * 1000  # limit payload to 50 MB
 
 
 class ProductionConfig(Config):
