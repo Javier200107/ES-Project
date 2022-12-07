@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   active_saved = ''
   active_community = ''
   active_user_search = ''
+  displayBasic = false
 
   user!: string
   token!: string
@@ -32,6 +33,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit (): void {
   }
+
+  showBasicDialog() {
+        this.displayBasic = true;
+    }
 
   changeTheme () {
     if (this.isChecked) {

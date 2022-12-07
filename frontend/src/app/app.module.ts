@@ -29,6 +29,8 @@ import { UserSearchComponent } from './components/user-search/user-search.compon
 import { UserItemComponent } from './components/user-item/user-item.component'
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { UserComponent } from './components/user/user.component';
+import {DialogModule} from "primeng/dialog";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { UserComponent } from './components/user/user.component';
     MatToolbarModule,
     MatIconModule,
     MatTabsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    DialogModule,
+    ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
