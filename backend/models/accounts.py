@@ -31,6 +31,9 @@ class AccountsModel(db.Model):
     birth = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    avatar = db.Column(db.String(), nullable=False, default="")
+    banner = db.Column(db.String(), nullable=False, default="")
 
     posts = db.relationship("PostsModel", back_populates="account")
 
@@ -42,13 +45,14 @@ class AccountsModel(db.Model):
         backref="followers",
     )
 
-    def __init__(self, username, email, nom, cognom, birth, is_admin=0):
+    def __init__(self, username, email, nom, cognom, birth, is_admin, description):
         self.username = username
         self.email = email
         self.nom = nom
         self.cognom = cognom
         self.birth = birth
         self.is_admin = is_admin
+        self.description = description
 
     def json(self):
         return {
@@ -59,6 +63,9 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
+            "description": self.description,
+            "avatar": self.avatar,
+            "banner": self.banner,
             "followers": [t.username for t in self.followers],
             "following": [t.username for t in self.following],
         }

@@ -43,6 +43,14 @@ class Accounts(Resource):
             default=0,
             help="admin",
         )
+        parser.add_argument(
+            "description",
+            type=str,
+            required=False,
+            nullable=False,
+            default="",
+            help="Profile bio"
+        )
         data = parser.parse_args()
 
         with lock.lock:
@@ -58,6 +66,7 @@ class Accounts(Resource):
                     data["cognom"],
                     datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                     data["is_admin"],
+                    data["description"]
                 )
                 new_account.hash_password(data["password"])
                 new_account.save_to_db()
