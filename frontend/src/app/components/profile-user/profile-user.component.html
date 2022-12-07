@@ -7,36 +7,47 @@
       <img style="position: absolute; margin-top: 120px; margin-left: 40px" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="" width="128" height="128" class="rounded-circle me-2">
     </div>
   </div>
+
   <div class="container_" style="margin-top: 230px">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm">
-        </div>
-        <div class="col-sm">
-           <h1>{{idUser}}</h1>
-        </div>
-        <div class="col-sm">
-          <div class="row">
-            <div class="col-sm">
-              <div class="row">
-                <div class="col">
-               <button class="btn btn-primary" type="submit" (click)="unFollowOrFollow()">{{nameButton}}</button>
-                  </div>
-                <div class="col">
-                   <h3>Followers {{numSeguidores}}</h3>
-                </div>
-              </div>
-            </div>
+
+    <div class="row" style="width: 100%;">
+      <div class="col columnNomUser" style="display: flex; justify-content: center;">
+        <h1>{{idUser}}</h1>
+      </div>
+      <div class="col rowButtonFollow">
+        <div class="row">
+          <div class="col" style="display: flex; justify-content: flex-end;">
+            <button class="btn btn-primary" type="submit" (click)="unFollowOrFollow()">{{nameButton}}</button>
+          </div>
+          <div class="col" style="flex: 1 0 0%; display: flex; align-items: baseline;">
+            <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>
+            <p style="padding-left: 20px"><p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Followings {{numSeguidos}}<p></p>
           </div>
         </div>
       </div>
     </div>
-    <mat-tab-group style="width: 500px">
-      <mat-tab label="Posts">
-        <div *ngFor="let post of postsUser">
-          <app-post [postInfo]="post"></app-post>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
+
+    <div class="row" style="width: 100%;">
+      <div class="col">
+
+      </div>
+      <div class="col">
+        <mat-tab-group style="width: 500px">
+          <mat-tab label="Posts">
+            <div *ngFor="let post of postsUser">
+              <app-post [postInfo]="post"></app-post>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="col">
+        <ul *ngIf="visibilityComponentUser()" class="list-group">
+            <div *ngFor="let user of listFollowersOrFollowing">
+              <li class="list-group-item"><app-user (onButtonFollowClicked)="getListFollowings()" [userAccount]="this.idUser" [userInfo]="user"></app-user></li>
+            </div>
+        </ul>
+      </div>
+    </div>
   </div>
+
 </section>

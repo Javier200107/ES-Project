@@ -9,12 +9,12 @@
         <i class="bi bi-house-door icons"></i>Home</a>
     </li>
     <li class="options-menu">
-      <a [routerLink]="'#'" class="nav-link {{active_user_search}} form-select col_" (click)="areActive('userSearch')" >
-        <i class="bi bi-people-fill icons disabled"></i>Find Users</a>
+      <a [routerLink]="'#'" class="nav-link {{active_community}} form-select col_" (click)="areActive('community')" >
+        <i class="bi bi-people-fill icons"></i>Community</a>
     </li>
     <li class="options-menu">
-      <a [routerLink]="'#'" class="nav-link {{active_community}} form-select col_" (click)="areActive('community')" >
-        <i class="bi bi-people-fill icons disabled"></i>Community</a>
+      <a [routerLink]="'#'" class="nav-link {{active_user_search}} form-select col_" (click)="areActive('userSearch')" >
+        <i class="bi bi-search icons"></i>Find Users</a>
     </li>
     <li class="options-menu">
       <a [routerLink]="'#'" class="nav-link {{active_notif}} form-select col_ disabled" (click)="areActive('notif')">

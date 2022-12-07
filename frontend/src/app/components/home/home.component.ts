@@ -1,8 +1,7 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Post} from "../../models/Post";
 import { HomeFeedService } from "../../services/home-feed.service";
-import { SessionService } from "../../services/session.service";
 import { PostCreationService} from "../../services/post-creation.service";
 import { NewPostForm} from "../../models/NewPostForm";
 import {ActivatedRoute} from "@angular/router";
@@ -20,7 +19,7 @@ export class HomeComponent implements OnInit {
   token = "";
 
   //TODO Pass a session service with the token
-  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute) {
+  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute, private postCreator: PostCreationService) {
 
     this.route.queryParams
       .subscribe(params => {
@@ -35,8 +34,20 @@ export class HomeComponent implements OnInit {
     this.demanarPost()
   }
 
-  addPost(newPost: Post){
-    this.posts.push(newPost)
+  addPost(newPost: NewPostForm){
+
+    this.postCreator.createPost(newPost, this.token).subscribe((newPost: Post) =>{
+
+      // @ts-ignore
+      console.log(newPost['post'])
+      // @ts-ignore
+      this.posts.push(newPost['post'])
+
+    }, (error: any) => {
+      console.log(error);
+    })
+
+
   }
 
   demanarPost () {
