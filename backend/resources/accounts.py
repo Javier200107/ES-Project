@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from backend.lock import lock
+from werkzeug.datastructures import FileStorage
+
+from backend.utils import lock, CustomException
 from backend.models.accounts import AccountsModel, auth, g
 from flask_restful import Resource, reqparse
 
@@ -121,6 +123,7 @@ class Accounts(Resource):
         if account is None:
             return {"message": "Could not find an account with that username."}, 404
         try:
+            account.deleteFilesFolder()
             account.delete_from_db()
         except Exception:
             return {"message": "An error occurred deleting the account."}, 500
@@ -157,3 +160,72 @@ class AccountsList(Resource):
         return {
             "message": f"Could not find any account username matching [{username}]"
         }, 404
+
+
+class AccountsFiles(Resource):
+    allowed_extensions = ["png", "jpg", "jpeg", "gif"]
+
+    @classmethod
+    def get_allowed_extension(cls, filename):
+        ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else ""
+        if ext in cls.allowed_extensions:
+            return ext
+        raise CustomException("Invalid file extension.")
+
+    def save_file(self, account, file):
+        extension = self.get_allowed_extension(file.filename)
+        unique_file_path = account.getUniqueFilePath(extension)
+        file.save(unique_file_path)
+        return unique_file_path
+
+    def update_account_file(self, account, file, account_file):
+        f = self.save_file(account, file)
+        account.deleteFile(getattr(account, account_file))
+        setattr(account, account_file, f)
+        account.save_to_db()
+
+    @auth.login_required()
+    def put(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument("avatar", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument("banner", type=FileStorage, location="files", required=False, default=None)
+        data = parser.parse_args()
+
+        account = g.user
+        avatar = data["avatar"]
+        banner = data["banner"]
+
+        with lock.lock:
+            try:
+                if avatar and avatar.filename:
+                    self.update_account_file(account, avatar, "avatar")
+                if banner and banner.filename:
+                    self.update_account_file(account, banner, "banner")
+            except CustomException as e:
+                return {'message': str(e)}, 400
+            except Exception:
+                return {'message': "Failed to update the account."}, 500
+
+        return {"account": account.json2()}, 200
+
+    @auth.login_required()
+    def delete(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument("avatar", type=int, required=False, nullable=False, default=0)
+        parser.add_argument("banner", type=int, required=False, nullable=False, default=0)
+        data = parser.parse_args()
+        account = g.user
+
+        with lock.lock:
+            try:
+                if data["avatar"]:
+                    account.deleteFile(account.avatar)
+                    account.avatar = ""
+                if data["banner"]:
+                    account.deleteFile(account.banner)
+                    account.banner = ""
+                account.save_to_db()
+            except Exception:
+                return {'message': "Failed to update the account."}, 500
+
+        return {"account": account.json2()}, 200

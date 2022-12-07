@@ -1,4 +1,8 @@
+import os
+import shutil
 import time
+import uuid
+from pathlib import Path
 
 from backend.db import db
 from backend.models.posts import PostsModel
@@ -88,6 +92,21 @@ class AccountsModel(db.Model):
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
+
+    def getFilesFolder(self):
+        account_folder = current_app.config["STATIC_FOLDER"] + f"/api/accounts/{self.id}"
+        os.makedirs(account_folder, exist_ok=True)
+        return account_folder
+
+    def getUniqueFilePath(self, extension):
+        return self.getFilesFolder() + f"/{uuid.uuid4()}.{extension}"
+
+    def deleteFilesFolder(self):
+        shutil.rmtree(self.getFilesFolder(), ignore_errors=True)
+
+    def deleteFile(self, file):
+        if file and self.getFilesFolder() in file:
+            Path(file).unlink(missing_ok=True)
 
     def followed_posts_and_self(self, number, off):
         user_id = self.id
