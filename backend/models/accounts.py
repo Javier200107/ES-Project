@@ -70,6 +70,13 @@ class AccountsModel(db.Model):
             "following": [t.username for t in self.following],
         }
 
+    def json2(self):
+        return {
+            "username": self.username,
+            "avatar": self.avatar,
+            "banner": self.banner
+        }
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()

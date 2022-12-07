@@ -116,7 +116,7 @@ class AccountsList(Resource):
             username, data["limit"], data["offset"]
         )
         if accounts:
-            return {"accounts": [account.username for account in accounts]}, 200
+            return {"accounts": [account.json2() for account in accounts]}, 200
         return {
             "message": f"Could not find any account username matching [{username}]"
         }, 404
