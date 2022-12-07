@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {Post} from "../../models/Post";
 import {PostCreationService} from "../../services/post-creation.service";
 import {ActivatedRoute} from "@angular/router";
 import {GetNumPosts} from "../../models/GetNumPosts";
+import {FollowService} from "../../services/follow.service";
+import {InfoUserCreated} from "../../models/InfoUserCreated";
 
 @Component({
   selector: 'app-profile-user',
@@ -11,13 +13,27 @@ import {GetNumPosts} from "../../models/GetNumPosts";
 })
 export class ProfileUserComponent implements OnInit {
   postsUser: Post[] = []
+  listFollowersOrFollowing: InfoUserCreated[] = []
+  listFollowers:  InfoUserCreated[] = []
+  listFollowings:  InfoUserCreated[] = []
   user!: string
   token!: string
   idUser!: string
   nameButton!: string
   numSeguidores!: number
+  numSeguidos!: number
+  showFiller = false;
 
-  constructor(private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  isFollowersVisible = false
+  isFollowingVisible = false
+
+  ep = false
+
+  constructor(
+    private followService: FollowService,
+    private postCreationService: PostCreationService,
+    private route : ActivatedRoute
+  ) {
     this.route.queryParams
     .subscribe(params => {
         this.user = params["user"]
@@ -31,11 +47,12 @@ export class ProfileUserComponent implements OnInit {
     this.nameButton = "Follow"
     this.getPostsUser()
     this.isFollow()
-    this.numFollowings()
+    this.getListFollowers()
+    this.getListFollowings()
   }
 
   isFollow() {
-    this.postCreationService.isFollowUser(this.idUser, this.token).subscribe(
+    this.followService.isFollowUser(this.idUser, this.token).subscribe(
       (result) => {
         if(result.message != `Account [${this.idUser}] doesn't follow any account`) {
           this.nameButton = "UnFollow"
@@ -44,29 +61,55 @@ export class ProfileUserComponent implements OnInit {
     )
   }
 
-  numFollowings() {
-    this.postCreationService.followList(this.idUser, this.token).subscribe(
+  getListFollowers() {
+    this.followService.followList(this.idUser, this.token).subscribe(
       (result) => {
+          this.listFollowers = []
           this.numSeguidores = result.ListFollows.length
+          this.listFollowers = result.ListFollows
+          if(this.isFollowersVisible) {
+            this.listFollowersOrFollowing = this.listFollowers
+          }
+          if(this.isFollowersVisible) {
+            this.listFollowersOrFollowing = this.listFollowers
+          }
+      }
+    )
+  }
+
+  ng() {
+    this.ep = true
+    this.getListFollowings()
+  }
+
+  getListFollowings() {
+    this.followService.followingList(this.idUser, this.token).subscribe(
+      (result) => {
+          this.numSeguidos = result.ListFollowing.length
+          this.listFollowings = result.ListFollowing
       }
     )
   }
 
   unFollowOrFollow() {
       if(this.nameButton == "Follow"){
-          this.postCreationService.follow(this.idUser, this.token).subscribe(
+          this.followService.follow(this.idUser, this.token).subscribe(
           (result) => {
               this.nameButton = "unFollow"
-              this.numFollowings()
+              this.getListFollowers()
           }
           )
       } else {
-        this.postCreationService.unfollow(this.idUser, this.token).subscribe(
+        this.followService.unfollow(this.idUser, this.token).subscribe(
           (result) => {
-              this.nameButton = "Follow"
-              this.numFollowings()
+            this.nameButton = "Follow"
+            this.getListFollowers()
           }
           )
+      }
+      if(this.isFollowersVisible) {
+        this.getListFollowers()
+        this.listFollowersOrFollowing = this.listFollowers
       }
   }
 
@@ -84,5 +127,35 @@ export class ProfileUserComponent implements OnInit {
         }
       }
     )
+  }
+
+  onFollowersTextClicked() {
+    if (this.isFollowingVisible) {
+      this.isFollowingVisible = false
+      this.isFollowersVisible = true
+      this.listFollowersOrFollowing = this.listFollowers
+    } else {
+      this.isFollowersVisible = !this.isFollowersVisible;
+      if(this.isFollowersVisible){
+        this.listFollowersOrFollowing = this.listFollowers
+      }
+    }
+  }
+
+  onFollowingTextClicked() {
+    if (this.isFollowersVisible) {
+      this.isFollowersVisible = false
+      this.isFollowingVisible = true
+      this.listFollowersOrFollowing = this.listFollowings
+    } else {
+      this.isFollowingVisible = !this.isFollowingVisible;
+      if(this.isFollowingVisible){
+        this.listFollowersOrFollowing = this.listFollowings
+      }
+    }
+  }
+
+  visibilityComponentUser() {
+    return !(!this.isFollowingVisible && !this.isFollowersVisible);
   }
 }
