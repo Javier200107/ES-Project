@@ -45,7 +45,7 @@
       <div class="col" >
         <ul *ngIf="visibilityComponentUser()" class="list-group">
             <div *ngFor="let userf of listFollowersOrFollowing">
-              <li class="list-group-item"><app-user [userAccount]="this.user" [userInfo]="userf" [isFollowers] = "this.isFollowersVisible" (onButtonFollowClicked)="getListFollowings()"></app-user></li>
+              <li class="list-group-item"><app-user [userAccount]="this.user" [userInfo]="userf" [isFollowers] = "this.isFollowersVisible" (onButtonFollowClicked)="getAllLists()"></app-user></li>
             </div>
         </ul>
       </div>

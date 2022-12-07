@@ -97,6 +97,11 @@ export class ProfileComponent implements OnInit {
     )
   }
 
+  getAllLists() {
+    this.getListFollowings()
+    this.getListFollowers()
+  }
+
   getListFollowings() {
     this.followService.followingList(this.user, this.token).subscribe(
       (result) => {
