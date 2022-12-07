@@ -75,6 +75,43 @@ class Accounts(Resource):
             return {"account": new_account.json()}, 201
 
     @auth.login_required()
+    def put(self):
+        account = g.user
+        parser = reqparse.RequestParser()
+        parser.add_argument("username", type=str, required=False, nullable=False, default=account.username)
+        parser.add_argument("password", type=str, required=False, nullable=False, default=None)
+        parser.add_argument("email", type=str, required=False, nullable=False, default=account.email)
+        parser.add_argument("nom", type=str, required=False, nullable=False, default=account.nom)
+        parser.add_argument("cognom", type=str, required=False, nullable=False, default=account.cognom)
+        parser.add_argument("birthdate", type=str, required=False, nullable=False, default=None)
+        parser.add_argument("is_admin", type=int, required=False, nullable=False, default=account.is_admin)
+        parser.add_argument("description", type=str, required=False, nullable=False, default=account.description)
+        data = parser.parse_args()
+
+        with lock.lock:
+            try:
+                if data["username"] != account.username:
+                    if AccountsModel.get_by_username(data["username"]):
+                        return {"message": "An account with this username already exists!"}, 409
+                    account.username = data["username"]
+                if data["password"] is not None:
+                    account.hash_password(data["password"])
+                if data["email"] != account.email:
+                    if AccountsModel.get_by_email(data["email"]):
+                        return {"message": "An account with this email already exists!"}, 409
+                    account.email = data["email"]
+                if data["birthdate"] is not None:
+                    account.birth = datetime.strptime(data["birthdate"], "%Y-%m-%d")
+                account.nom = data["nom"]
+                account.cognom = data["cognom"]
+                account.is_admin = data["is_admin"]
+                account.description = data["description"]
+                account.save_to_db()
+            except Exception:
+                return {"message": "An error occurred updating the account."}, 500
+        return {"account": account.json()}, 200
+
+    @auth.login_required()
     def delete(self, username):
         if username is None:
             return {"message": "No username specified."}, 400

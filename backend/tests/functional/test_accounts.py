@@ -35,6 +35,15 @@ def test_delete_user(client):
     assert client.delete(f"/account/{username}").status_code == 401
 
 
+def test_edit_user(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    data = {"email": "new@mail.com", "description": "myBio"}
+    account = client.put("/account", json=data).json["account"]
+    assert account["description"] == "myBio"
+
+
 def test_find_user(client):
     account = data_accounts[0].copy()
     usernames = ["Clex", "Alex", "Blex", "blex", "ferr", "124jt"]
