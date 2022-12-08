@@ -10,7 +10,7 @@ import {User} from "../../models/User";
 })
 export class UserSearchComponent implements OnInit {
 
-  users: string[] = [];
+  userNames: string[] = [];
 
   srchString: String = '';
   resultStr: String = '';
@@ -37,7 +37,7 @@ export class UserSearchComponent implements OnInit {
 
   searchUsers(userString:String){
     if(userString){
-      this.users = []
+      this.userNames = []
       console.log(userString)
 
       this.resultStr = userString;
@@ -51,10 +51,10 @@ export class UserSearchComponent implements OnInit {
         this.searched = true
         this.srchString = '';
         for (let postNum = 0; postNum < usrList.length; postNum++){
-          this.users.push(usrList[postNum]);
+          this.userNames.push(usrList[postNum]['username']);
         }
       }, (error: any) => {
-        this.users = []
+        this.userNames = []
         console.log(error);
       })
     }
