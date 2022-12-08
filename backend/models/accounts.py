@@ -32,7 +32,7 @@ class AccountsModel(db.Model):
     password = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Integer, nullable=False)
 
-    posts = db.relationship("PostsModel", back_populates="account")
+    posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
 
     following = db.relationship(
         "AccountsModel",

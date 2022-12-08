@@ -58,7 +58,7 @@ def test_getListFollowing(client):
     response = client.post("/follow/" + account["username"]).json["Account"]
 
     response = client.get("/followingList/")
-    assert len(response.json["ListFollowing"]) != 0
+    assert len(response.json["ListFollowing"]) == 1
 
 
 def test_getPostFollowing(client):
