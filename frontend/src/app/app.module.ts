@@ -24,9 +24,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
-import { CommunityComponent } from './components/community/community.component';
+import { CommunityComponent } from './components/community/community.component'
 import { UserSearchComponent } from './components/user-search/user-search.component';
 import { UserItemComponent } from './components/user-item/user-item.component'
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { UserItemComponent } from './components/user-item/user-item.component'
     ProfileUserComponent,
     CommunityComponent,
     UserSearchComponent,
-    UserItemComponent
+    UserItemComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { UserItemComponent } from './components/user-item/user-item.component'
     MatSlideToggleModule,
     MatToolbarModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
