@@ -1,4 +1,7 @@
 from backend.data import data_accounts, data_posts
+import io
+
+from backend.data import data_accounts
 
 
 def test_create_user(client):
@@ -44,12 +47,20 @@ def test_find_user(client):
         client.post("/account", json=account)
 
     client.loginAs(account)
-    assert client.get("/accounts/search/LeX").json["accounts"] == [
-        "Alex",
-        "Blex",
-        "blex",
-        "Clex",
-    ]
+    accounts = client.get("/accounts/search/LeX").json["accounts"]
+    assert [x["username"] for x in accounts] == ["Alex", "Blex", "blex", "Clex"]
+
+
+def test_user_avatar(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    file = (io.BytesIO(b"MyImageData"), 'test.jpg')
+    response = client.put("/account/files", data={'avatar': file})
+    assert response.json["account"]["avatar"].startswith("static/api/accounts/1/")
+
+    response = client.delete("/account/files", json={'avatar': 1})
+    assert response.json["account"]["avatar"] == ""
 
 def test_delete_user_delete_all(client):
     account = data_accounts[0]

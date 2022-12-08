@@ -1,0 +1,20 @@
+<div class="post" style="display: flex; width: 100%;">
+  <div class="post-image-side">
+    <img class="post-profile-pic" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="">
+  </div>
+  <div class="content-title" style="display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%">
+    <div style="display: flex; flex-direction: column;">
+      <span class="user-nickname" (click)="goToProfileUser(userInfo.username)">{{userInfo.username}}</span>
+      <span class="username"> @{{userInfo.username}}</span>
+    </div>
+    <div *ngIf="accountFollowsUser()">
+      <button class="btn btn-primary btn1" disabled = "{{buttonActived}}" type="submit" style="margin-left: 20px;" (click)="follow()">{{textButton}}<i class="{{buttonActived}}"></i></button>
+    </div>
+  </div>
+</div>
+
