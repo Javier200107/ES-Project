@@ -47,6 +47,17 @@
   width: 400px;
   text-align: start;
 }
+.post-text{
+  word-break: break-all;
+  /* Non standard for webkit */
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+
+  hyphens: auto;
+  width: 400px;
+  overflow: auto;
+}
 
 .post-text{
   word-break: break-all;

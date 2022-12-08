@@ -40,5 +40,5 @@ data_accounts = [
 data_posts = [
     {"text": "A cool post 1", "parent_id": None},
     {"text": "A cool post 2", "parent_id": None},
-    {"text": "A cool post 3", "parent_id": None},
+    {"text": "A cool comment", "parent_id": 1},
 ]
