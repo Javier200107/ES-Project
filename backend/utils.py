@@ -23,3 +23,7 @@ class MyLock(object):
 
 
 lock = MyLock.getInstance()
+
+
+class CustomException(Exception):
+    pass

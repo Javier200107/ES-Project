@@ -3,12 +3,26 @@
 
 ### Execució FRONTEND:
 
+Execució BACKEND:
+============
 
+### _Creació base de dades_:
 
-### Execució BACKEND:
+A la terminal de Pycharm o al cmd executem:
+```python
+flask db init
+flask db migrate -m "Initial migration"
+flask db upgrade
+```
+> *Nota:* Si hi ha canvis a backend, cal eliminar la carpeta `migration` i `instance` on es crea la ddb, per poder utilitzar els nous canvis.
 
+### _Executem backend_:
+```python
+flask run
+```
 
-## Requests Backend
+Requests Backend
+============
 
 > **Nota:** La tabla està en format HTML, motiu pel qual per escriure codi dins faig servir
 > el tag `<pre>`. 

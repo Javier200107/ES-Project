@@ -15,14 +15,14 @@
     </div>
 
     <div *ngIf="searched">
-      <div *ngIf="users.length <= 0">
+      <div *ngIf="userNames.length <= 0">
         <div class="no-users">
           No users found for '{{resultStr}}'
         </div>
       </div>
 
-      <div *ngIf="users.length >= 0">
-        <div class="user-list" *ngFor="let user of users" >
+      <div *ngIf="userNames.length >= 0">
+        <div class="user-list" *ngFor="let user of userNames" >
           <app-user-item [username]="user" ></app-user-item>
         </div>
       </div>

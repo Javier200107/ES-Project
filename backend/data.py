@@ -7,6 +7,7 @@ data_accounts = [
         "cognom": "Torso",
         "birthdate": "2002-01-10",
         "is_admin": 0,
+        "description": "",
     },
     {
         "username": "CarlesCJB",
@@ -16,6 +17,7 @@ data_accounts = [
         "cognom": "Duran",
         "birthdate": "1995-01-10",
         "is_admin": 0,
+        "description": "",
     },
     {
         "username": "EmmaRadu",
@@ -25,6 +27,7 @@ data_accounts = [
         "cognom": "Raducanu",
         "birthdate": "1998-01-10",
         "is_admin": 0,
+        "description": "",
     },
     {
         "username": "fernandito1",
@@ -34,6 +37,7 @@ data_accounts = [
         "cognom": "Alonso",
         "birthdate": "1980-12-12",
         "is_admin": 0,
+        "description": "",
     },
 ]
 

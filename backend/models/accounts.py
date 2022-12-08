@@ -1,4 +1,8 @@
+import os
+import shutil
 import time
+import uuid
+from pathlib import Path
 
 from backend.db import db
 from backend.models.posts import PostsModel
@@ -31,8 +35,11 @@ class AccountsModel(db.Model):
     birth = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    avatar = db.Column(db.String(), nullable=False, default="")
+    banner = db.Column(db.String(), nullable=False, default="")
 
-    posts = db.relationship("PostsModel", back_populates="account")
+    posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
 
     following = db.relationship(
         "AccountsModel",
@@ -42,13 +49,14 @@ class AccountsModel(db.Model):
         backref="followers",
     )
 
-    def __init__(self, username, email, nom, cognom, birth, is_admin=0):
+    def __init__(self, username, email, nom, cognom, birth, is_admin, description):
         self.username = username
         self.email = email
         self.nom = nom
         self.cognom = cognom
         self.birth = birth
         self.is_admin = is_admin
+        self.description = description
 
     def json(self):
         return {
@@ -59,8 +67,18 @@ class AccountsModel(db.Model):
             "cognom": self.cognom,
             "birth": self.birth.isoformat(),
             "is_admin": self.is_admin,
+            "description": self.description,
+            "avatar": self.avatar,
+            "banner": self.banner,
             "followers": [t.username for t in self.followers],
             "following": [t.username for t in self.following],
+        }
+
+    def json2(self):
+        return {
+            "username": self.username,
+            "avatar": self.avatar,
+            "banner": self.banner
         }
 
     def save_to_db(self):
@@ -74,6 +92,21 @@ class AccountsModel(db.Model):
     def rollback(self):
         db.session.rollback(self)
         db.session.commit()
+
+    def getFilesFolder(self):
+        account_folder = current_app.config["STATIC_FOLDER"] + f"/api/accounts/{self.id}"
+        os.makedirs(account_folder, exist_ok=True)
+        return account_folder
+
+    def getUniqueFilePath(self, extension):
+        return self.getFilesFolder() + f"/{uuid.uuid4()}.{extension}"
+
+    def deleteFilesFolder(self):
+        shutil.rmtree(self.getFilesFolder(), ignore_errors=True)
+
+    def deleteFile(self, file):
+        if file and self.getFilesFolder() in file:
+            Path(file).unlink(missing_ok=True)
 
     def followed_posts_and_self(self, number, off):
         user_id = self.id
