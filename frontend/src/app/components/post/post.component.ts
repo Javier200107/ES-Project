@@ -9,13 +9,14 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-
   @Input() postInfo!: Post
 
   @Output() postArchived: EventEmitter<any> = new EventEmitter();
 
   user!: string
   token!: string
+  numLikes!: number
+  hasLike!: boolean
 
   constructor (private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
@@ -28,9 +29,18 @@ export class PostComponent implements OnInit {
 
 
   ngOnInit (): void {
-    console.log(this.postInfo)
+    this.getNumLikes()
+    this.hasLikeF()
   }
 
+  getNumLikes(){
+    this.postCreationService.getLikesPost(this.postInfo.id, this.token).subscribe(
+      (result) => {
+          // @ts-ignore
+          this.numLikes = result["NumberOfLikes"]
+      }
+    )
+  }
 
   goToProfileUser(account_name: string){
     if (this.user != account_name){
@@ -45,6 +55,35 @@ export class PostComponent implements OnInit {
       (result) => {
         this.postArchived.emit()
       }
+    )
+  }
+
+  hasLikeF() {
+    this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
+      (result) =>{
+        this.hasLike = true;
+      }, error => {
+        this.hasLike = false;
+      })
+  }
+
+  likeFunction(id: number) {
+    this.postCreationService.getLike(id, this.token).subscribe(
+      (result) =>{
+        this.postCreationService.quitLike(id, this.token).subscribe((result) => {
+            this.hasLike = false
+            this.getNumLikes()
+            this.postArchived.emit()
+        })
+      },
+        err => {
+        console.error('Error: status = ', err.status, ' and statusText = ', err.statusText)
+          this.postCreationService.addLike(id, this.token).subscribe((result) => {
+            this.hasLike = true
+            this.getNumLikes()
+            this.postArchived.emit()
+          })
+      },
     )
   }
 }

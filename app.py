@@ -35,7 +35,7 @@ api.add_resource(Posts, "/posts/<int:id>", "/posts")
 api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")
 api.add_resource(Like, "/likes/<string:account>/<int:post>", "/likes/<int:post>")
 api.add_resource(ListPostLikes, "/likePlist/<int:postid>")
-api.add_resource(ListUserLikes, "/likeUlist/<int:userid>", "/likeUlist/")
+api.add_resource(ListUserLikes, "/likeUlist/<int:userid>", "/likeUlist")
 
 api.add_resource(
     Follow, "/follow/<string:account1>/<string:account2>", "/follow/<string:account1>"
