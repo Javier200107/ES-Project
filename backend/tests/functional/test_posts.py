@@ -80,14 +80,14 @@ def test_deletePost_delete_all(client):
     response = client.post("/likes/" + str(post["id"]))
     assert response.json["Post"]["num_likes"] == 1
 
-    list1 = client.get("/likeUlist/").json["ListUserLikes"]
+    list1 = client.get("/likeUlist").json["ListUserLikes"]
     assert len(list1)==1
 
     #Eliminem el post
     assert client.delete(f"/posts/{post['id']}").status_code == 200
 
     #s'elimina el like
-    list1 = client.get("/likeUlist/").json["ListUserLikes"]
+    list1 = client.get("/likeUlist").json["ListUserLikes"]
     assert len(list1)==0
 
     # s'elimnen els comentaris fets al post de l'usuari eliminat
