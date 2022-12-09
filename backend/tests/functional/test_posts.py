@@ -63,13 +63,9 @@ def test_deletePost(client):
 
 def test_deletePost_delete_all(client):
     client.post("/account", json=data_accounts[0])
-    client.loginAs(data_accounts[0])
     client.post("/account", json=data_accounts[1])
     client.loginAs(data_accounts[1])
     post = client.post("/posts", json=data_posts[0]).json["post"]
-
-    client.loginAs(data_accounts[1])
-
     # afegim un comentari al post que eliminarem
     post3 = data_posts[0].copy()
     post3.update({"parent_id": str(post["id"])})
