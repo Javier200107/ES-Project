@@ -50,9 +50,9 @@ def test_getListUserLikes(client):
 
     post = client.post("/posts", json=data_posts[0]).json["post"]
 
-    list1 = client.get("/likeUlist/").json["ListUserLikes"]
+    list1 = client.get("/likeUlist").json["ListUserLikes"]
     client.post("/likes/" + str(post["id"]))
-    list2 = client.get("/likeUlist/").json["ListUserLikes"]
+    list2 = client.get("/likeUlist").json["ListUserLikes"]
     assert len(list1) + 1 == len(list2)
 
 
