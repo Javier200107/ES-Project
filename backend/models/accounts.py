@@ -39,7 +39,7 @@ class AccountsModel(db.Model):
     avatar = db.Column(db.String(), nullable=False, default="")
     banner = db.Column(db.String(), nullable=False, default="")
 
-    posts = db.relationship("PostsModel", back_populates="account")
+    posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
 
     following = db.relationship(
         "AccountsModel",

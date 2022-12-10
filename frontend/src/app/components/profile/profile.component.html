@@ -7,7 +7,6 @@
       <img style="position: absolute; margin-top: 120px; margin-left: 40px" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="" width="128" height="128" class="rounded-circle me-2">
 	  </div>
   </div>
-
   <div class="container_" style="margin-top: 230px">
     <div class="row" style="width: 100%;">
       <div class="col columnNomUser" style="display: flex; justify-content: center;">
@@ -40,6 +39,11 @@
               <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
             </div>
           </mat-tab>
+          <mat-tab label="Liked posts">
+          <div *ngFor="let post of likedPosts">
+            <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
+          </div>
+        </mat-tab>
         </mat-tab-group>
       </div>
       <div class="col" >

@@ -32,10 +32,11 @@
       </div>
 
       <div class="media-container" >
-        <div class="media-btn btn-likes">
-          <div class="material-icons media-icon">favorite_outline</div>
+        <div class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
+          <div *ngIf=hasLike style="color:red;" class="material-icons media-icon">favorite</div>
+          <div *ngIf=!hasLike class="material-icons media-icon">favorite_outline</div>
         </div>
-        <div class="num-likes">0</div>
+        <div class="num-likes">{{numLikes}}</div>
       </div>
 
       <div class="media-container">

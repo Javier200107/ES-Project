@@ -19,7 +19,6 @@ export class HomeFeedService {
       }),
       params : params
     };
-
     // @ts-ignore
     return this.http.get<Object>(`${environment.baseApiUrl}/posts`, httpOptions)
 

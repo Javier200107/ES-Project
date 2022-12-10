@@ -59,6 +59,18 @@
   overflow: auto;
 }
 
+.post-text{
+  word-break: break-all;
+  /* Non standard for webkit */
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+
+  hyphens: auto;
+  width: 400px;
+  overflow: auto;
+}
+
 .content-interaction {
   height: 36px;
   display: flex;
