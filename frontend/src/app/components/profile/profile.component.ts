@@ -15,6 +15,7 @@ import {FollowService} from "../../services/follow.service";
 export class ProfileComponent implements OnInit {
   posts: Post[] = []
   postsArchived: Post[] = []
+  likedPosts: Post[] = []
 
   listFollowersOrFollowing: InfoUserCreated[] = []
   listFollowers:  InfoUserCreated[] = []
@@ -42,11 +43,19 @@ export class ProfileComponent implements OnInit {
     this.getPostsUserArchived()
     this.getListFollowers()
     this.getListFollowings()
+    this.getLikedPosts()
   }
 
+  // TODO OPTIMIZAR liked posts emitter updatea todo
+  // TODO NO PUC TENIR 2 events emitter com a output
   refreshListPosts () {
     this.getPostsUser()
     this.getPostsUserArchived()
+    this.getLikedPosts()
+  }
+
+  refreshLikedPosts() {
+    this.getLikedPosts()
   }
 
   getPostsUserArchived () {
@@ -77,6 +86,21 @@ export class ProfileComponent implements OnInit {
         for (const post of result.posts) {
           this.posts.push(post)
         }
+      }
+    )
+  }
+
+  getLikedPosts() {
+    this.likedPosts = []
+    this.postCreationService.getLikedPosts(this.token).subscribe(
+      (result) => {
+        // @ts-ignore
+        let likedPosts = result["ListUserLikes"]
+        for (const post of likedPosts) {
+          this.likedPosts.push(post)
+        }
+      }, error => {
+        console.error('Error: status = ', error.status, ' and statusText = ', error.statusText)
       }
     )
   }

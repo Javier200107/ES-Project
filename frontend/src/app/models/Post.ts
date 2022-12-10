@@ -7,4 +7,6 @@ export interface Post {
   account_name: string;
   parent_id?: number;
   accounts_like:[];
+  num_likes: number;
+  community: number;
 }
