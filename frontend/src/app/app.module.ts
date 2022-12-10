@@ -31,6 +31,11 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import { UserComponent } from './components/user/user.component';
 import {DialogModule} from "primeng/dialog";
 import {ButtonModule} from "primeng/button";
+import { SettingsComponent } from './components/settings/settings.component';
+import {AvatarModule} from "primeng/avatar";
+import {RippleModule} from "primeng/ripple";
+import {InputTextModule} from "primeng/inputtext";
+import {CalendarModule} from "primeng/calendar";
 
 @NgModule({
   declarations: [
@@ -46,7 +51,8 @@ import {ButtonModule} from "primeng/button";
     CommunityComponent,
     UserSearchComponent,
     UserItemComponent,
-    UserComponent
+    UserComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +72,11 @@ import {ButtonModule} from "primeng/button";
     MatTabsModule,
     MatSidenavModule,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    AvatarModule,
+    RippleModule,
+    InputTextModule,
+    CalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

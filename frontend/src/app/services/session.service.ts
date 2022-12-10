@@ -5,6 +5,8 @@ import { Observable } from 'rxjs'
 
 import { User } from '../models/User'
 import { UserLogin } from '../models/UserLogin'
+import {InfoUserCreated} from "../models/InfoUserCreated";
+import {AccountInfo} from "../models/AccountInfo";
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,15 @@ export class SessionService{
     return this.http.post<UserLogin>(`${environment.baseApiUrl}/login`, user)
     /* .pipe(
         catchError(err => {throw 'Error en realitzar el post '; })) */
+  }
+
+  getInfoAccount(userAccount: string, token: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    return this.http.get<AccountInfo>(`${environment.baseApiUrl}/account/${userAccount}`, httpOptions)
   }
 }

@@ -5,6 +5,7 @@ import { PostCreationService } from '../../services/post-creation.service'
 import { GetNumPosts } from '../../models/GetNumPosts'
 import {InfoUserCreated} from "../../models/InfoUserCreated";
 import {FollowService} from "../../services/follow.service";
+import {SessionService} from "../../services/session.service";
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,8 @@ import {FollowService} from "../../services/follow.service";
 export class ProfileComponent implements OnInit {
   posts: Post[] = []
   postsArchived: Post[] = []
+  userAccountInfo!: InfoUserCreated
+  userInfoUpdate!: InfoUserCreated
 
   listFollowersOrFollowing: InfoUserCreated[] = []
   listFollowers:  InfoUserCreated[] = []
@@ -22,13 +25,27 @@ export class ProfileComponent implements OnInit {
 
   user!: string
   token!: string
+  displayMaximizable!: boolean;
 
   numSeguidores!: number
   numSeguidos!: number
   isFollowersVisible = false
   isFollowingVisible = false
+  value2!: string;
 
-  constructor (private followService: FollowService,private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  newUsername = ""
+  newEmail = ""
+  newPassword = ""
+  newName = ""
+  newSurname = ""
+  newBirthday = ""
+
+  constructor (
+    private followService: FollowService,
+    private postCreationService: PostCreationService,
+    private sessionService: SessionService,
+    private route : ActivatedRoute
+  ) {
     this.route.queryParams
       .subscribe(params => {
         this.user = params['user']
@@ -42,6 +59,7 @@ export class ProfileComponent implements OnInit {
     this.getPostsUserArchived()
     this.getListFollowers()
     this.getListFollowings()
+    this.getInfoAccount()
   }
 
   refreshListPosts () {
@@ -141,5 +159,36 @@ export class ProfileComponent implements OnInit {
 
   visibilityComponentUser() {
     return !(!this.isFollowingVisible && !this.isFollowersVisible);
+  }
+
+  showMaximizableDialog() {
+      this.displayMaximizable = true;
+  }
+
+  getInfoAccount() {
+    this.sessionService.getInfoAccount(this.user, this.token).subscribe(
+      (result) => {
+        this.userAccountInfo = result.account
+      }
+    )
+  }
+
+  changeInfoAccount() {
+    if (this.newUsername) {
+      console.log("Hemos cambiado el Username")
+    } else if (this.newEmail) {
+
+    } else if (this.newPassword) {
+
+    } else if (this.newName) {
+
+    } else if (this.newSurname) {
+
+    } else if (this.newBirthday) {
+
+    }
+  }
+
+  deleteNewInfoAccount() {
   }
 }
