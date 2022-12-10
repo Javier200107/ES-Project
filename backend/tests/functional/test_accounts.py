@@ -45,7 +45,7 @@ def test_edit_user(client):
     data = {"email": "new@mail.com", "birthdate": "2000-01-01", "description": "myBio"}
     account = client.put("/account", json=data).json["account"]
     assert account["email"] == "new@mail.com"
-    assert account["birthdate"].startswith("2000-01-01")
+    assert account["birthdate"] == "2000-01-01"
     assert account["description"] == "myBio"
 
 
