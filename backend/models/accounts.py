@@ -65,7 +65,7 @@ class AccountsModel(db.Model):
             "email": self.email,
             "nom": self.nom,
             "cognom": self.cognom,
-            "birth": self.birth.isoformat(),
+            "birthdate": self.birth.isoformat(),
             "is_admin": self.is_admin,
             "description": self.description,
             "avatar": self.avatar,
