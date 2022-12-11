@@ -27,9 +27,9 @@ describe('Register and login', () => {
 
   })
 
-  it('Deberia poder registrarme', () => {
+  it('Deberia poder hacer login', () => {
     cy.visit('/login')
-    // Rellena el formulario con los 3 primeros datos del usuario
+    // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('mr50');
     cy.get('input[id="password"]').type('Mr345678');
 
