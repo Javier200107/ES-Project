@@ -29,12 +29,12 @@
   <hr class="divisor">
   <div class="dropdown row">
     <div class="col">
-      <a href="#" class="dropdown-toggle col_" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+      <a class="dropdown-toggle col_" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="" width="32" height="32" class="rounded-circle me-2">
         <strong>@{{user}}</strong>
       </a>
       <ul class="dropdown-menu {{theme_dropdown_menu}} text-small" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item disabled" href="#"><i class="bi bi-gear-fill icons disabled"></i>Settings</a></li>
+        <li><a class="dropdown-item" (click)="areActive('settings')"><i class="bi bi-gear-fill icons disabled"></i>Settings</a></li>
         <li><a class="dropdown-item" (click)="areActive('profile')"><i class="bi bi-person-circle icons"></i>Profile</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" [routerLink]="'/register'"><i class="bi bi-box-arrow-left icons"></i>Sign out</a></li>
