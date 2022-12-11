@@ -1,3 +1,4 @@
+from backend.models.notifications import NotificationsModel
 from backend.utils import lock
 from backend.models.accounts import AccountsModel, auth, g
 from backend.models.posts import PostsModel
@@ -54,6 +55,18 @@ class Like(Resource):
                                 )
                             }, 404
                 accounts.append(acc)
+                if(pt.account_id!=acc.id):
+                    noti = NotificationsModel(1)
+                    noti.account_id2 = acc.id
+                    acc2 = AccountsModel.get_by_id(pt.account_id)
+                    noti.account_id = acc2.id
+                    noti.post_id = post
+                    try:
+                        noti.save_to_db()
+                    except:
+                        noti.rollback()
+                        return {"message": "An error occurred inserting the Like-Notification."}, 500
+
                 try:
                     pt.save_to_db()
                     return {"Post": pt.json()}, 200

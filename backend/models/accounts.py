@@ -40,6 +40,7 @@ class AccountsModel(db.Model):
     banner = db.Column(db.String(), nullable=False, default="")
 
     posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
+    notifications = db.relationship("NotificationsModel", cascade="all, delete-orphan",foreign_keys = 'NotificationsModel.account_id')
 
     following = db.relationship(
         "AccountsModel",
@@ -72,6 +73,7 @@ class AccountsModel(db.Model):
             "banner": self.banner,
             "followers": [t.username for t in self.followers],
             "following": [t.username for t in self.following],
+            "Num_notificacions": len(self.notifications)
         }
 
     def json2(self):

@@ -1,3 +1,4 @@
+from backend.models.notifications import NotificationsModel
 from backend.utils import lock
 from backend.models.accounts import AccountsModel, auth, g
 from backend.models.posts import PostsModel
@@ -47,9 +48,25 @@ class Posts(Resource):
 
         with lock.lock:
             new_post = PostsModel(data["text"])
-            new_post.account = AccountsModel.get_by_username(g.user.username)
-            if "parent_id" in data:
-                new_post.parent = PostsModel.get_by_id(data["parent_id"])
+            acc = AccountsModel.get_by_username(g.user.username)
+            new_post.account = acc
+            parent_id = data["parent_id"]
+            addN = False
+            if parent_id != None:
+                parent = PostsModel.get_by_id(parent_id)
+                new_post.parent = parent
+                if(parent.account_id!=acc.id):
+                    noti = NotificationsModel(2)
+                    noti.account_id2 = acc.id
+                    noti.account_id = parent.account_id
+                    noti.post_id = new_post.id #Retorna el comentari
+                    try:
+
+                        noti.save_to_db()
+                    except Exception:
+                        noti.rollback()
+                        return {"message": "An error occurred with post-Notification"}, 500
+
             if (id):
                 new_post.community = 1
             try:
