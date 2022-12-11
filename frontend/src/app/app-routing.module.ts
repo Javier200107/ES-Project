@@ -9,7 +9,6 @@ import {ProfileUserComponent} from "./components/profile-user/profile-user.compo
 import {HttpClientModule} from "@angular/common/http";
 import {CommunityComponent} from "./components/community/community.component";
 import {UserSearchComponent} from "./components/user-search/user-search.component";
-import {SettingsComponent} from "./components/settings/settings.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +19,6 @@ const routes: Routes = [
   { path: 'profileUser', component: ProfileUserComponent },
   { path: 'community', component: CommunityComponent },
   { path: 'userSearch', component: UserSearchComponent },
-  { path: 'settings', component: SettingsComponent },
   { path: '', component: RegisterComponent }
   // { path: '**', component: PageNotFoundComponent }
 ]

@@ -31,7 +31,6 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import { UserComponent } from './components/user/user.component';
 import {DialogModule} from "primeng/dialog";
 import {ButtonModule} from "primeng/button";
-import { SettingsComponent } from './components/settings/settings.component';
 import {AvatarModule} from "primeng/avatar";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
@@ -53,8 +52,7 @@ import {ToastModule} from "primeng/toast";
     CommunityComponent,
     UserSearchComponent,
     UserItemComponent,
-    UserComponent,
-    SettingsComponent
+    UserComponent
   ],
   imports: [
     BrowserModule,
