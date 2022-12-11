@@ -13,14 +13,16 @@ export class LoginComponent implements OnInit {
   username!: string
   password!: string
   token!: string
-
   sessionUser!: UserLogin
+  rememberCredentials!: boolean
 
   constructor (private router : Router, private route : ActivatedRoute,
               private sessionService: SessionService) {
   }
 
   ngOnInit (): void {
+    this.getLocalCredentials()
+    this.rememberCredentials = false
   }
 
   checkLogin () {
@@ -41,6 +43,10 @@ export class LoginComponent implements OnInit {
           this.token = result.token
           user.token = result.token
           this.sessionService.setToken(result.token)
+          if (this.rememberCredentials){
+            localStorage.setItem('username', this.username)
+            localStorage.setItem('password', this.password)
+          }
         }
       },
       err => {
@@ -48,5 +54,19 @@ export class LoginComponent implements OnInit {
         alert('Username or password are wrong, please try again!')
       },
       () => this.router.navigate(['/home'], { queryParams: { user: this.sessionUser.username, token: this.sessionUser.token } }))
+  }
+
+  getLocalCredentials() {
+    let user = localStorage.getItem('username')
+    let pass = localStorage.getItem('password')
+      if (user != null && pass != null) {
+        this.username = user
+        this.password = pass
+        localStorage.clear()
+      }
+  }
+
+  changeRememberCredentials($event: Event) {
+    this.rememberCredentials = !this.rememberCredentials;
   }
 }

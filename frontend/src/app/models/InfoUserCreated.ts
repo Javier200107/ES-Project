@@ -1,12 +1,15 @@
 export interface InfoUserCreated {
   id?: number;
   username: string;
-  email: string;
   password: string;
+  email: string;
   nom: string;
   cognom: string;
-  birth: string;
+  birthdate: string;
   is_admin: boolean;
-  "followers": [];
-  "following": [];
+  description: string;
+  avatar: string;
+  banner: string;
+  followers: [];
+  following: []
 }
