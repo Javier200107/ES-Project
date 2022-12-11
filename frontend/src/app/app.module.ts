@@ -36,6 +36,8 @@ import {AvatarModule} from "primeng/avatar";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
 import {CalendarModule} from "primeng/calendar";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import {CalendarModule} from "primeng/calendar";
     AvatarModule,
     RippleModule,
     InputTextModule,
-    CalendarModule
+    CalendarModule,
+    ConfirmPopupModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

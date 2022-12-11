@@ -6,11 +6,13 @@ import { GetNumPosts } from '../../models/GetNumPosts'
 import {InfoUserCreated} from "../../models/InfoUserCreated";
 import {FollowService} from "../../services/follow.service";
 import {SessionService} from "../../services/session.service";
+import {ConfirmationService, MessageService, PrimeNGConfig} from "primeng/api";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
+  providers: [ConfirmationService, MessageService],
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent implements OnInit {
@@ -45,7 +47,10 @@ export class ProfileComponent implements OnInit {
     private followService: FollowService,
     private postCreationService: PostCreationService,
     private sessionService: SessionService,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private primengConfig: PrimeNGConfig
   ) {
     this.route.queryParams
       .subscribe(params => {
@@ -54,14 +59,14 @@ export class ProfileComponent implements OnInit {
       }
       )
   }
-
   ngOnInit (): void {
+    this.getInfoAccount()
     this.getPostsUser()
     this.getPostsUserArchived()
     this.getListFollowers()
     this.getListFollowings()
     this.getLikedPosts()
-    this.getInfoAccount()
+    this.primengConfig.ripple = true;
   }
 
   // TODO OPTIMIZAR liked posts emitter updatea todo
@@ -198,21 +203,63 @@ export class ProfileComponent implements OnInit {
   }
 
   changeInfoAccount() {
-    if (this.newUsername) {
-      console.log("Hemos cambiado el Username")
-    } else if (this.newEmail) {
-
-    } else if (this.newPassword) {
-
-    } else if (this.newName) {
-
-    } else if (this.newSurname) {
-
-    } else if (this.newBirthday) {
-
+    this.userInfoUpdate = this.userAccountInfo
+    if (this.newEmail != "") {
+      this.userInfoUpdate.email = this.newEmail
     }
+    if (this.newPassword != "") {
+      this.userInfoUpdate.password = this.newPassword
+    }
+    if (this.newName != "") {
+      this.userInfoUpdate.nom = this.newName
+    }
+    if (this.newSurname != "") {
+      this.userInfoUpdate.cognom = this.newSurname
+    }
+    this.userInfoUpdate.birth = this.newBirthday
+    this.sessionService.changeInfoAccount(this.user, this.token, this.userInfoUpdate).subscribe(
+      (result) => {
+        console.log(result)
+        this.userAccountInfo = result.account
+        this.user = this.userAccountInfo.username
+        this.displayMaximizable = false
+        this.deleteNewInfoAccount()
+        this.messageService.add({severity:'success', summary: 'Success', detail: 'Changes saved'});
+      },
+      err => {
+        if(err.status == 409){
+          this.showError()
+        }
+      })
   }
 
   deleteNewInfoAccount() {
+    this.newUsername = ""
+    this.newEmail = ""
+    this.newName = ""
+    this.newSurname = ""
+    this.newPassword = ""
+    this.newBirthday = ""
+  }
+
+  confirm() {
+    this.confirmationService.confirm({
+        message: 'If you change Username ?',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.changeInfoAccount()
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'error', summary: 'Cancelled', detail: 'Changes have not been saved' });
+        }
+    });
+  }
+
+ showError() {
+    this.messageService.add({severity:'error', summary: 'Error', detail: 'Username or email already exists!'});
+  }
+
+  showCancel() {
+    this.messageService.add({ severity: 'error', summary: 'Cancelled', detail: 'Changes have not been saved' });
   }
 }

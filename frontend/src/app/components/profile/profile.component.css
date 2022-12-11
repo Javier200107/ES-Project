@@ -87,7 +87,8 @@ section {
 
 .center {
   display: flex;
-    flex-wrap: wrap;
+  flex-wrap: wrap;
+  align-items: baseline;
 }
 
 .rowReverse {

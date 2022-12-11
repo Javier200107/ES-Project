@@ -44,4 +44,15 @@ export class SessionService{
     };
     return this.http.get<AccountInfo>(`${environment.baseApiUrl}/account/${userAccount}`, httpOptions)
   }
+
+  changeInfoAccount(userAccount: string, token: string, user: InfoUserCreated){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    return this.http.put<AccountInfo>(`${environment.baseApiUrl}/account`, user,
+      httpOptions)
+  }
 }
