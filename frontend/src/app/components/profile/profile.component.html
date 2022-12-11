@@ -83,7 +83,7 @@
       </div>
       <div class="col">
         <span class="p-float-label">
-            <input type="text" pInputText [(ngModel)]="newPassword" class="maxWidth" placeholder="*********">
+            <input type="password" pInputText [(ngModel)]="newPassword" class="maxWidth" placeholder="*********">
         </span>
       </div>
     </div>
@@ -115,7 +115,7 @@
         <h3 class="rowReverse">Birthdate:</h3>
       </div>
       <div class="col">
-        <p>{{this.userAccountInfo.birth}}</p>
+        <p>{{this.userAccountInfo.birthdate}}</p>
         <span class="p-float-label">
           <input type="date" [(ngModel)]="newBirthday" id="birthdate" class="text-form maxWidth"/>
         </span>

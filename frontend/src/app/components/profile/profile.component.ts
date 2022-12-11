@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { Post } from '../../models/Post'
-import { ActivatedRoute } from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 import { PostCreationService } from '../../services/post-creation.service'
 import { GetNumPosts } from '../../models/GetNumPosts'
 import {InfoUserCreated} from "../../models/InfoUserCreated";
 import {FollowService} from "../../services/follow.service";
 import {SessionService} from "../../services/session.service";
 import {ConfirmationService, MessageService, PrimeNGConfig} from "primeng/api";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-profile',
@@ -50,7 +51,8 @@ export class ProfileComponent implements OnInit {
     private route : ActivatedRoute,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private router : Router
   ) {
     this.route.queryParams
       .subscribe(params => {
@@ -204,6 +206,9 @@ export class ProfileComponent implements OnInit {
 
   changeInfoAccount() {
     this.userInfoUpdate = this.userAccountInfo
+    if (this.newUsername != "") {
+      this.userInfoUpdate.username = this.newUsername
+    }
     if (this.newEmail != "") {
       this.userInfoUpdate.email = this.newEmail
     }
@@ -216,7 +221,7 @@ export class ProfileComponent implements OnInit {
     if (this.newSurname != "") {
       this.userInfoUpdate.cognom = this.newSurname
     }
-    this.userInfoUpdate.birth = this.newBirthday
+    this.userInfoUpdate.birthdate = this.newBirthday
     this.sessionService.changeInfoAccount(this.user, this.token, this.userInfoUpdate).subscribe(
       (result) => {
         console.log(result)
@@ -224,13 +229,13 @@ export class ProfileComponent implements OnInit {
         this.user = this.userAccountInfo.username
         this.displayMaximizable = false
         this.deleteNewInfoAccount()
-        this.messageService.add({severity:'success', summary: 'Success', detail: 'Changes saved'});
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Changes saved'});
       },
       err => {
-        if(err.status == 409){
+        if (err.status == 409) {
           this.showError()
         }
-      })
+      });
   }
 
   deleteNewInfoAccount() {
@@ -244,13 +249,14 @@ export class ProfileComponent implements OnInit {
 
   confirm() {
     this.confirmationService.confirm({
-        message: 'If you change Username ?',
+        message: 'Are you sure you want to try these changes? \n\n\n Note: If you change Username you will have to log in again.',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
             this.changeInfoAccount()
         },
         reject: () => {
             this.messageService.add({ severity: 'error', summary: 'Cancelled', detail: 'Changes have not been saved' });
+            this.displayMaximizable = false
         }
     });
   }

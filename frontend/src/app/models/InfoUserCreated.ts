@@ -5,7 +5,7 @@ export interface InfoUserCreated {
   email: string;
   nom: string;
   cognom: string;
-  birth: string;
+  birthdate: string;
   is_admin: boolean;
   description: string;
   avatar: string;
