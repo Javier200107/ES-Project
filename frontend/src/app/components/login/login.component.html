@@ -3,21 +3,34 @@
 
     <mat-card-title class="title">Sign in</mat-card-title>
 
-      <mat-form-field class="settings_inputs" appearance="fill">
-        <mat-label class="labels_inputs">Username</mat-label>
-        <input class="labels_inputs" [(ngModel)]='username' id = "usuari" matInput>
-      </mat-form-field>
+    <mat-form-field class="settings_inputs" appearance="fill">
+      <mat-label class="labels_inputs">Username</mat-label>
+      <input class="labels_inputs" [(ngModel)]='username' id="usuari" matInput>
+    </mat-form-field>
 
-      <mat-form-field class="settings_inputs" appearance="fill">
-        <mat-label class="labels_inputs">Password</mat-label>
-        <input class="labels_inputs" type="password" [(ngModel)]='password' id = "password" matInput>
-      </mat-form-field>
+    <mat-form-field class="settings_inputs" appearance="fill">
+      <mat-label class="labels_inputs">Password</mat-label>
+      <input class="labels_inputs" type="password" [(ngModel)]='password' id="password" matInput>
+    </mat-form-field>
+    <div class="form-check">
+      <input
+        mdbCheckbox
+        class="form-check-input"
+        type="checkbox"
+        value=""
+        id="flexCheckDefault"
+        [checked]="rememberCredentials"
+        (change)="changeRememberCredentials($event)"
+      />
+      <label class="form-check-label" for="flexCheckDefault">
+        Remember credentials
+      </label>
+    </div>
+    <div>
+      <a class="forgot_passw" routerLink="#">Forgot password?</a>
+    </div>
 
-      <div>
-        <a class="forgot_passw" routerLink="#">Forgot password?</a>
-      </div>
-
-      <button class="button_login" (click)="checkLogin()" mat-raised-button color="primary">Sign in</button>
+    <button class="button_login" (click)="checkLogin()" mat-raised-button color="primary">Sign in</button>
 
   </mat-card>
   <a> Don't have an account? <a style="color: var(--primary)" routerLink="/register">create</a></a>

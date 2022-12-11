@@ -168,3 +168,13 @@ class Comments(Resource):
         if posts:
             return {"comments": [post.json() for post in posts]}, 200
         return {"message": "No comments were found"}, 404
+
+
+class Post(Resource):
+    @auth.login_required()
+    def get(self, id):
+        post = PostsModel.get_by_id(id)
+        if post is None:
+            return {"message": "No post was found"}, 404
+        return {"post": post.json()}, 200
+

@@ -14,6 +14,7 @@ def createPosts(client):
     assert client.post("/posts", json=post2).status_code == 201
 
 
+
 def test_getUserPosts(client):
     createPosts(client)
     client.loginAs(data_accounts[0])
@@ -37,6 +38,15 @@ def test_getPosts(client):
     assert (
         response.json["posts"][0]["id"] ==2
     )  # most recent post is first in the list
+
+def test_getPost(client):
+    createPosts(client)
+    client.loginAs(data_accounts[0])
+
+    response = client.get("/post/1")
+    assert response.status_code == 200
+    assert (response.json["post"]["id"]) == 1
+
 
 
 def test_createPost(client):
