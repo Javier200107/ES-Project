@@ -208,12 +208,16 @@ export class ProfileComponent implements OnInit {
     this.userInfoUpdate = this.userAccountInfo
     if (this.newUsername != "") {
       this.userInfoUpdate.username = this.newUsername
+      localStorage.removeItem('username')
+      localStorage.setItem('username', this.newUsername)
     }
     if (this.newEmail != "") {
       this.userInfoUpdate.email = this.newEmail
     }
     if (this.newPassword != "") {
       this.userInfoUpdate.password = this.newPassword
+      localStorage.removeItem('password')
+      localStorage.setItem('password', this.newPassword)
     }
     if (this.newName != "") {
       this.userInfoUpdate.nom = this.newName
@@ -228,7 +232,6 @@ export class ProfileComponent implements OnInit {
     }
     this.sessionService.changeInfoAccount(this.user, this.token, this.userInfoUpdate).subscribe(
       (result) => {
-        console.log(result)
         this.userAccountInfo = result.account
         this.displayMaximizable = false
         this.deleteNewInfoAccount()
