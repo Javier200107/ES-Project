@@ -25,7 +25,6 @@ export class HomeFeedService {
   }
 
   getPostsFromFollowing(params: any, token: String, user: String): Observable<Object>  {
-    console.log(token)
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

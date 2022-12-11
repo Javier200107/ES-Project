@@ -1,21 +1,27 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { Post } from '../../models/Post'
-import { ActivatedRoute } from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 import { PostCreationService } from '../../services/post-creation.service'
 import { GetNumPosts } from '../../models/GetNumPosts'
 import {InfoUserCreated} from "../../models/InfoUserCreated";
 import {FollowService} from "../../services/follow.service";
+import {SessionService} from "../../services/session.service";
+import {ConfirmationService, MessageService, PrimeNGConfig} from "primeng/api";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
+  providers: [ConfirmationService, MessageService],
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent implements OnInit {
   posts: Post[] = []
   postsArchived: Post[] = []
   likedPosts: Post[] = []
+  userAccountInfo!: InfoUserCreated
+  userInfoUpdate!: InfoUserCreated
 
   listFollowersOrFollowing: InfoUserCreated[] = []
   listFollowers:  InfoUserCreated[] = []
@@ -23,13 +29,31 @@ export class ProfileComponent implements OnInit {
 
   user!: string
   token!: string
+  displayMaximizable!: boolean;
 
   numSeguidores!: number
   numSeguidos!: number
   isFollowersVisible = false
   isFollowingVisible = false
+  value2!: string;
 
-  constructor (private followService: FollowService,private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  newUsername = ""
+  newEmail = ""
+  newPassword = ""
+  newName = ""
+  newSurname = ""
+  newBirthday = ""
+
+  constructor (
+    private followService: FollowService,
+    private postCreationService: PostCreationService,
+    private sessionService: SessionService,
+    private route : ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private primengConfig: PrimeNGConfig,
+    private router : Router
+  ) {
     this.route.queryParams
       .subscribe(params => {
         this.user = params['user']
@@ -37,13 +61,14 @@ export class ProfileComponent implements OnInit {
       }
       )
   }
-
   ngOnInit (): void {
+    this.getInfoAccount()
     this.getPostsUser()
     this.getPostsUserArchived()
     this.getListFollowers()
     this.getListFollowings()
     this.getLikedPosts()
+    this.primengConfig.ripple = true;
   }
 
   // TODO OPTIMIZAR liked posts emitter updatea todo
@@ -165,5 +190,95 @@ export class ProfileComponent implements OnInit {
 
   visibilityComponentUser() {
     return !(!this.isFollowingVisible && !this.isFollowersVisible);
+  }
+
+  showMaximizableDialog() {
+      this.displayMaximizable = true;
+  }
+
+  getInfoAccount() {
+    this.sessionService.getInfoAccount(this.user, this.token).subscribe(
+      (result) => {
+        this.userAccountInfo = result.account
+      }
+    )
+  }
+
+  changeInfoAccount() {
+    this.userInfoUpdate = this.userAccountInfo
+    if (this.newUsername != "") {
+      this.userInfoUpdate.username = this.newUsername
+    }
+    if (this.newEmail != "") {
+      this.userInfoUpdate.email = this.newEmail
+    }
+    if (this.newPassword != "") {
+      this.userInfoUpdate.password = this.newPassword
+    }
+    if (this.newName != "") {
+      this.userInfoUpdate.nom = this.newName
+    }
+    if (this.newSurname != "") {
+      this.userInfoUpdate.cognom = this.newSurname
+    }
+    if (this.newBirthday != "") {
+      console.log(this.userInfoUpdate.birthdate)
+       console.log(this.newBirthday)
+      this.userInfoUpdate.birthdate = this.newBirthday
+    }
+    this.sessionService.changeInfoAccount(this.user, this.token, this.userInfoUpdate).subscribe(
+      (result) => {
+        console.log(result)
+        this.userAccountInfo = result.account
+        this.displayMaximizable = false
+        this.deleteNewInfoAccount()
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Changes saved'});
+      },
+      err => {
+        if (err.status == 409) {
+          this.showError()
+        } else {
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Could not save changes!'});
+        }
+        this.displayMaximizable = false
+        this.deleteNewInfoAccount()
+      },
+      () => {
+        console.log(this.userAccountInfo.username)
+        console.log(this.user)
+        if (this.userAccountInfo.username != this.user) {
+          this.router.navigate(['/login'])
+        }
+      })
+  }
+  deleteNewInfoAccount() {
+    this.newUsername = ""
+    this.newEmail = ""
+    this.newName = ""
+    this.newSurname = ""
+    this.newPassword = ""
+    this.newBirthday = ""
+  }
+
+  confirm() {
+    this.confirmationService.confirm({
+        message: 'Are you sure you want to try these changes? \n\n\n Note: If you change Username you will have to log in again.',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.changeInfoAccount()
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'error', summary: 'Cancelled', detail: 'Changes have not been saved' });
+            this.displayMaximizable = false
+        }
+    });
+  }
+
+ showError() {
+    this.messageService.add({severity:'error', summary: 'Error', detail: 'Username or email already exists!'});
+  }
+
+  showCancel() {
+    this.messageService.add({ severity: 'error', summary: 'Cancelled', detail: 'Changes have not been saved' });
   }
 }

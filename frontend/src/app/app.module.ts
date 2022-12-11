@@ -29,6 +29,14 @@ import { UserSearchComponent } from './components/user-search/user-search.compon
 import { UserItemComponent } from './components/user-item/user-item.component'
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { UserComponent } from './components/user/user.component';
+import {DialogModule} from "primeng/dialog";
+import {ButtonModule} from "primeng/button";
+import {AvatarModule} from "primeng/avatar";
+import {RippleModule} from "primeng/ripple";
+import {InputTextModule} from "primeng/inputtext";
+import {CalendarModule} from "primeng/calendar";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -62,7 +70,15 @@ import { UserComponent } from './components/user/user.component';
     MatToolbarModule,
     MatIconModule,
     MatTabsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    DialogModule,
+    ButtonModule,
+    AvatarModule,
+    RippleModule,
+    InputTextModule,
+    CalendarModule,
+    ConfirmPopupModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]
