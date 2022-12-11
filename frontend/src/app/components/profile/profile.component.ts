@@ -221,12 +221,15 @@ export class ProfileComponent implements OnInit {
     if (this.newSurname != "") {
       this.userInfoUpdate.cognom = this.newSurname
     }
-    this.userInfoUpdate.birthdate = this.newBirthday
+    if (this.newBirthday != "") {
+      console.log(this.userInfoUpdate.birthdate)
+       console.log(this.newBirthday)
+      this.userInfoUpdate.birthdate = this.newBirthday
+    }
     this.sessionService.changeInfoAccount(this.user, this.token, this.userInfoUpdate).subscribe(
       (result) => {
         console.log(result)
         this.userAccountInfo = result.account
-        this.user = this.userAccountInfo.username
         this.displayMaximizable = false
         this.deleteNewInfoAccount()
         this.messageService.add({severity: 'success', summary: 'Success', detail: 'Changes saved'});
@@ -234,10 +237,20 @@ export class ProfileComponent implements OnInit {
       err => {
         if (err.status == 409) {
           this.showError()
+        } else {
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Could not save changes!'});
         }
-      });
+        this.displayMaximizable = false
+        this.deleteNewInfoAccount()
+      },
+      () => {
+        console.log(this.userAccountInfo.username)
+        console.log(this.user)
+        if (this.userAccountInfo.username != this.user) {
+          this.router.navigate(['/login'])
+        }
+      })
   }
-
   deleteNewInfoAccount() {
     this.newUsername = ""
     this.newEmail = ""
