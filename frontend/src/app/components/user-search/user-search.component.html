@@ -8,8 +8,8 @@
     <div class="home-title">Search</div>
 
     <div class="search-container">
-      <input  [(ngModel)]="srchString" class="form-control searchbar" type="text" name="post-text" placeholder="Search" >
-      <div class="search-button" (click)="searchUsers(srchString)">
+      <input  [(ngModel)]="srchString" class="form-control searchbar" type="text" name="search-input" placeholder="Search" >
+      <div id="search-btn" class="search-button" (click)="searchUsers(srchString)">
         <div class="material-icons search-icon ">search</div>
       </div>
     </div>

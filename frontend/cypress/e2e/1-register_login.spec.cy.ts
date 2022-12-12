@@ -4,7 +4,7 @@ describe('Register and login', () => {
     cy.contains('Join Share.It today')
   })
 
-  it('Deberia poder registrarme', () => {
+  it.skip('Deberia poder registrarme', () => {
     cy.visit('/')
     // Rellena el formulario con los 3 primeros datos del usuario
     cy.get('input[name="username"]').type('mr50');

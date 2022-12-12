@@ -1,5 +1,5 @@
 describe('Archive post', () => {
-  it('Entro con una cuenta existente y archivo un post', () => {
+  it('Entro con una cuenta existente, archivo y desarchivo un post', () => {
     cy.visit('/login');
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('mr50');
@@ -29,7 +29,7 @@ describe('Archive post', () => {
     cy.contains('Posts').click();
     cy.get('div[id="post-mr501"]');
 
-    // Eliminar cuenta?
+    // Eliminar cuenta? -> eliminarla en el último test que se haga
 
   })
 
