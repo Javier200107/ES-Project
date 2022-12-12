@@ -8,10 +8,28 @@ describe('Archive post', () => {
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
 
-    // Comprueba que se haya enviado correctamente
+    // Comprueba que se haya entrado correctamente
     cy.contains('Home');
 
-    // Busco el post
+    // Voy a la pagina de perfil
+    cy.get('strong[id="user-menu"]').click();
+    cy.contains('Profile').click();
+
+    // Busco el post y lo archivo
+    cy.get('div[id="archived-btn-mr501"]').click();
+
+    // Compruebo que esté en la lista de archivados
+    cy.contains('Archived posts').click();
+    cy.get('div[id="post-mr501"]');
+
+    // Desarchivo el post
+    cy.get('div[id="archived-btn-mr501"]').click();
+
+    // Compruebo que esté en la lista de posts desarchivados
+    cy.contains('Posts').click();
+    cy.get('div[id="post-mr501"]');
+
+    // Eliminar cuenta?
 
   })
 
