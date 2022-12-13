@@ -77,24 +77,25 @@ class Posts(Resource):
 
     @auth.login_required()
     def put(self, id):
-        parser = reqparse.RequestParser()
-        parser.add_argument(
-            "archived",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Archive the post"},
-        )
-        data = parser.parse_args()
-
         with lock.lock:
             post = PostsModel.get_by_id(id)
             if post is None:
                 return {"message": "No post was found"}, 404
             if post.account.username != g.user.username:
                 return {"message": "Unauthorized!"}, 403
+
+            parser = reqparse.RequestParser()
+            parser.add_argument("text", type=str, required=False, nullable=False, default=post.text)
+            parser.add_argument("parent_id", type=int, required=False, nullable=True, default=post.parent_id)
+            parser.add_argument("archived", type=int, required=False, nullable=False, default=post.archived)
+            parser.add_argument("community", type=int, required=False, nullable=False, default=post.community)
+            data = parser.parse_args()
+
             try:
+                post.text = data["text"]
+                post.parent = PostsModel.get_by_id(data["parent_id"])
                 post.archived = data["archived"]
+                post.community = data["community"]
                 post.save_to_db()
             except Exception:
                 return {"message": "An error occurred updating the post"}, 500
