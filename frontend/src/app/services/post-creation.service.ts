@@ -207,14 +207,14 @@ export class PostCreationService {
     )
   }
 
-  getAvatar(token:string, username: string) {
+  getAvatar(token:string, id_post: number) {
     const headerOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }),
     }
-    return this.http.get<InfoUserCreated>(`${environment.baseApiUrl}/account/${username}`,
+    return this.http.get<InfoUserCreated>(`${environment.baseApiUrl}/post/${id_post}`,
       headerOptions
     )
   }
