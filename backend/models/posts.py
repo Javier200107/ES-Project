@@ -45,6 +45,7 @@ class PostsModel(db.Model):
             "archived": self.archived,
             "account_id": self.account_id,
             "account_name": self.account.username,
+            "account_avatar": self.account.avatar,
             "parent_id": self.parent_id,
             "accounts_like": [t.username for t in self.accounts_like],
             "num_likes": len(self.accounts_like),
