@@ -20,6 +20,9 @@ class PostsModel(db.Model):
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     community = db.Column(db.Integer, nullable=False, default=0)
+    image1 = db.Column(db.String, nullable=False, default="")
+    image2 = db.Column(db.String, nullable=False, default="")
+    video1 = db.Column(db.String, nullable=False, default="")
 
     # usuari que publica el post
     account = db.relationship(
@@ -50,7 +53,10 @@ class PostsModel(db.Model):
             "accounts_like": [t.username for t in self.accounts_like],
             "num_likes": len(self.accounts_like),
             "community": self.community,
-            "num_comments": len(self.comments) if self.comments else 0
+            "num_comments": len(self.comments) if self.comments else 0,
+            "image1": self.image1,
+            "image2": self.image2,
+            "video1": self.video1
         }
 
     def save_to_db(self):
@@ -76,6 +82,7 @@ class PostsModel(db.Model):
     @classmethod
     def get_groups(cls, number, off):
         return cls.query.filter_by(archived=0,community=0,parent_id=None).order_by(cls.time.desc()).limit(number).offset(off).all()
+
     @classmethod
     def get_groups_by_account(cls, account_id, number, off, archived,same):
         if archived is None:

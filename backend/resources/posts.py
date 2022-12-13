@@ -1,5 +1,7 @@
+from werkzeug.datastructures import FileStorage
+
 from backend.models.notifications import NotificationsModel
-from backend.utils import lock
+from backend.utils import lock, CustomException
 from backend.models.accounts import AccountsModel, auth, g
 from backend.models.posts import PostsModel
 from flask_restful import Resource, reqparse
@@ -109,6 +111,9 @@ class Posts(Resource):
         if post.account.username != g.user.username:
             return {"message": "Unauthorized!"}, 403
         try:
+            post.account.deleteFile(post.image1)
+            post.account.deleteFile(post.image2)
+            post.account.deleteFile(post.video1)
             post.delete_from_db()
         except Exception:
             return {"message": "An error occurred deleting the post"}, 500
@@ -196,3 +201,89 @@ class Post(Resource):
             return {"message": "No post was found"}, 404
         return {"post": post.json()}, 200
 
+
+class PostsFiles(Resource):
+    allowed_extensions = {"image": ["png", "jpg", "jpeg", "gif"], "video": ["mp4", "webm", "mov"]}
+
+    @classmethod
+    def get_allowed_extension(cls, filename, fileType):
+        ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else ""
+        if ext in cls.allowed_extensions[fileType]:
+            return ext
+        raise CustomException("Invalid file extension.")
+
+    def save_file(self, account, file, fileType):
+        extension = self.get_allowed_extension(file.filename, fileType)
+        unique_file_path = account.getUniqueFilePath(extension)
+        file.save(unique_file_path)
+        return unique_file_path
+
+    def update_account_post_file(self, account, post, file, post_file):
+        f = self.save_file(account, file, post_file[:-1])
+        account.deleteFile(getattr(post, post_file))
+        setattr(post, post_file, f)
+        post.save_to_db()
+
+    @auth.login_required()
+    def put(self, id):
+        parser = reqparse.RequestParser()
+        parser.add_argument("image1", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument("image2", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument("video1", type=FileStorage, location="files", required=False, default=None)
+        data = parser.parse_args()
+
+        account = g.user
+        image1, image2, video1 = data["image1"], data["image2"], data["video1"]
+
+        post = PostsModel.get_by_id(id)
+        if post is None:
+            return {"message": "No post was found!"}, 404
+        if post.account.username != account.username:
+            return {"message": "Unauthorized!"}, 403
+
+        with lock.lock:
+            try:
+                if image1 and image1.filename:
+                    self.update_account_post_file(account, post, image1, "image1")
+                if image2 and image2.filename:
+                    self.update_account_post_file(account, post, image2, "image2")
+                if video1 and video1.filename:
+                    self.update_account_post_file(account, post, video1, "video1")
+            except CustomException as e:
+                return {'message': str(e)}, 400
+            except Exception:
+                return {'message': "Failed to update the post."}, 500
+
+        return {"post": post.json()}, 200
+
+    @auth.login_required()
+    def delete(self, id):
+        parser = reqparse.RequestParser()
+        parser.add_argument("image1", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("image2", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("video1", type=int, required=False, nullable=False, default=0, location="args")
+        data = parser.parse_args()
+
+        account = g.user
+        post = PostsModel.get_by_id(id)
+        if post is None:
+            return {"message": "No post was found!"}, 404
+        if post.account.username != account.username:
+            return {"message": "Unauthorized!"}, 403
+
+        with lock.lock:
+            try:
+                if data["image1"]:
+                    account.deleteFile(post.image1)
+                    post.image1 = ""
+                if data["image2"]:
+                    account.deleteFile(post.image2)
+                    post.image2 = ""
+                if data["video1"]:
+                    account.deleteFile(post.video1)
+                    post.video1 = ""
+                post.save_to_db()
+            except Exception:
+                return {'message': "Failed to update the post."}, 500
+
+        return {"post": post.json()}, 200

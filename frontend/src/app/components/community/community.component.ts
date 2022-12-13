@@ -62,7 +62,7 @@ export class CommunityComponent implements OnInit {
       // @ts-ignore
       console.log(newPost['post'])
       // @ts-ignore
-      this.posts2.push(newPost['post'])
+      this.posts2.unshift(newPost['post'])
 
     }, (error: any) => {
       console.log(error);
