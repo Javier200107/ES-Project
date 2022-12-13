@@ -96,3 +96,8 @@ a { text-decoration: none; }
 .divisor {
   color: var(--border);
 }
+
+.tw-logo {
+  width: 200px;
+  height: 70px;
+}
