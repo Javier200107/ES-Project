@@ -12,6 +12,14 @@ import { HomeComponent } from './components/home/home.component'
 import { ProfileComponent } from './components/profile/profile.component'
 import { PostComponent } from './components/post/post.component'
 import { CreatePostComponent } from './components/create-post/create-post.component'
+import { NavbarComponent } from './components/navbar/navbar.component'
+import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { CommunityComponent } from './components/community/community.component'
+import { UserSearchComponent } from './components/user-search/user-search.component';
+import { UserItemComponent } from './components/user-item/user-item.component'
+import { UserComponent } from './components/user/user.component';
+import { ViewPostComponent } from './components/view-post/view-post.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 import { MatInputModule } from '@angular/material/input'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -19,18 +27,11 @@ import { MatRadioModule } from '@angular/material/radio'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card'
-import { NavbarComponent } from './components/navbar/navbar.component'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTabsModule } from '@angular/material/tabs';
-import { ProfileUserComponent } from './components/profile-user/profile-user.component';
-import { CommunityComponent } from './components/community/community.component'
-import { UserSearchComponent } from './components/user-search/user-search.component';
-import { UserItemComponent } from './components/user-item/user-item.component'
 import {MatSidenavModule} from "@angular/material/sidenav";
-import { UserComponent } from './components/user/user.component';
-import { ViewPostComponent } from './components/view-post/view-post.component';
-import { CommentComponent } from './components/comment/comment.component';
+
 import {DialogModule} from "primeng/dialog";
 import {ButtonModule} from "primeng/button";
 import {AvatarModule} from "primeng/avatar";
