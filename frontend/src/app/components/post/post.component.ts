@@ -26,7 +26,7 @@ export class PostComponent implements OnInit {
 
   postComments: Post[] = []
   seeComments: boolean=false
-  commentText!: ''
+  commentText:string = ''
   public postForm!: FormGroup;
 
   constructor (private router : Router,
@@ -43,7 +43,6 @@ export class PostComponent implements OnInit {
       )
   }
 
-
   ngOnInit(): void {
     this.getNumLikes()
     this.hasLikeF()
@@ -51,6 +50,29 @@ export class PostComponent implements OnInit {
   }
 
 
+  goToComment(){
+    this.getComments()
+    this.seeComments = !this.seeComments
+    if(this.seeComments){
+      this.postComments = []
+    }
+  }
+  getComments(){
+    const requestParams = {
+      limit:50,
+      offset: 0
+    }
+    // @ts-ignore
+    this.commentService.getPostComments(this.postInfo.id,requestParams, this.token).subscribe((newPosts: Object) => {
+      // @ts-ignore
+      let postList = newPosts['comments']
+      for (let postNum = 0; postNum < postList.length; postNum++){
+        this.postComments.push(postList[postNum]);
+      }
+    }, (error: any) => {
+      console.log(error);
+    })
+  }
   addComment(){
     if(!this.commentText){
       alert("Post cannot be empty!")
@@ -69,37 +91,13 @@ export class PostComponent implements OnInit {
       console.log(error);
     })
   }
-
   private buildForm () {
     this.postForm = this.formBuilder.group({
       postText: ['']
     })
   }
 
-  getComments(){
-    const requestParams = {
-      limit:50,
-      offset: 0
-    }
-    // @ts-ignore
-    this.commentService.getPostComments(this.postInfo.id,requestParams, this.token).subscribe((newPosts: Object) => {
-      // @ts-ignore
-      let postList = newPosts['comments']
-      for (let postNum = 0; postNum < postList.length; postNum++){
-        this.postComments.push(postList[postNum]);
-      }
-    }, (error: any) => {
-      console.log(error);
-    })
-  }
 
-  goToComment(){
-    this.getComments()
-    this.seeComments = !this.seeComments
-    if(this.seeComments){
-      this.postComments = []
-    }
-  }
 
   getNumLikes(){
     this.postCreationService.getLikesPost(this.postInfo.id, this.token).subscribe(
@@ -108,6 +106,14 @@ export class PostComponent implements OnInit {
         this.numLikes = result["NumberOfLikes"]
       }
     )
+  }
+  hasLikeF() {
+    this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
+      (result) => {
+        this.hasLike = true;
+      }, error => {
+        this.hasLike = false;
+      })
   }
 
   goToProfileUser(account_name: string) {
@@ -126,14 +132,7 @@ export class PostComponent implements OnInit {
     )
   }
 
-  hasLikeF() {
-    this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
-      (result) => {
-        this.hasLike = true;
-      }, error => {
-        this.hasLike = false;
-      })
-  }
+
 
   likeFunction(id: number) {
     this.postCreationService.getLike(id, this.token).subscribe(
