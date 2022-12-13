@@ -40,7 +40,7 @@ export class CreatePostComponent implements OnInit {
   private buildForm () {
     this.postForm = this.formBuilder.group({
       postText: ['',
-        [Validators.required,Validators.maxLength(256)]]
+        [Validators.maxLength(256)]]
     })
   }
 

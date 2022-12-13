@@ -48,7 +48,6 @@ export class PostComponent implements OnInit {
     this.getNumLikes()
     this.hasLikeF()
     this.updateAvatar()
-    this.buildForm()
     console.log(this.postInfo.community)
   }
 
@@ -60,6 +59,7 @@ export class PostComponent implements OnInit {
       this.postComments = []
     }
   }
+
   getComments(){
     const requestParams = {
       limit:50,
@@ -76,6 +76,7 @@ export class PostComponent implements OnInit {
       console.log(error);
     })
   }
+
   addComment(){
     if(!this.commentText){
       alert("Post cannot be empty!")
@@ -110,6 +111,7 @@ export class PostComponent implements OnInit {
       }
     )
   }
+
   hasLikeF() {
     this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
       (result) => {

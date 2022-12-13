@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
       // @ts-ignore
       console.log(newPost['post'])
       // @ts-ignore
-      this.posts.push(newPost['post'])
+      this.posts.unshift(newPost['post'])
 
     }, (error: any) => {
       console.log(error);
