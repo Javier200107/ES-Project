@@ -4,7 +4,7 @@ from backend.resources.accounts import Accounts, AccountsList, AccountsFiles
 from backend.resources.follow import Follow, ListFollowing, ListFollows, PostsFollowing
 from backend.resources.like import Like, ListPostLikes, ListUserLikes
 from backend.resources.login import Login
-from backend.resources.posts import Posts, UserPosts, Comments, Post
+from backend.resources.posts import Posts, UserPosts, Comments, Post, PostsFiles
 from backend.resources.notifications import NotificationList, Notification
 from flask import Flask, render_template
 from flask_cors import CORS
@@ -36,6 +36,7 @@ api.add_resource(AccountsFiles, "/account/files")
 
 api.add_resource(Post, "/post/<int:id>")
 api.add_resource(Posts, "/posts/<int:id>", "/posts")
+api.add_resource(PostsFiles, "/posts/<int:id>/files")
 api.add_resource(UserPosts, "/uposts/<string:user>", "/uposts")
 api.add_resource(Comments, "/comments/<int:id>")
 
