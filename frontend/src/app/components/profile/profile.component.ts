@@ -375,7 +375,7 @@ export class ProfileComponent implements OnInit {
     try {
       const formDades = new FormData()
       formDades.append('avatar', this.selectedFile)
-      this.http.put<PostSimplified>(`${environment.baseApiUrl}/account/files`, formDades, httpOptions).subscribe(
+      this.sessionService.putProfileImage(formDades).subscribe(
         (res: PostSimplified) => {
           // @ts-ignore
           this.newProfilePhotoURL = res['account']['avatar']
@@ -390,15 +390,10 @@ export class ProfileComponent implements OnInit {
 
   uploadBannerFile(): any {
     this.uploadedBanner = false
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`
-      }),
-    };
     try {
       const formDades = new FormData()
       formDades.append('banner', this.selectedFileBanner)
-      this.http.put<PostSimplified>(`${environment.baseApiUrl}/account/files`, formDades, httpOptions).subscribe(
+      this.sessionService.putProfileImage(formDades).subscribe(
         (res: PostSimplified) => {
           // @ts-ignore
           this.newBannerURL = res['account']['banner']

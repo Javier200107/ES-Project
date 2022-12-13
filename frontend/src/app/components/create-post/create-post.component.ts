@@ -1,7 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import { NewPostForm } from "../../models/NewPostForm";
+import {NewPostForm} from "../../models/NewPostForm";
 import {Post} from "../../models/Post";
+import {DomSanitizer} from "@angular/platform-browser";
+import {HttpHeaders} from "@angular/common/http";
+import {PostSimplified} from "../../models/PostSimplified";
+import {SessionService} from "../../services/session.service";
 
 @Component({
   selector: 'app-create-post',
@@ -17,8 +21,13 @@ export class CreatePostComponent implements OnInit {
   post_content!: string;
 
   newPost!: Post;
+  uploaded = false
+  previsualization = ''
+  selectedFile!: File
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private sanitizer: DomSanitizer, private sessionService: SessionService) {
+
+  }
 
   ngOnInit(): void {
     this.buildForm()
@@ -26,7 +35,7 @@ export class CreatePostComponent implements OnInit {
 
   createPost() {
 
-    if(!this.post_content){
+    if (!this.post_content) {
       alert("Post cannot be empty!")
       return;
     }
@@ -37,13 +46,43 @@ export class CreatePostComponent implements OnInit {
     this.post_content = ''
   }
 
-  private buildForm () {
+  private buildForm() {
     this.postForm = this.formBuilder.group({
       postText: ['']
     })
   }
 
-  attachPhoto() {
-
+  attachPhoto($event: Event) {
+    this.uploaded = false
+    // @ts-ignore
+    this.selectedFile = <File>event.target.files[0];
+    let precopy = this.selectedFile
+    this.extreureBase64(precopy).then((imatge: any) => {
+      this.previsualization = imatge.base
+    })
   }
+
+  // @ts-ignore
+  extreureBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          blob: $event,
+          image,
+          base: null
+        });
+      };
+    } catch (e) {
+      return null;
+    }
+  })
 }

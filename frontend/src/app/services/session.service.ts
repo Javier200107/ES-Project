@@ -7,6 +7,8 @@ import { User } from '../models/User'
 import { UserLogin } from '../models/UserLogin'
 import {InfoUserCreated} from "../models/InfoUserCreated";
 import {AccountInfo} from "../models/AccountInfo";
+import {PostSimplified} from "../models/PostSimplified";
+import {Form} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +56,23 @@ export class SessionService{
     };
     return this.http.put<AccountInfo>(`${environment.baseApiUrl}/account`, user,
       httpOptions)
+  }
+
+  putProfileImage(formDades: FormData) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.sessionToken}`
+      }),
+    };
+    return this.http.put<PostSimplified>(`${environment.baseApiUrl}/account/files`, formDades, httpOptions)
+  }
+
+  putPostImage(formDades: FormData, postid: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.sessionToken}`
+      }),
+    };
+    return this.http.put<PostSimplified>(`${environment.baseApiUrl}/posts/${postid}/files`, formDades, httpOptions)
   }
 }
