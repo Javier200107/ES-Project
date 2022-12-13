@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from backend.db import db
+from flask import g
 
 taula_likes = db.Table(
     "taula_likes",
@@ -56,7 +57,8 @@ class PostsModel(db.Model):
             "num_comments": len(self.comments) if self.comments else 0,
             "image1": self.image1,
             "image2": self.image2,
-            "video1": self.video1
+            "video1": self.video1,
+            "liked_logged": 1 if g.user and g.user in self.accounts_like else 0
         }
 
     def save_to_db(self):
