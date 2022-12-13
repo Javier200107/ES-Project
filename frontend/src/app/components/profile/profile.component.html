@@ -44,17 +44,17 @@
         <mat-tab-group style="width: 500px">
           <mat-tab label="Posts">
             <div *ngFor="let post of posts">
-              <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshListPosts()"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Archived posts">
             <div *ngFor="let post of postsArchived">
-              <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshListPosts()"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Liked posts">
             <div *ngFor="let post of likedPosts">
-              <app-post [postInfo]="post" (postArchived)="refreshLikedPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshLikedPosts()"></app-post>
             </div>
           </mat-tab>
         </mat-tab-group>

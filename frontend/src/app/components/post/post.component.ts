@@ -14,6 +14,7 @@ import {NewPostForm} from "../../models/NewPostForm";
 })
 export class PostComponent implements OnInit {
   @Input() postInfo!: Post
+  @Input() isProfile!: boolean
 
   @Output() postArchived: EventEmitter<any> = new EventEmitter();
 
@@ -47,6 +48,8 @@ export class PostComponent implements OnInit {
     this.getNumLikes()
     this.hasLikeF()
     this.updateAvatar()
+    this.buildForm()
+    console.log(this.postInfo.community)
   }
 
 
@@ -131,8 +134,6 @@ export class PostComponent implements OnInit {
       }
     )
   }
-
-
 
   likeFunction(id: number) {
     this.postCreationService.getLike(id, this.token).subscribe(

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { NewPostForm } from "../../models/NewPostForm";
 import {Post} from "../../models/Post";
 
@@ -39,7 +39,8 @@ export class CreatePostComponent implements OnInit {
 
   private buildForm () {
     this.postForm = this.formBuilder.group({
-      postText: ['']
+      postText: ['',
+        [Validators.required,Validators.maxLength(256)]]
     })
   }
 
