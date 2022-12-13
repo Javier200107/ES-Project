@@ -15,14 +15,14 @@ export class ProfileUserComponent implements OnInit {
   postsUser: Post[] = []
   listFollowersOrFollowing: InfoUserCreated[] = []
   listFollowers:  InfoUserCreated[] = []
-  listFollowings:  InfoUserCreated[] = []
+  listFollowing:  InfoUserCreated[] = []
   user!: string
   token!: string
   idUser!: string
   nameButton!: string
   numSeguidores!: number
   numSeguidos!: number
-  showFiller = false;
+  showFiller = false
 
   isFollowersVisible = false
   isFollowingVisible = false
@@ -48,7 +48,7 @@ export class ProfileUserComponent implements OnInit {
     this.getPostsUser()
     this.isFollow()
     this.getListFollowers()
-    this.getListFollowings()
+    this.getListFollowing()
   }
 
   isFollow() {
@@ -79,14 +79,14 @@ export class ProfileUserComponent implements OnInit {
 
   ng() {
     this.ep = true
-    this.getListFollowings()
+    this.getListFollowing()
   }
 
-  getListFollowings() {
+  getListFollowing() {
     this.followService.followingList(this.idUser, this.token).subscribe(
       (result) => {
           this.numSeguidos = result.ListFollowing.length
-          this.listFollowings = result.ListFollowing
+          this.listFollowing = result.ListFollowing
       }
     )
   }
@@ -146,11 +146,11 @@ export class ProfileUserComponent implements OnInit {
     if (this.isFollowersVisible) {
       this.isFollowersVisible = false
       this.isFollowingVisible = true
-      this.listFollowersOrFollowing = this.listFollowings
+      this.listFollowersOrFollowing = this.listFollowing
     } else {
       this.isFollowingVisible = !this.isFollowingVisible;
       if(this.isFollowingVisible){
-        this.listFollowersOrFollowing = this.listFollowings
+        this.listFollowersOrFollowing = this.listFollowing
       }
     }
   }
@@ -158,4 +158,5 @@ export class ProfileUserComponent implements OnInit {
   visibilityComponentUser() {
     return !(!this.isFollowingVisible && !this.isFollowersVisible);
   }
+
 }

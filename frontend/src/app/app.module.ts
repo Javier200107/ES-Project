@@ -52,7 +52,7 @@ import {ToastModule} from "primeng/toast";
     CommunityComponent,
     UserSearchComponent,
     UserItemComponent,
-    UserComponent
+    UserComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,8 +8,11 @@
     <form  class="register-form" (ngSubmit)="createPost()">
       <input  class="new-post-text" type="text" [(ngModel)]="post_content" name="postText" id="postText" placeholder="What's happening?" >
       <div class="post-btn-container">
+      <button mat-icon-button (click)="attachPhoto()">
+        <mat-icon>add_photo_alternate</mat-icon>
+      </button>
         <input [disabled]="!(postForm.controls['postText'].valid)"
-               type="submit" value="Publicar"  class="post-button">
+               type="submit" value="Post"  class="post-button">
       </div>
     </form>
   </div>

@@ -9,6 +9,7 @@ import {Observable} from "rxjs";
 import {ArchivedPost} from "../models/ArchivedPost";
 import {MessageBackend} from "../models/MessageBackend";
 import {Follow} from "../models/Follow";
+import {InfoUserCreated} from "../models/InfoUserCreated";
 
 
 @Injectable({
@@ -30,8 +31,6 @@ export class PostCreationService {
   }
 
   createCommunityPost(newPost:NewPostForm, token:String): Observable<Post> {
-    console.log(newPost)
-    console.log(token)
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -204,6 +203,18 @@ export class PostCreationService {
       }),
     }
     return this.http.get<GetPost>(`${environment.baseApiUrl}/likeUlist`,
+      headerOptions
+    )
+  }
+
+  getAvatar(token:string, username: string) {
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }),
+    }
+    return this.http.get<InfoUserCreated>(`${environment.baseApiUrl}/account/${username}`,
       headerOptions
     )
   }

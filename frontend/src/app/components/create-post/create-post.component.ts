@@ -42,4 +42,8 @@ export class CreatePostComponent implements OnInit {
       postText: ['']
     })
   }
+
+  attachPhoto() {
+
+  }
 }

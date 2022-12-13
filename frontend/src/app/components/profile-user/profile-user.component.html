@@ -20,8 +20,8 @@
             <button class="btn btn-primary" type="submit" (click)="unFollowOrFollow()">{{nameButton}}</button>
           </div>
           <div class="col" style="flex: 1 0 0%; display: flex; align-items: baseline;">
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Followings {{numSeguidos}}<p></p>
+            <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers: {{numSeguidores}}<p></p>
+            <p style="padding-left: 20px"><p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Following: {{numSeguidos}}<p></p>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
       <div class="col">
         <ul *ngIf="visibilityComponentUser()" class="list-group">
             <div *ngFor="let user of listFollowersOrFollowing">
-              <li class="list-group-item"><app-user (onButtonFollowClicked)="getListFollowings()" [userAccount]="this.idUser" [userInfo]="user"></app-user></li>
+              <li class="list-group-item"><app-user (onButtonFollowClicked)="getListFollowing()" [userAccount]="this.idUser" [userInfo]="user"></app-user></li>
             </div>
         </ul>
       </div>

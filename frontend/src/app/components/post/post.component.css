@@ -26,10 +26,7 @@
   margin-right: 10px;
 }
 
-.post-profile-pic {
-  width: 48px;
-  border-radius: 30px;
-}
+
 
 .username {
   color: var(--color_name_card);

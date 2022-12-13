@@ -1,7 +1,8 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
-import { Post } from '../../models/Post'
+import {Post} from '../../models/Post'
 import {PostCreationService} from "../../services/post-creation.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-post',
@@ -10,43 +11,45 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class PostComponent implements OnInit {
   @Input() postInfo!: Post
-
   @Output() postArchived: EventEmitter<any> = new EventEmitter();
 
   user!: string
   token!: string
   numLikes!: number
   hasLike!: boolean
+  avatar!: string
+  environment =`${environment.baseApiUrl}/`
 
-  constructor (private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  constructor(private router: Router, private postCreationService: PostCreationService, private route: ActivatedRoute) {
     this.route.queryParams
       .subscribe(params => {
-        this.user = params["user"]
-        this.token = params["token"]
-      }
+          this.user = params["user"]
+          this.token = params["token"]
+        }
       )
   }
 
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.getNumLikes()
     this.hasLikeF()
+    this.updateAvatar()
   }
 
-  getNumLikes(){
+  getNumLikes() {
     this.postCreationService.getLikesPost(this.postInfo.id, this.token).subscribe(
       (result) => {
-          // @ts-ignore
-          this.numLikes = result["NumberOfLikes"]
+        // @ts-ignore
+        this.numLikes = result["NumberOfLikes"]
       }
     )
   }
 
-  goToProfileUser(account_name: string){
-    if (this.user != account_name){
-      this.router.navigate(['/profileUser'], { queryParams: { user: this.user, token: this.token, idUser: account_name } })
+  goToProfileUser(account_name: string) {
+    if (this.user != account_name) {
+      this.router.navigate(['/profileUser'], {queryParams: {user: this.user, token: this.token, idUser: account_name}})
     } else {
-      this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
+      this.router.navigate(['/profile'], {queryParams: {user: this.user, token: this.token}})
     }
   }
 
@@ -60,7 +63,7 @@ export class PostComponent implements OnInit {
 
   hasLikeF() {
     this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
-      (result) =>{
+      (result) => {
         this.hasLike = true;
       }, error => {
         this.hasLike = false;
@@ -69,21 +72,32 @@ export class PostComponent implements OnInit {
 
   likeFunction(id: number) {
     this.postCreationService.getLike(id, this.token).subscribe(
-      (result) =>{
+      (result) => {
         this.postCreationService.quitLike(id, this.token).subscribe((result) => {
-            this.hasLike = false
-            this.getNumLikes()
-            this.postArchived.emit()
+          this.hasLike = false
+          this.getNumLikes()
+          this.postArchived.emit()
         })
       },
-        err => {
+      err => {
         console.error('Error: status = ', err.status, ' and statusText = ', err.statusText)
-          this.postCreationService.addLike(id, this.token).subscribe((result) => {
-            this.hasLike = true
-            this.getNumLikes()
-            this.postArchived.emit()
-          })
+        this.postCreationService.addLike(id, this.token).subscribe((result) => {
+          this.hasLike = true
+          this.getNumLikes()
+          this.postArchived.emit()
+        })
       },
     )
   }
+
+  updateAvatar() {
+    this.postCreationService.getAvatar(this.token, this.user).subscribe((result) => {
+        // @ts-ignore
+        this.avatar = result['account']['avatar']
+      },
+      (error: any) => {
+        console.log(error);
+      })
+  }
+
 }
