@@ -73,3 +73,25 @@ section {
 .underline:hover{
   cursor: pointer;
 }
+
+.padding_bottom {
+  padding-bottom: 20px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.maxWidth {
+  width: 100%;
+  max-width: 100%;
+}
+
+.center {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.rowReverse {
+  display: flex;
+  flex-direction: row-reverse;
+}

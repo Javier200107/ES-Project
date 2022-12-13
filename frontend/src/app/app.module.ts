@@ -31,6 +31,14 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import { UserComponent } from './components/user/user.component';
 import { ViewPostComponent } from './components/view-post/view-post.component';
 import { CommentComponent } from './components/comment/comment.component';
+import {DialogModule} from "primeng/dialog";
+import {ButtonModule} from "primeng/button";
+import {AvatarModule} from "primeng/avatar";
+import {RippleModule} from "primeng/ripple";
+import {InputTextModule} from "primeng/inputtext";
+import {CalendarModule} from "primeng/calendar";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -66,7 +74,15 @@ import { CommentComponent } from './components/comment/comment.component';
     MatToolbarModule,
     MatIconModule,
     MatTabsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    DialogModule,
+    ButtonModule,
+    AvatarModule,
+    RippleModule,
+    InputTextModule,
+    CalendarModule,
+    ConfirmPopupModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

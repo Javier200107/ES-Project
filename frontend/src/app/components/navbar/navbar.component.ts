@@ -18,6 +18,10 @@ export class NavbarComponent implements OnInit {
   active_community = ''
   active_user_search = ''
 
+  displayMaximizable!: boolean;
+  displayPosition!: boolean;
+  position!: string;
+
   user!: string
   token!: string
 
@@ -32,6 +36,16 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit (): void {
   }
+
+  showMaximizableDialog() {
+      this.displayMaximizable = true;
+  }
+
+  showPositionDialog(position: string) {
+      this.position = position;
+      this.displayPosition = true;
+  }
+
 
   changeTheme () {
     if (this.isChecked) {
@@ -69,6 +83,8 @@ export class NavbarComponent implements OnInit {
     }else if (active == 'userSearch') {
       this.active_user_search = 'active'
       this.router.navigate(['/userSearch'], {queryParams: {user: this.user, token: this.token}})
+    }else if (active == 'settings') {
+      this.router.navigate(['/settings'], {queryParams: {user: this.user, token: this.token}})
     }
   }
 }
