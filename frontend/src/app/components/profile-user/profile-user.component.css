@@ -7,6 +7,10 @@
   align-items: center;
 }
 
+.photo_profile {
+  align-self: end !important;
+}
+
 .hover-underline-animation {
   display: inline-block;
   position: relative;

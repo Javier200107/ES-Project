@@ -4,19 +4,19 @@
   <div>
     <button style="border-color: var(--background); color: var(--background); background-color: var(--background)" (click)="showBannerDialog()">
       <div class="objetfitcover">
-        <img *ngIf="userAccountInfo.banner==null" style="position: absolute"
+        <img *ngIf="userAccountInfo.banner==''" style="position: absolute"
              src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
-        <img *ngIf="userAccountInfo.banner!=null" style="position: absolute"
+        <img *ngIf="userAccountInfo.banner!=''" style="position: absolute"
              src="{{environment}}{{userAccountInfo.banner}}">
       </div>
     </button>
     <div class="photo_profile">
-      <img *ngIf="userAccountInfo.avatar!=null" style="position: absolute; margin-top: 8%; margin-left: 5%"
+      <img *ngIf="userAccountInfo.avatar!=''" style="position: absolute; margin-top: 8%; margin-left: 5%"
            src="{{environment}}{{userAccountInfo.avatar}}" alt="" width="128" height="128"
            class="rounded-circle me-2">
-      <img *ngIf="userAccountInfo.avatar==null" style="position: absolute; margin-top: 8%; margin-left: 5%"
+      <img *ngIf="userAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%"
            src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
-           alt="" width="128" height="128">
+           alt="" width="128" height="128" class="rounded-circle me-2">
     </div>
   </div>
   <div class="container_" style="margin-top: 23%">
