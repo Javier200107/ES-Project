@@ -29,6 +29,8 @@ import { UserSearchComponent } from './components/user-search/user-search.compon
 import { UserItemComponent } from './components/user-item/user-item.component'
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { UserComponent } from './components/user/user.component';
+import { ViewPostComponent } from './components/view-post/view-post.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { UserComponent } from './components/user/user.component';
     CommunityComponent,
     UserSearchComponent,
     UserItemComponent,
-    UserComponent
+    UserComponent,
+    ViewPostComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

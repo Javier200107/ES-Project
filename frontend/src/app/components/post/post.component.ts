@@ -1,7 +1,10 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
 import { Post } from '../../models/Post'
 import {PostCreationService} from "../../services/post-creation.service";
+import {CommentsService} from "../../services/comments.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {NewPostForm} from "../../models/NewPostForm";
 
 @Component({
   selector: 'app-post',
@@ -18,7 +21,18 @@ export class PostComponent implements OnInit {
   numLikes!: number
   hasLike!: boolean
 
-  constructor (private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
+
+  postComments: Post[] = []
+  seeComments: boolean=false
+  commentText!: ''
+  public postForm!: FormGroup;
+
+  constructor (private router : Router,
+               private postCreationService: PostCreationService,
+               private commentService: CommentsService,
+               private route : ActivatedRoute,
+               private formBuilder: FormBuilder) {
+
     this.route.queryParams
       .subscribe(params => {
         this.user = params["user"]
@@ -26,11 +40,78 @@ export class PostComponent implements OnInit {
       }
       )
   }
-
-
   ngOnInit (): void {
     this.getNumLikes()
     this.hasLikeF()
+  }
+
+
+  addComment(){
+    if(!this.commentText){
+      alert("Post cannot be empty!")
+      return;
+    }
+
+    let newComment: NewPostForm = {
+      text: this.commentText,
+      parent_id: this.postInfo.id
+    }
+    this.postCreationService.createPost(newComment, this.token).subscribe((newPost: Post) =>{
+      // @ts-ignore
+      this.postComments.push(newPost['post'])
+      this.commentText =  ''
+    }, (error: any) => {
+      console.log(error);
+    })
+  }
+
+  /**let newComment:  Post = {
+    id : 1,
+    text: "comment test  dcfedf  fe wfef ew fewfewfwefewfew fwefewf wef ewfewfewf" +
+      "feregrgregregregre  gre e gergergregregregerge    gregerg e eg re greg re geg" +
+      "gregregrgregreregreregrgregregregre",
+    time: "comment test",
+    archived: 1,
+    account_id: 1,
+    account_name: "admin",
+    accounts_like: [],
+    num_likes: 0,
+    community: 0,
+  }**/
+
+
+  private buildForm () {
+    this.postForm = this.formBuilder.group({
+      postText: ['']
+    })
+  }
+
+
+
+
+  getComments(){
+    const requestParams = {
+      limit:50,
+      offset: 0
+    }
+    // @ts-ignore
+    this.commentService.getPostComments(this.postInfo.id,requestParams, this.token).subscribe((newPosts: Object) => {
+      // @ts-ignore
+      let postList = newPosts['comments']
+      for (let postNum = 0; postNum < postList.length; postNum++){
+        this.postComments.push(postList[postNum]);
+      }
+    }, (error: any) => {
+      console.log(error);
+    })
+  }
+
+  goToComment(){
+    this.getComments()
+    this.seeComments = !this.seeComments
+    if(this.seeComments){
+      this.postComments = []
+    }
   }
 
   getNumLikes(){
