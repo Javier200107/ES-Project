@@ -22,7 +22,7 @@ export class PostComponent implements OnInit {
   numLikes!: number
   hasLike!: boolean
   avatar!: string
-  environment =`${environment.baseApiUrl}/`
+  environment = `${environment.baseApiUrl}/`
 
   postComments: Post[] = []
   seeComments: boolean=false
@@ -155,9 +155,10 @@ export class PostComponent implements OnInit {
   }
 
   updateAvatar() {
-    this.postCreationService.getAvatar(this.token, this.user).subscribe((result) => {
+    this.postCreationService.getAvatar(this.token, this.postInfo.id).subscribe((result) => {
         // @ts-ignore
-        this.avatar = result['account']['avatar']
+        this.avatar = result['post']['account_avatar']
+        console.log(this.avatar)
       },
       (error: any) => {
         console.log(error);

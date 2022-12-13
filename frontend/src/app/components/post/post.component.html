@@ -48,8 +48,8 @@
 
 
   <div class="post-image-side">
-    <img *ngIf="avatar!=null" class="rounded-circle me-2" style="height: 45px; width: 45px" src="{{environment}}{{avatar}}" alt="">
-    <img *ngIf="avatar==null" class="rounded-circle me-2" style="height: 45px; width: 45px"
+    <img *ngIf="avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px" src="{{environment}}{{avatar}}" alt="">
+    <img *ngIf="avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px"
          src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
          alt="">
   </div>
