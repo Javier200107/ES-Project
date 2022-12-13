@@ -1,0 +1,32 @@
+<div class="post">
+
+  <div class="post-image-side">
+    <img class="post-profile-pic" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="">
+  </div>
+
+  <div class="post-content-side">
+
+    <div class="content-title">
+      <span class="user-nickname" (click)="goToProfileUser(postInfo.account_name)">{{postInfo.account_name}}</span>
+      <span class="username"> @{{postInfo.account_name}}</span>
+    </div>
+
+    <div class="content-space">
+      <p class="post-text">{{postInfo.text}}</p>
+    </div>
+
+  </div>
+
+  <div class="content-interaction">
+
+    <div class="media-container" >
+      <div class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
+        <div *ngIf=hasLike style="color:red;" class="material-icons media-icon">favorite</div>
+        <div *ngIf=!hasLike class="material-icons media-icon">favorite_outline</div>
+      </div>
+      <div class="num-likes">{{numLikes}}</div>
+    </div>
+
+  </div>
+
+</div>

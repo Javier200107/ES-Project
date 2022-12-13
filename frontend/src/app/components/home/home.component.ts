@@ -19,7 +19,9 @@ export class HomeComponent implements OnInit {
   token = "";
 
   //TODO Pass a session service with the token
-  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute, private postCreator: PostCreationService) {
+  constructor(private homeFeed: HomeFeedService,
+              private route : ActivatedRoute,
+              private postCreator: PostCreationService) {
 
     this.route.queryParams
       .subscribe(params => {
@@ -35,7 +37,6 @@ export class HomeComponent implements OnInit {
   }
 
   addPost(newPost: NewPostForm){
-
     this.postCreator.createPost(newPost, this.token).subscribe((newPost: Post) =>{
 
       // @ts-ignore
