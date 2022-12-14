@@ -117,7 +117,7 @@
     </div>
     <div class="padding_bottom center">
       <label for="birthdate" style="padding-bottom: 1%">Birth date</label>
-      <p>: {{this.userAccountInfo.birthdate}}</p>
+      <p id="birthdate-saved">: {{this.userAccountInfo.birthdate}}</p>
       <input type="date" [(ngModel)]="newBirthday" id="birthdate" class="text-form maxWidth"/>
     </div>
     <ng-template pTemplate="footer">

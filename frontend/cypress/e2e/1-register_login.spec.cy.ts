@@ -1,10 +1,6 @@
 describe('Register and login', () => {
-  it('Visits the initial project page', () => {
-    cy.visit('/')
-    cy.contains('Join Share.It today')
-  })
 
-  it.skip('Deberia poder registrarme', () => {
+  it('Deberia poder registrarme', () => {
     cy.visit('/')
     // Rellena el formulario con los 3 primeros datos del usuario
     cy.get('input[name="username"]').type('mr50');
@@ -23,7 +19,7 @@ describe('Register and login', () => {
     cy.get('input[type="submit"]').click();
 
     // Comprueba que se haya enviado correctamente
-    cy.contains('Sign in');
+    cy.contains('Log in');
 
   })
 

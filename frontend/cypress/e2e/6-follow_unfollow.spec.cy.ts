@@ -1,5 +1,5 @@
 describe('Follow & Unfollow', () => {
-  it.skip('Creo una cuenta nueva', () => {
+  it('Creo una cuenta nueva', () => {
     cy.visit('/')
     // Rellena el formulario con los 3 primeros datos del usuario
     cy.get('input[name="username"]').type('lolita');
@@ -18,7 +18,7 @@ describe('Follow & Unfollow', () => {
     cy.get('input[type="submit"]').click();
 
     // Comprueba que se haya enviado correctamente
-    cy.contains('Sign in');
+    cy.contains('Log in');
 
   })
 
@@ -56,7 +56,7 @@ describe('Follow & Unfollow', () => {
     cy.get('span[id="username-follow"]').should('have.text', 'lolita').click();
 
     // compruebo que este en mi lista de seguidos
-    cy.get('p').contains('Followings').click();
+    cy.get('p').contains('Following').click();
     cy.get('span[id="username-follow"]').should('have.text', 'mr50').click();
 
     // lo dejo de seguir y hago la comprobacion

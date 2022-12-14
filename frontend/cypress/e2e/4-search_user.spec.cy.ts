@@ -1,5 +1,5 @@
 describe('Search user', () => {
-  it.skip('Creo una cuenta nueva', () => {
+  it('Creo una cuenta nueva', () => {
     cy.visit('/')
     // Rellena el formulario con los 3 primeros datos del usuario
     cy.get('input[name="username"]').type('rinko');
@@ -18,7 +18,7 @@ describe('Search user', () => {
     cy.get('input[type="submit"]').click();
 
     // Comprueba que se haya enviado correctamente
-    cy.contains('Sign in');
+    cy.contains('Log in');
 
   })
 

@@ -25,7 +25,7 @@
 
       <div class="addComment"></div>
 
-      <div class="add-comment">
+      <div id="add-comment" class="add-comment">
         <div class="create-post-form">
           <form class="register-form" (ngSubmit)="addComment()">
             <input class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="postText"
@@ -69,7 +69,7 @@
 
     <div [ngClass]="!isProfile ? 'content-interaction': 'content-interaction-profile'">
       <div class="media-container">
-        <div class="media-btn btn-comments" (click)="goToComment()">
+        <div id="comment-post" class="media-btn btn-comments" (click)="goToComment()">
           <div class="material-icons media-icon ">chat_bubble_outline</div>
         </div>
         <div class="num-comments">{{postInfo.num_comments}}</div>
