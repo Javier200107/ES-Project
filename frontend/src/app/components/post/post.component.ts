@@ -90,6 +90,7 @@ export class PostComponent implements OnInit {
     this.postCreationService.createPost(newComment, this.token).subscribe((newPost: Post) =>{
       // @ts-ignore
       this.postComments.push(newPost['post'])
+      this.postInfo.num_comments = this.postInfo.num_comments+1
       this.commentText =  ''
     }, (error: any) => {
       console.log(error);

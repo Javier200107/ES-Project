@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
     }
     // @ts-ignore
     this.homeFeed.getPostsFrom(requestParams, this.token).subscribe((newPosts: Object) => {
+      console.log(newPosts)
       // @ts-ignore
       let postList = newPosts['posts']
       for (let postNum = 0; postNum < postList.length; postNum++){
