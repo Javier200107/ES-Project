@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
   token!: string
 
   environment = `${environment.baseApiUrl}/`
-
+  environmentAssets = `${environment.assets}/img/`
   constructor(
     private router: Router,
     private postCreationService: PostCreationService,
