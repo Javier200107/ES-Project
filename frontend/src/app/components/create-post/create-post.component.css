@@ -42,6 +42,8 @@
   padding-top: 10px;
   display: flex;
   justify-content: flex-end;
+  align-content: center;
+  align-items: center;
 }
 
 .post-button {
@@ -49,7 +51,7 @@
   border-radius: 20px;
   font-weight: 700;
   color: var(--secondary);
-  background-color: var(--primary);
+  background-color: var(--button);
   cursor: pointer;
 }
 

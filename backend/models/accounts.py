@@ -153,7 +153,7 @@ class AccountsModel(db.Model):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password)
 
-    def generate_auth_token(self, expiration=600):
+    def generate_auth_token(self, expiration=6000):
         return encode(
             {"username": self.username, "exp": int(time.time()) + expiration},
             current_app.secret_key,

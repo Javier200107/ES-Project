@@ -1,4 +1,5 @@
 export interface NewPostForm {
   text: string;
-  parent_id?: null;
+  parent_id?: number;
+  post_file?: File | null;
 }

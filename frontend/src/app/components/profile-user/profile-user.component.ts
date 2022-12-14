@@ -5,6 +5,8 @@ import {ActivatedRoute} from "@angular/router";
 import {GetNumPosts} from "../../models/GetNumPosts";
 import {FollowService} from "../../services/follow.service";
 import {InfoUserCreated} from "../../models/InfoUserCreated";
+import {environment} from "../../../environments/environment";
+import {SessionService} from "../../services/session.service";
 
 @Component({
   selector: 'app-profile-user',
@@ -15,46 +17,53 @@ export class ProfileUserComponent implements OnInit {
   postsUser: Post[] = []
   listFollowersOrFollowing: InfoUserCreated[] = []
   listFollowers:  InfoUserCreated[] = []
-  listFollowings:  InfoUserCreated[] = []
-  user!: string
+  listFollowing:  InfoUserCreated[] = []
+  sessionUser!: string
   token!: string
-  idUser!: string
+  visitedUsername!: string
   nameButton!: string
   numSeguidores!: number
   numSeguidos!: number
-  showFiller = false;
+  showFiller = false
+  environment =`${environment.baseApiUrl}/`
+
 
   isFollowersVisible = false
   isFollowingVisible = false
 
   ep = false
+  visitedUserAccountInfo!: InfoUserCreated
 
   constructor(
     private followService: FollowService,
     private postCreationService: PostCreationService,
+    private sessionService: SessionService,
     private route : ActivatedRoute
   ) {
     this.route.queryParams
     .subscribe(params => {
-        this.user = params["user"]
+        this.sessionUser = params["user"]
         this.token = params["token"]
-        this.idUser = params["idUser"]
+        this.visitedUsername = params["idUser"]
       }
       )
   }
 
+  // TODO se podria optimizar llamando una sola vez para conseguir toda
+  // TODO la info de la cuenta visitada de golpe (getVisitedProfile)
   ngOnInit(): void {
     this.nameButton = "Follow"
+    this.getVisitedProfile()
     this.getPostsUser()
     this.isFollow()
     this.getListFollowers()
-    this.getListFollowings()
+    this.getListFollowing()
   }
 
   isFollow() {
-    this.followService.isFollowUser(this.idUser, this.token).subscribe(
+    this.followService.isFollowUser(this.visitedUsername, this.token).subscribe(
       (result) => {
-        if(result.message != `Account [${this.idUser}] doesn't follow any account`) {
+        if(result.message != `Account [${this.visitedUsername}] doesn't follow any account`) {
           this.nameButton = "UnFollow"
         }
       }
@@ -62,7 +71,7 @@ export class ProfileUserComponent implements OnInit {
   }
 
   getListFollowers() {
-    this.followService.followList(this.idUser, this.token).subscribe(
+    this.followService.followList(this.visitedUsername, this.token).subscribe(
       (result) => {
           this.listFollowers = []
           this.numSeguidores = result.ListFollows.length
@@ -79,28 +88,28 @@ export class ProfileUserComponent implements OnInit {
 
   ng() {
     this.ep = true
-    this.getListFollowings()
+    this.getListFollowing()
   }
 
-  getListFollowings() {
-    this.followService.followingList(this.idUser, this.token).subscribe(
+  getListFollowing() {
+    this.followService.followingList(this.visitedUsername, this.token).subscribe(
       (result) => {
           this.numSeguidos = result.ListFollowing.length
-          this.listFollowings = result.ListFollowing
+          this.listFollowing = result.ListFollowing
       }
     )
   }
 
   unFollowOrFollow() {
       if(this.nameButton == "Follow"){
-          this.followService.follow(this.idUser, this.token).subscribe(
+          this.followService.follow(this.visitedUsername, this.token).subscribe(
           (result) => {
               this.nameButton = "unFollow"
               this.getListFollowers()
           }
           )
       } else {
-        this.followService.unfollow(this.idUser, this.token).subscribe(
+        this.followService.unfollow(this.visitedUsername, this.token).subscribe(
           (result) => {
             this.nameButton = "Follow"
             this.getListFollowers()
@@ -118,12 +127,10 @@ export class ProfileUserComponent implements OnInit {
       limit: 10,
       offset: 0
     }
-    this.postCreationService.getPostsSpecificUser(posts, this.token, this.idUser).subscribe(
+    this.postCreationService.getPostsSpecificUser(posts, this.token, this.visitedUsername).subscribe(
       (result) => {
-        console.log(result.posts)
         for (const post of result.posts) {
           this.postsUser.push(post)
-          console.log(post.id)
         }
       }
     )
@@ -146,16 +153,25 @@ export class ProfileUserComponent implements OnInit {
     if (this.isFollowersVisible) {
       this.isFollowersVisible = false
       this.isFollowingVisible = true
-      this.listFollowersOrFollowing = this.listFollowings
+      this.listFollowersOrFollowing = this.listFollowing
     } else {
       this.isFollowingVisible = !this.isFollowingVisible;
       if(this.isFollowingVisible){
-        this.listFollowersOrFollowing = this.listFollowings
+        this.listFollowersOrFollowing = this.listFollowing
       }
     }
   }
 
   visibilityComponentUser() {
     return !(!this.isFollowingVisible && !this.isFollowersVisible);
+  }
+
+  getVisitedProfile() {
+    this.sessionService.getInfoAccount(this.visitedUsername, this.token).subscribe(
+      (result) => {
+        this.visitedUserAccountInfo = result.account
+        console.log(this.visitedUserAccountInfo)
+      }
+    )
   }
 }

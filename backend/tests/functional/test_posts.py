@@ -1,3 +1,5 @@
+import io
+
 from backend.data import data_accounts, data_posts
 
 
@@ -12,7 +14,6 @@ def createPosts(client):
     client.loginAs(account2)
     post2 = data_posts[1]
     assert client.post("/posts", json=post2).status_code == 201
-
 
 
 def test_getUserPosts(client):
@@ -36,8 +37,9 @@ def test_getPosts(client):
     assert response.status_code == 200
     assert len(response.json["posts"]) == 2
     assert (
-        response.json["posts"][0]["id"] ==2
+        response.json["posts"][0]["id"] == 2
     )  # most recent post is first in the list
+
 
 def test_getPost(client):
     createPosts(client)
@@ -46,7 +48,6 @@ def test_getPost(client):
     response = client.get("/post/1")
     assert response.status_code == 200
     assert (response.json["post"]["id"]) == 1
-
 
 
 def test_createPost(client):
@@ -63,6 +64,20 @@ def test_updatePost(client):
     assert client.get(f"/uposts/{username}?archived=1").json["posts"][0]["archived"] == 1
 
 
+def test_post_multimedia(client):
+    client.post("/account", json=data_accounts[0])
+    client.loginAs(data_accounts[0])
+
+    postID = client.post("/posts", json=data_posts[0]).json["post"]["id"]
+
+    file = (io.BytesIO(b"MyVideoData"), 'test.mp4')
+    response = client.put(f"/posts/{postID}/files", data={'video1': file})
+    assert response.json["post"]["video1"].startswith("static/api/accounts/1/")
+
+    response = client.delete(f"/posts/{postID}/files?video1=1")
+    assert response.json["post"]["video1"] == ""
+
+
 def test_deletePost(client):
     client.post("/account", json=data_accounts[0])
     client.loginAs(data_accounts[0])
@@ -70,6 +85,7 @@ def test_deletePost(client):
     assert client.delete(f"/posts/1").status_code == 404
     post = client.post("/posts", json=data_posts[0]).json["post"]
     assert client.delete(f"/posts/{post['id']}").status_code == 200
+
 
 def test_deletePost_delete_all(client):
     client.post("/account", json=data_accounts[0])

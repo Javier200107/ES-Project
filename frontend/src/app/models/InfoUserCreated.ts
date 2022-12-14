@@ -11,5 +11,5 @@ export interface InfoUserCreated {
   avatar: string;
   banner: string;
   followers: [];
-  following: []
+  following: [];
 }

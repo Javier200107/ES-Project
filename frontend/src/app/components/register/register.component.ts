@@ -3,6 +3,7 @@ import { User } from '../../models/User'
 import { Router, ActivatedRoute } from '@angular/router'
 import { SessionService } from '../../services/session.service'
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: 'app-register',
@@ -19,10 +20,11 @@ export class RegisterComponent implements OnInit {
 
   firstSlide: boolean = true
   nextButton: string = 'Next'
-
   sessionUser!: User
   public firstForm!: FormGroup
   public secondForm!: FormGroup
+
+  environment = `${environment.assets}/img/`
 
   constructor (private router : Router, private route :
     ActivatedRoute, private sessionService: SessionService,

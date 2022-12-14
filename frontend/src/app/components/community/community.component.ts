@@ -19,9 +19,12 @@ export class CommunityComponent implements OnInit {
   currentPost = 0;
   token = "";
   user!: string
+  newProfilePhotoURL = null
+  postId = null
+  justTextPost!: Post
 
   //TODO Pass a session service with the token
-  constructor(private homeFeed: HomeFeedService, private route : ActivatedRoute, private postCreator: PostCreationService) {
+  constructor(private homeFeed: HomeFeedService, private route: ActivatedRoute, private postCreator: PostCreationService) {
 
     this.route.queryParams
       .subscribe(params => {
@@ -32,11 +35,11 @@ export class CommunityComponent implements OnInit {
     console.log('token', this.token)
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.demanarPost2()
   }
 
-  demanarPost2 () {
+  demanarPost2() {
     this.posts2 = []
     const requestParams2 = {
       limit: this.postsPerLoad,
@@ -46,28 +49,41 @@ export class CommunityComponent implements OnInit {
     this.homeFeed.getPostsFromFollowing(requestParams2, this.token, this.user).subscribe((newPosts: Object) => {
       // @ts-ignore
       let postList = newPosts['posts']
-      for (let postNum = 0; postNum < postList.length; postNum++){
+      for (let postNum = 0; postNum < postList.length; postNum++) {
         this.posts2.push(postList[postNum]);
-        this.currentPost = this.currentPost +1;
+        this.currentPost = this.currentPost + 1;
       }
     }, (error: any) => {
       console.log(error);
     })
   }
 
-  addPost(newPost: NewPostForm){
-
-    this.postCreator.createCommunityPost(newPost, this.token).subscribe((newPost: Post) =>{
-
+  addPost(newPost: NewPostForm) {
+    let fileToUpload = newPost.post_file
+    this.postCreator.createPost(newPost, this.token).subscribe((newPost: Post) => {
       // @ts-ignore
-      console.log(newPost['post'])
+      this.justTextPost = newPost['post']
       // @ts-ignore
-      this.posts2.push(newPost['post'])
-
+      this.postId = this.justTextPost['id']
     }, (error: any) => {
-      console.log(error);
+      console.log(error)
+    }, () => {
+      if (fileToUpload != null && this.postId != null) {
+        const formDades = new FormData()
+        formDades.append('image1', fileToUpload)
+        this.postCreator.putPostImage(formDades, this.postId, this.token).subscribe(
+          (res: Post) => {
+            // @ts-ignore
+            let post = res['post']
+            this.newProfilePhotoURL = post['image1']
+            this.posts2.unshift(post)
+          }, error => {
+            console.log(error)
+          }
+        )
+      } else {
+        this.posts2.unshift(this.justTextPost)
+      }
     })
-
-
   }
 }

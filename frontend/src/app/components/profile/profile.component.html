@@ -1,129 +1,154 @@
 <p-toast></p-toast>
 <p-confirmPopup></p-confirmPopup>
 <section>
-	<div>
-	  <div class="objetfitcover">
-		  <img style="position: absolute" src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
-	  </div>
+  <div>
+    <div class="objetfitcover">
+      <img (click)="showBannerDialog()" *ngIf="userAccountInfo.banner==''" style="position: absolute"
+           src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
+      <img (click)="showBannerDialog()" *ngIf="userAccountInfo.banner!=''" style="position: absolute"
+           src="{{environment}}{{userAccountInfo.banner}}">
+    </div>
     <div class="photo_profile">
-      <img style="position: absolute; margin-top: 120px; margin-left: 40px" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="" width="128" height="128" class="rounded-circle me-2">
-	  </div>
-  </div>
-  <div class="container_" style="margin-top: 230px">
-    <div class="row" style="width: 100%;">
-      <div class="col columnNomUser" style="display: flex; justify-content: center;">
+      <img *ngIf="userAccountInfo.avatar!=''" style="position: absolute; margin-top: 8%; margin-left: 5%; object-fit: cover;"
+           src="{{environment}}{{userAccountInfo.avatar}}" alt="" width="128" height="128"
+           class="rounded-circle me-2">
+      <img *ngIf="userAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%; object-fit: cover;"
+           src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
+           alt="" width="128" height="128" class="rounded-circle me-2">
+      <div style="position: absolute; margin-top: 16%; margin-left: 20%;">
         <h1>{{user}}</h1>
       </div>
-      <div class="col rowButtonFollow">
-        <div class="row">
-          <div class="col" style="display: flex; justify-content: flex-end;">
-          </div>
-          <div class="col" style="flex: 1 0 0%; display: flex; align-items: baseline;">
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Followings {{numSeguidos}}<p></p>
-          </div>
-        </div>
+    </div>
+  </div>
+  <div class="container_" style="margin-top: 23%">
+    <div class="row" style="width: 100%;">
+      <div class="col" style="width:20%; display: flex; justify-content: flex-start">
+        <p-button (click)="showMaximizableDialog()" icon="pi pi-user-edit" label="Edit profile"
+                  styleClass="p-button"></p-button>
+      </div>
+      <div class="col" style="width: 60%"></div>
+      <div class="col" style="width:20%; display: flex; justify-content: flex-end; align-items: baseline;">
+        <p style="padding-left: 20px">
+        <p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'"
+           (click)="onFollowersTextClicked()">Followers: {{numSeguidores}}
+        <p></p>
+        <p style="padding-left: 20px">
+        <p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'"
+           (click)="onFollowingTextClicked()">Following: {{numSeguidos}}
+        <p></p>
       </div>
     </div>
     <div class="row" style="width: 100%;">
-      <div class="col">
-        <p-button (click)="showMaximizableDialog()" icon="pi pi-user-edit" label="Edit profile" styleClass="p-button-sm mr-2 mb-2"></p-button>
+      <div class="col" style="width:20%; display: flex; justify-content: flex-start; margin-top: 2%">
       </div>
-      <div class="col">
+      <div class="col" style="width: 60%">
         <mat-tab-group style="width: 500px">
           <mat-tab label="Posts">
             <div *ngFor="let post of posts">
-              <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Archived posts">
             <div *ngFor="let post of postsArchived">
-              <app-post [postInfo]="post" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Liked posts">
-          <div *ngFor="let post of likedPosts">
-            <app-post [postInfo]="post" (postArchived)="refreshLikedPosts()"></app-post>
-          </div>
-        </mat-tab>
+            <div *ngFor="let post of likedPosts">
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
+            </div>
+          </mat-tab>
         </mat-tab-group>
       </div>
-      <div class="col" >
+      <div class="col" style="width: 20%">
         <ul *ngIf="visibilityComponentUser()" class="list-group">
-            <div *ngFor="let userf of listFollowersOrFollowing">
-              <li class="list-group-item"><app-user [userAccount]="this.user" [userInfo]="userf" [isFollowers] = "this.isFollowersVisible" (onButtonFollowClicked)="getAllLists()"></app-user></li>
-            </div>
+          <div *ngFor="let userf of listFollowersOrFollowing">
+            <li class="list-group-item">
+              <app-user [userAccount]="this.user" [userInfo]="userf" [isFollowers]="this.isFollowersVisible"
+                        (onButtonFollowClicked)="getAllLists()"></app-user>
+            </li>
+          </div>
         </ul>
       </div>
     </div>
   </div>
-  <p-dialog header="Edit profile" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false">
-    <div class="col-12 md:col-4 padding_bottom">
-        <div class="p-inputgroup">
-            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-            <input type="text" pInputText placeholder="{{this.userAccountInfo.username}}" [(ngModel)]="newUsername">
-        </div>
-    </div>
+  <p-dialog header="Edit profile"
+            [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '40vw'}"
+            [maximizable]="true" [baseZIndex]="10000"
+            [draggable]="false" [resizable]="false">
 
-    <div class="row padding_bottom center">
-      <div class="col">
-        <h3 class="rowReverse">Email:</h3>
+    <div class="padding_bottom center">
+      <label for="profile-photo" style="padding-bottom: 1%">Profile photo</label>
+      <input id="profile-photo" (change)="getProfileImage($event)" type="file"
+             accept="image/png, image/jpg, image/jpeg, image/gif"
+             class="maxWidth" style="padding-bottom: 1%">
+      <div>
+        <img *ngIf="previsualization!=''" [src]="previsualization" width="30%" height="15%"
+             style="padding-bottom: 1%">
       </div>
-      <div class="col">
-        <span class="p-float-label">
-            <input type="text" pInputText [(ngModel)]="newEmail" class="maxWidth" placeholder="{{this.userAccountInfo.email}}">
-        </span>
-      </div>
-    </div>
-
-    <div class="row padding_bottom center">
-      <div class="col">
-        <h3 class="rowReverse">Password:</h3>
-      </div>
-      <div class="col">
-        <span class="p-float-label">
-            <input type="password" pInputText [(ngModel)]="newPassword" class="maxWidth" placeholder="*********">
-        </span>
+      <div>
+        <button *ngIf="selectedFile!=null && uploaded==false" type="button" (click)="uploadFile()">Upload file</button>
       </div>
     </div>
-
-    <div class="row padding_bottom center">
-      <div class="col">
-        <h3 class="rowReverse">Name:</h3>
-      </div>
-      <div class="col">
-        <span class="p-float-label">
-           <input type="text" pInputText [(ngModel)]="newName" class="maxWidth" placeholder="{{this.userAccountInfo.nom}}">
-        </span>
-      </div>
+    <div class="padding_bottom center">
+      <label for="username" style="padding-bottom: 1%">Username</label>
+      <input id="username" type="text" pInputText [(ngModel)]="newUsername" class="maxWidth"
+             placeholder="{{this.userAccountInfo.username}}">
     </div>
-
-    <div class="row padding_bottom center">
-      <div class="col">
-        <h3 class="rowReverse">Surname:</h3>
-      </div>
-      <div class="col">
-        <span class="p-float-label">
-            <input type="text" pInputText [(ngModel)]="newSurname" class="maxWidth" placeholder="{{this.userAccountInfo.cognom}}">
-        </span>
-      </div>
+    <div class="padding_bottom center">
+      <label for="password" style="padding-bottom: 1%">Password</label>
+      <input id="password" type="text" pInputText [(ngModel)]="newPassword" class="maxWidth"
+             placeholder="********">
     </div>
+    <div class="padding_bottom center">
+      <label for="email" style="padding-bottom: 1%">E-mail</label>
+      <input id="email" type="text" pInputText [(ngModel)]="newEmail" class="maxWidth"
+             placeholder="{{this.userAccountInfo.email}}">
+    </div>
+    <div class="padding_bottom center">
+      <label for="name" style="padding-bottom: 1%">Name</label>
+      <input id="name" type="text" pInputText [(ngModel)]="newName" class="maxWidth"
+             placeholder="{{this.userAccountInfo.nom}}">
+    </div>
+    <div class="padding_bottom center">
+      <label for="surname" style="padding-bottom: 1%">Surname</label>
+      <input id="surname" type="text" pInputText [(ngModel)]="newSurname" class="maxWidth"
+             placeholder="{{this.userAccountInfo.cognom}}">
+    </div>
+    <div class="padding_bottom center">
+      <label for="birthdate" style="padding-bottom: 1%">Birth date</label>
+      <p>: {{this.userAccountInfo.birthdate}}</p>
+      <input type="date" [(ngModel)]="newBirthday" id="birthdate" class="text-form maxWidth"/>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="confirm()" label="Apply" styleClass="p-button-sm"></p-button>
+      <p-button icon="pi pi-times" (click)="this.showCancel(); this.clearUpdatedData(); displayMaximizable=false"
+                label="Cancel" styleClass="p-button-sm"></p-button>
+    </ng-template>
+  </p-dialog>
+  <p-dialog header="Edit banner photo" [(visible)]="displayBannerDialog" [modal]="true" [style]="{width: '40vw'}"
+            [maximizable]="true" [baseZIndex]="10000"
+            [draggable]="false" [resizable]="false">
 
-    <div class="row padding_bottom center">
-      <div class="col">
-        <h3 class="rowReverse">Birthdate:</h3>
+    <div class="padding_bottom center">
+      <input id="banner-image" (change)="getBannerImage($event)" type="file"
+             accept="image/png, image/jpg, image/jpeg, image/gif"
+             class="maxWidth" style="padding-bottom: 1%">
+      <div>
+        <img *ngIf="previsualizationBanner!=''" [src]="previsualizationBanner" width="30%" height="15%"
+             style="padding-bottom: 1%">
       </div>
-      <div class="col">
-        <p>{{this.userAccountInfo.birthdate}}</p>
-        <span class="p-float-label">
-          <input type="date" [(ngModel)]="newBirthday" id="birthdate" class="text-form maxWidth"/>
-        </span>
+      <div>
+        <button *ngIf="selectedFileBanner!=null && uploadedBanner==false" type="button" (click)="uploadBannerFile()">
+          Upload
+          file
+        </button>
       </div>
     </div>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="confirm()" label="Apply" styleClass="p-button-sm"></p-button>
-        <p-button icon="pi pi-times" (click)="this.showCancel(); this.deleteNewInfoAccount(); displayMaximizable=false" label="Cancel" styleClass="p-button-sm"></p-button>
+      <p-button icon="pi pi-check" (click)="confirmBanner()" label="Apply" styleClass="p-button-sm"></p-button>
+      <p-button icon="pi pi-times" (click)="this.showCancel(); this.clearBannerURL(); displayBannerDialog=false"
+                label="Cancel" styleClass="p-button-sm"></p-button>
     </ng-template>
   </p-dialog>
 </section>

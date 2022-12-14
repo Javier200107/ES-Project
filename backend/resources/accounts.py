@@ -9,8 +9,11 @@ from flask_restful import Resource, reqparse
 
 class Accounts(Resource):
     @auth.login_required()
-    def get(self, username):
-        account = AccountsModel.get_by_username(username)
+    def get(self, username=None):
+        if not username:
+            account = g.user
+        else:
+            account = AccountsModel.get_by_username(username)
         if account:
             return {"account": account.json()}, 200
         return {"message": f"Could not find an account with username [{username}]"}, 404
@@ -211,8 +214,8 @@ class AccountsFiles(Resource):
     @auth.login_required()
     def delete(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("avatar", type=int, required=False, nullable=False, default=0)
-        parser.add_argument("banner", type=int, required=False, nullable=False, default=0)
+        parser.add_argument("avatar", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("banner", type=int, required=False, nullable=False, default=0, location="args")
         data = parser.parse_args()
         account = g.user
 

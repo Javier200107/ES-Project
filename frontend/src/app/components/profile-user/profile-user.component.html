@@ -1,10 +1,18 @@
 <section>
-	<div>
-	  <div class="objetfitcover">
-		  <img style="position: absolute" src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
-	  </div>
+  <div>
+    <div class="objetfitcover">
+      <img *ngIf="visitedUserAccountInfo.banner==''" style="position: absolute"
+           src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
+      <img *ngIf="visitedUserAccountInfo.banner!=''" style="position: absolute"
+           src="{{environment}}{{visitedUserAccountInfo.banner}}">
+    </div>
     <div class="photo_profile">
-      <img style="position: absolute; margin-top: 120px; margin-left: 40px" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="" width="128" height="128" class="rounded-circle me-2">
+      <img *ngIf="visitedUserAccountInfo.avatar!=''" style="position: absolute; margin-top: 8%; margin-left: 5%"
+           src="{{environment}}{{visitedUserAccountInfo.avatar}}" alt="" width="128" height="128"
+           class="rounded-circle me-2">
+      <img *ngIf="visitedUserAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%"
+           src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
+           alt="" width="128" height="128" class="rounded-circle me-2">
     </div>
   </div>
 
@@ -12,7 +20,7 @@
 
     <div class="row" style="width: 100%;">
       <div class="col columnNomUser" style="display: flex; justify-content: center;">
-        <h1>{{idUser}}</h1>
+        <h1>{{visitedUsername}}</h1>
       </div>
       <div class="col rowButtonFollow">
         <div class="row">
@@ -20,8 +28,14 @@
             <button class="btn btn-primary" type="submit" (click)="unFollowOrFollow()">{{nameButton}}</button>
           </div>
           <div class="col" style="flex: 1 0 0%; display: flex; align-items: baseline;">
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Followings {{numSeguidos}}<p></p>
+            <p style="padding-left: 20px">
+            <p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'"
+               (click)="onFollowersTextClicked()">Followers: {{numSeguidores}}
+            <p></p>
+            <p style="padding-left: 20px">
+            <p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'"
+               (click)="onFollowingTextClicked()">Following: {{numSeguidos}}
+            <p></p>
           </div>
         </div>
       </div>
@@ -42,9 +56,12 @@
       </div>
       <div class="col">
         <ul *ngIf="visibilityComponentUser()" class="list-group">
-            <div *ngFor="let user of listFollowersOrFollowing">
-              <li class="list-group-item"><app-user (onButtonFollowClicked)="getListFollowings()" [userAccount]="this.idUser" [userInfo]="user"></app-user></li>
-            </div>
+          <div *ngFor="let user of listFollowersOrFollowing">
+            <li class="list-group-item">
+              <app-user (onButtonFollowClicked)="getListFollowing()" [userAccount]="visitedUsername"
+                        [userInfo]="user"></app-user>
+            </li>
+          </div>
         </ul>
       </div>
     </div>
