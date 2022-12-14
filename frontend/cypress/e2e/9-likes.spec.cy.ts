@@ -17,7 +17,7 @@ describe('Post', () => {
     cy.contains('Home');
 
     // le damos al boton de like
-    cy.get('div[id="post-mr501"]')
+    cy.get('div[id="post-mr50"]')
       .find('div[id="like"]').click();
 
     // Voy a la pagina de perfil
@@ -26,7 +26,7 @@ describe('Post', () => {
 
     // Compruebo que esté en la lista de archivados
     cy.contains('Liked posts').click();
-    cy.get('div[id="post-mr501"]')
+    cy.get('div[id="post-mr50"]')
       .find('p').should('have.text', 'Hello World!');
   })
 

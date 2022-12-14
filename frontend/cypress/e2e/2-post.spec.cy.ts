@@ -21,7 +21,7 @@ describe('Post', () => {
     cy.get('input[type="submit"]').click();
 
     // Compruebo que se haya subido correctamente
-    cy.get('div[id="post-mr501"]')
+    cy.get('div[id="post-mr50"]')
       .find('p').should('have.text', 'Hello World!');
   })
 
