@@ -7,6 +7,8 @@ describe('Register and login', () => {
     cy.get('input[name="email"]').type('mr50@gmail.com');
     cy.get('input[name="password"]').type('Mr345678');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de enviar
     cy.get('input[type="submit"]').click();
 
@@ -14,6 +16,8 @@ describe('Register and login', () => {
     cy.get('input[name="name"]').type('Marc');
     cy.get('input[name="surname"]').type('Ramirez');
     cy.get('input[name="birthdate"]').type('2000-05-12');
+
+    cy.wait(1000);
 
     // Haz clic en el boton de register
     cy.get('input[type="submit"]').click();
@@ -29,8 +33,12 @@ describe('Register and login', () => {
     cy.get('input[id="usuari"]').type('mr50');
     cy.get('input[id="password"]').type('Mr345678');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
+
+    cy.wait(1000);
 
     // Comprueba que se haya enviado correctamente
     cy.contains('Home');

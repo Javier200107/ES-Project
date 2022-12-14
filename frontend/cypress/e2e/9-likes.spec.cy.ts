@@ -2,8 +2,8 @@ describe('Post', () => {
   it('Entro con una cuenta existente y hago un post', () => {
     cy.visit('/login');
     // Rellena el formulario con los datos necesarios
-    cy.get('input[id="usuari"]').type('mr50');
-    cy.get('input[id="password"]').type('Mr345678');
+    cy.get('input[id="usuari"]').type('rinko');
+    cy.get('input[id="password"]').type('Rinko678');
 
     cy.wait(1000);
 
@@ -15,11 +15,16 @@ describe('Post', () => {
     // Comprueba que se haya enviado correctamente
     cy.contains('Home');
 
-    // Hago un post
-    cy.get('input[name="postText"').type('Hello World!');
-    cy.get('input[type="submit"]').click();
+    // le damos al boton de like
+    cy.get('div[id="post-mr501"]')
+      .find('div[id="like"]').click();
 
-    // Compruebo que se haya subido correctamente
+    // Voy a la pagina de perfil
+    cy.get('strong[id="user-menu"]').click();
+    cy.contains('Profile').click();
+
+    // Compruebo que esté en la lista de archivados
+    cy.contains('Liked posts').click();
     cy.get('div[id="post-mr501"]')
       .find('p').should('have.text', 'Hello World!');
   })

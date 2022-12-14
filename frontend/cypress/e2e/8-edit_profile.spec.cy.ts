@@ -5,8 +5,12 @@ describe('Edit profile', () => {
     cy.get('input[id="usuari"]').type('lolita');
     cy.get('input[id="password"]').type('Lolita78');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
+
+    cy.wait(1000);
 
     // Comprueba que se haya entrado correctamente
     cy.contains('Home');

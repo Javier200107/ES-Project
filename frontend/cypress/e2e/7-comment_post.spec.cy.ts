@@ -5,8 +5,12 @@ describe('Comment post', () => {
     cy.get('input[id="usuari"]').type('rinko');
     cy.get('input[id="password"]').type('Rinko678');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
+
+    cy.wait(1000);
 
     // Comprueba que se haya entrado correctamente
     cy.contains('Home');

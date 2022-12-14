@@ -12,6 +12,8 @@ describe('Remind credentials', () => {
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
 
+    cy.wait(1000);
+
     // Comprueba que se haya enviado correctamente
     cy.contains('Home');
 

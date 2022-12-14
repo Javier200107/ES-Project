@@ -6,6 +6,8 @@ describe('Follow & Unfollow', () => {
     cy.get('input[name="email"]').type('lolita@gmail.com');
     cy.get('input[name="password"]').type('Lolita78');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de enviar
     cy.get('input[type="submit"]').click();
 
@@ -13,6 +15,8 @@ describe('Follow & Unfollow', () => {
     cy.get('input[name="name"]').type('Lola');
     cy.get('input[name="surname"]').type('Lolita');
     cy.get('input[name="birthdate"]').type('1997-02-09');
+
+    cy.wait(1000);
 
     // Haz clic en el boton de register
     cy.get('input[type="submit"]').click();
@@ -28,8 +32,12 @@ describe('Follow & Unfollow', () => {
     cy.get('input[id="usuari"]').type('lolita');
     cy.get('input[id="password"]').type('Lolita78');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
+
+    cy.wait(1000);
 
     // Comprueba que se haya entrado correctamente
     cy.contains('Home');
@@ -49,6 +57,7 @@ describe('Follow & Unfollow', () => {
 
     // le doy al boton de follow
     cy.get('button[id="follow-btn"]').click();
+    cy.wait(1000);
     cy.get('button[id="follow-btn"]').should('have.text', 'unFollow');
 
     // compruebo que este en su lista de seguidores
@@ -61,6 +70,7 @@ describe('Follow & Unfollow', () => {
 
     // lo dejo de seguir y hago la comprobacion
     cy.get('button[id="follow-btn"]').click();
+    cy.wait(1000);
     cy.get('button[id="follow-btn"]').should('have.text', 'Follow');
 
   })

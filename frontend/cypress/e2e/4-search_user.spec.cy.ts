@@ -6,6 +6,8 @@ describe('Search user', () => {
     cy.get('input[name="email"]').type('rinko@gmail.com');
     cy.get('input[name="password"]').type('Rinko678');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de enviar
     cy.get('input[type="submit"]').click();
 
@@ -13,6 +15,8 @@ describe('Search user', () => {
     cy.get('input[name="name"]').type('Ana');
     cy.get('input[name="surname"]').type('Costa');
     cy.get('input[name="birthdate"]').type('1999-07-24');
+
+    cy.wait(1000);
 
     // Haz clic en el boton de register
     cy.get('input[type="submit"]').click();
@@ -28,8 +32,12 @@ describe('Search user', () => {
     cy.get('input[id="usuari"]').type('rinko');
     cy.get('input[id="password"]').type('Rinko678');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
+
+    cy.wait(1000);
 
     // Comprueba que se haya entrado correctamente
     cy.contains('Home');

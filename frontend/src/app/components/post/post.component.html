@@ -28,7 +28,7 @@
       <div id="add-comment" class="add-comment">
         <div class="create-post-form">
           <form class="register-form" (ngSubmit)="addComment()">
-            <input class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="postText"
+            <input class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="comment-input"
                    placeholder="Add Comment">
             <div class="post-btn-container">
               <input type="submit" value="Publicar" class="post-button">
@@ -75,7 +75,7 @@
         <div class="num-comments">{{postInfo.num_comments}}</div>
       </div>
       <div class="media-container">
-        <div class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
+        <div id="like" class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
           <div *ngIf=hasLike style="color:red;" class="material-icons media-icon">favorite</div>
           <div *ngIf=!hasLike class="material-icons media-icon">favorite_outline</div>
         </div>

@@ -5,8 +5,12 @@ describe('Archive post', () => {
     cy.get('input[id="usuari"]').type('mr50');
     cy.get('input[id="password"]').type('Mr345678');
 
+    cy.wait(1000);
+
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
+
+    cy.wait(1000);
 
     // Comprueba que se haya entrado correctamente
     cy.contains('Home');
