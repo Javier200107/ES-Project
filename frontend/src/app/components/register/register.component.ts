@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   public firstForm!: FormGroup
   public secondForm!: FormGroup
 
-  environment = `${environment.baseApiUrl}/`
+  environment = `${environment.assets}/img/`
 
   constructor (private router : Router, private route :
     ActivatedRoute, private sessionService: SessionService,
