@@ -1,9 +1,9 @@
 <div class="post">
 
   <div class="post-image-side">
-    <img *ngIf="postInfo.account_avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px"
+    <img *ngIf="postInfo.account_avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px; object-fit: cover;"
          src="{{environment}}{{postInfo.account_avatar}}" alt="">
-    <img *ngIf="postInfo.account_avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px"
+    <img *ngIf="postInfo.account_avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px; object-fit: cover;"
          src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
          alt="">
   </div>
