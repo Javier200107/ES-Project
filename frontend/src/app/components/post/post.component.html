@@ -1,12 +1,11 @@
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
 <div class="post"  >
-
   <div class="commentModal" *ngIf="seeComments" >
     <div class="commentsContainer">
-
         <div class="closeBtn" (click)="goToComment()">
           <div class="material-icons arrowIcon ">arrow_back</div>
         </div>
-
         <div class="post">
           <div class="post-image-side">
             <img class="post-profile-pic" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="">
@@ -21,9 +20,7 @@
             </div>
           </div>
         </div>
-
         <div class="addComment"></div>
-
         <div class="add-comment">
           <div class="create-post-form">
             <form  class="register-form" (ngSubmit)="addComment()">
@@ -40,13 +37,8 @@
             <app-comment [postInfo]="comment" ></app-comment>
           </div>
         </div>
-
-
     </div>
   </div>
-
-
-
   <div class="post-image-side" >
     <img *ngIf="avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px" src="{{environment}}{{avatar}}" alt="">
     <img *ngIf="avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px"
@@ -65,8 +57,7 @@
       <p class="post-text">{{postInfo.text}}</p>
     </div>
 
-    <div class="content-interaction">
-
+    <div [ngClass]="!isProfile ? 'content-interaction': 'content-interaction-profile'">
       <div class="media-container">
         <div class="media-btn btn-comments" (click)="goToComment()">
           <div class="material-icons media-icon ">chat_bubble_outline</div>
@@ -88,7 +79,11 @@
         </div>
       </div>
 
+      <div class="media-container" *ngIf=isProfile>
+        <div class="media-btn btn-delete" (click)="confirmDeletePost()">
+          <div class="material-icons media-icon "><i class="bi bi-trash3"></i></div>
+        </div>
+      </div>
     </div>
-
   </div>
 </div>

@@ -218,4 +218,28 @@ export class PostCreationService {
       headerOptions
     )
   }
+
+  deletePost(token: string, id_post: number){
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }),
+    }
+    return this.http.delete(`${environment.baseApiUrl}/posts/${id_post}`,
+      headerOptions
+      )
+  }
+
+  deleteAccount(token: string, user: string) {
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }),
+    }
+    return this.http.delete(`${environment.baseApiUrl}/account/${user}`,
+      headerOptions
+    )
+  }
 }

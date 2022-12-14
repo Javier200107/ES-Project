@@ -1,5 +1,5 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 text-white {{theme_sidebar}} sidebar bg">
-  <a href="/" class="mb-3 mb-md-0 me-md-auto col_">
+  <a [routerLink]="'#'" (click)="areActive('home')" class="mb-3 mb-md-0 me-md-auto col_">
     <span class="fs-4 options-menu name-app"><img alt="App logo" class="tw-logo" src="../../../assets/Logo_navbar.png"></span>
   </a>
   <hr class="divisor">
@@ -34,9 +34,9 @@
         <strong>@{{user}}</strong>
       </a>
       <ul class="dropdown-menu {{theme_dropdown_menu}} text-small" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item" (click)="areActive('settings')"><i class="bi bi-gear-fill icons disabled"></i>Settings</a></li>
-        <li><a class="dropdown-item" (click)="areActive('profile')"><i class="bi bi-person-circle icons"></i>Profile</a></li>
+        <li><a class="dropdown-item color" (click)="confirmDeleteAccount()"><i class="bi bi-x-circle icon"></i>Delete account</a></li>
         <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" (click)="areActive('profile')"><i class="bi bi-person-circle icons"></i>Profile</a></li>
         <li><a class="dropdown-item" [routerLink]="'/register'"><i class="bi bi-box-arrow-left icons"></i>Sign out</a></li>
       </ul>
     </div>
@@ -46,3 +46,5 @@
     </div>
   </div>
 </div>
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>

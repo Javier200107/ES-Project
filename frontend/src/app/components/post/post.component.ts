@@ -6,17 +6,19 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {NewPostForm} from "../../models/NewPostForm";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
+  providers: [ConfirmationService, MessageService],
 })
 export class PostComponent implements OnInit {
   @Input() postInfo!: Post
   @Input() isProfile!: boolean
 
-  @Output() postArchived: EventEmitter<any> = new EventEmitter();
+  @Output() postChanges: EventEmitter<any> = new EventEmitter();
 
   user!: string
   token!: string
@@ -34,7 +36,10 @@ export class PostComponent implements OnInit {
                private postCreationService: PostCreationService,
                private commentService: CommentsService,
                private route : ActivatedRoute,
-               private formBuilder: FormBuilder) {
+               private formBuilder: FormBuilder,
+               private messageService: MessageService,
+               private confirmationService: ConfirmationService,
+               ) {
 
     this.route.queryParams
       .subscribe(params => {
@@ -133,7 +138,7 @@ export class PostComponent implements OnInit {
   archivedPost(id: number, archived: number) {
     this.postCreationService.changeToArchivedPost(id, archived, this.token).subscribe(
       (result) => {
-        this.postArchived.emit()
+        this.postChanges.emit(1)
       }
     )
   }
@@ -144,7 +149,7 @@ export class PostComponent implements OnInit {
         this.postCreationService.quitLike(id, this.token).subscribe((result) => {
           this.hasLike = false
           this.getNumLikes()
-          this.postArchived.emit()
+          this.postChanges.emit(2)
         })
       },
       err => {
@@ -152,7 +157,7 @@ export class PostComponent implements OnInit {
         this.postCreationService.addLike(id, this.token).subscribe((result) => {
           this.hasLike = true
           this.getNumLikes()
-          this.postArchived.emit()
+          this.postChanges.emit(2)
         })
       },
     )
@@ -167,6 +172,32 @@ export class PostComponent implements OnInit {
       (error: any) => {
         console.log(error);
       })
+  }
+
+  deletePost(post_id: number){
+    this.postCreationService.deletePost(this.token, post_id).subscribe(
+      (result) => {
+        this.postChanges.emit(3)
+        // @ts-ignore
+        this.messageService.add({severity: 'success', summary: 'Success', detail: result['message']});
+      }
+    )
+  }
+
+  confirmDeletePost() {
+    console.log("Confirmamos el post")
+    this.confirmationService.confirm({
+        message: 'Do you want to delete this post?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+          this.deletePost(this.postInfo.id)
+          console.log("No llega a entrar")
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        }
+    });
   }
 
 }

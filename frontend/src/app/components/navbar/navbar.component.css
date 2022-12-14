@@ -65,6 +65,16 @@ a { text-decoration: none; }
   margin-right: 10px;
 }
 
+.icon {
+  color: indianred;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.color{
+  color: indianred;
+}
+
 .name-app {
   color: var(--title);
 }
@@ -81,10 +91,12 @@ a { text-decoration: none; }
 
   color: var(--secondary);
   text-decoration: none !important;
+  cursor:pointer;
 }
 
 .dropdown-menu {
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+  cursor: pointer;
 }
 
 .options-menu {

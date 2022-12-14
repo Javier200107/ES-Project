@@ -88,14 +88,17 @@ export class ProfileComponent implements OnInit {
 
   // TODO OPTIMIZAR liked posts emitter updatea todo
   // TODO NO PUC TENIR 2 events emitter com a output
-  refreshListPosts() {
-    this.getPostsUser()
-    this.getPostsUserArchived()
-    this.getLikedPosts()
-  }
-
-  refreshLikedPosts() {
-    this.getLikedPosts()
+  refreshListPosts(event: any) {
+      if(event == 1){
+      this.getPostsUser()
+      this.getPostsUserArchived()
+    }
+    if(event == 2){
+      this.getLikedPosts()
+    }
+    if(event == 3){
+      this.getPostsUser()
+    }
   }
 
   getPostsUserArchived() {

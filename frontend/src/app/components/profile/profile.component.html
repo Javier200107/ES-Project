@@ -17,6 +17,9 @@
       <img *ngIf="userAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%"
            src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
            alt="" width="128" height="128" class="rounded-circle me-2">
+      <div style="position: absolute; margin-top: 16%; margin-left: 17%;">
+        <h1>{{user}}</h1>
+      </div>
     </div>
   </div>
   <div class="container_" style="margin-top: 23%">
@@ -44,17 +47,17 @@
         <mat-tab-group style="width: 500px">
           <mat-tab label="Posts">
             <div *ngFor="let post of posts">
-              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Archived posts">
             <div *ngFor="let post of postsArchived">
-              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Liked posts">
             <div *ngFor="let post of likedPosts">
-              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshLikedPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
         </mat-tab-group>
