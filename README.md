@@ -2,6 +2,7 @@
 ***
 
 [![Build and Deploy to Azure](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/build_and_deploy.yml)
+[![PyTest with Coverage](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/pytest_with_coverage.yml/badge.svg)](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/pytest_with_coverage.yml)
 
 ### Execució FRONTEND:
 
