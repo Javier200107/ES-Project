@@ -34,6 +34,12 @@
   font-size: 24px;
 }
 
+.icon {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
 .add-comment {
   display: flex;
   justify-content: center;
@@ -172,6 +178,7 @@
 }
 
 .content-interaction-profile {
+  width: 100%;
   display: flex;
   justify-content: space-around;
   height: 36px;

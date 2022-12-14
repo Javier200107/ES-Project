@@ -48,9 +48,9 @@
 
 
   <div class="post-image-side">
-    <img *ngIf="postInfo.account_avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px"
+    <img *ngIf="postInfo.account_avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px; object-fit: cover;"
          src="{{environment}}{{postInfo.account_avatar}}" alt="">
-    <img *ngIf="postInfo.account_avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px"
+    <img *ngIf="postInfo.account_avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px; object-fit: cover;"
          src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
          alt="">
   </div>
@@ -62,32 +62,32 @@
     </div>
     <div class="content-space">
       <p class="post-text">{{postInfo.text}}</p>
-      <img *ngIf="postInfo.image1!=''" height=200px width="100%" src="{{environment}}{{postInfo.image1}}">
+      <img *ngIf="postInfo.image1!=''" height=200px width="100%" style="object-fit: cover;" src="{{environment}}{{postInfo.image1}}">
     </div>
     <div class="content-interaction">
 
-    <div [ngClass]="!isProfile ? 'content-interaction': 'content-interaction-profile'">
+    <div [ngClass]="!isProfile ? 'content-interaction': 'content-interaction-profile'" style="margin-top: 7%; margin-bottom: 5%">
       <div class="media-container">
         <div class="media-btn btn-comments" (click)="goToComment()">
-          <div class="material-icons media-icon ">chat_bubble_outline</div>
+          <div class="material-icons media-icon icon">chat_bubble_outline</div>
         </div>
         <div class="num-comments">{{postInfo.num_comments}}</div>
       </div>
       <div class="media-container">
         <div class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
           <div *ngIf=hasLike style="color:red;" class="material-icons media-icon">favorite</div>
-          <div *ngIf=!hasLike class="material-icons media-icon">favorite_outline</div>
+          <div *ngIf=!hasLike class="material-icons media-icon icon">favorite_outline</div>
         </div>
         <div class="num-likes">{{numLikes}}</div>
       </div>
       <div class="media-container" *ngIf=isProfile>
         <div class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
-          <div class="material-icons media-icon">archived</div>
+          <div class="material-icons media-icon icon">archived</div>
         </div>
       </div>
       <div class="media-container" *ngIf=isProfile>
         <div class="media-btn btn-delete" (click)="confirmDeletePost()">
-          <div class="material-icons media-icon "><i class="bi bi-trash3"></i></div>
+          <div class="material-icons media-icon icon"><i class="bi bi-trash3"></i></div>
         </div>
       </div>
     </div>
