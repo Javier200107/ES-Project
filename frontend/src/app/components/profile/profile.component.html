@@ -72,10 +72,7 @@
       </div>
     </div>
   </div>
-  <p-dialog header="Edit profile"
-            [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '40vw'}"
   <p-dialog header="Edit profile" [formGroup]="firstForm" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [baseZIndex]="10000"
-            [maximizable]="true" [baseZIndex]="10000"
             [draggable]="false" [resizable]="false">
 
     <div class="padding_bottom center">
@@ -98,14 +95,14 @@
     </div>
     <div class="padding_bottom center">
           <label for="password" style="padding-bottom: 1%">Password</label>
+          <input formControlName="password" id="password" type="text" pInputText [(ngModel)]="newPassword" class="maxWidth"
+                     placeholder="********">
           <label class="text-danger-2" *ngIf="firstForm.controls['password'].hasError('hasNumber') ||
             firstForm.controls['password'].hasError('hasUpperCase') ||
             firstForm.controls['password'].hasError('hasLowerCase') ||
             firstForm.controls['password'].hasError('hasMinLength')">
             Your password must have at least 8 characters, a number, a capital letter and a lowercase letter
           </label>
-          <input formControlName="password" id="password" type="text" pInputText [(ngModel)]="newPassword" class="maxWidth"
-                 placeholder="********">
     </div>
     <div class="padding_bottom center">
       <label for="email" style="padding-bottom: 1%">E-mail</label>
