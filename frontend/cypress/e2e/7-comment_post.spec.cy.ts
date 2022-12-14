@@ -17,7 +17,7 @@ describe('Comment post', () => {
     cy.contains('Home');
 
     // le damos al boton de comentar
-    cy.get('div[id="post-mr501"]')
+    cy.get('div[id="post-mr50"]')
       .find('div[id="comment-post"]').click();
 
     // publicamos un comentario
@@ -27,7 +27,7 @@ describe('Comment post', () => {
       .find('input[type="submit"]').click();
 
     // comprobamos que se ha publicado
-    cy.get('div[id="comment-rinko2"]')
+    cy.get('div[id="comment-rinko"]')
       .find('p').should('have.text', 'Bye World!');
 
   })

@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <p-confirmPopup></p-confirmPopup>
-<div id="post-{{postInfo.account_name + postInfo.id}}" class="post">
+<div id="post-{{postInfo.account_name}}" class="post">
   <div class="commentModal" *ngIf="seeComments">
     <div class="commentsContainer">
       <div class="closeBtn" (click)="goToComment()">
@@ -85,7 +85,7 @@
         <div class="num-likes">{{numLikes}}</div>
       </div>
       <div class="media-container" *ngIf=isProfile>
-        <div id="archived-btn-{{postInfo.account_name + postInfo.id}}" class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
+        <div id="archived-btn-{{postInfo.account_name}}" class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
           <div class="material-icons media-icon icon">archived</div>
         </div>
       </div>
