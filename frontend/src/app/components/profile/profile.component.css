@@ -106,11 +106,6 @@ objetfitcover2 > img {
 
 .text-danger-2 {
   color: red;
-  font-size: 10px;
-  margin-top: 10px;
-  width: 250px;
-  position: absolute;
-  bottom: -40px;
-  left: 0;
+  font-size: 15px;
   z-index: 3;
 }

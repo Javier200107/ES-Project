@@ -108,7 +108,7 @@
       <label for="email" style="padding-bottom: 1%">E-mail</label>
       <input formControlName="email" id="email" type="text" pInputText [(ngModel)]="newEmail" class="maxWidth"
              placeholder="{{this.userAccountInfo.email}}">
-      <label class="text-danger-1" *ngIf="firstForm.controls['email'].hasError('email')">
+      <label class="text-danger-2" *ngIf="firstForm.controls['email'].hasError('email')">
         Enter a valid email please
       </label>
     </div>
