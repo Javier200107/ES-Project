@@ -12,12 +12,12 @@
 
     <div class="row" style="width: 100%;">
       <div class="col columnNomUser" style="display: flex; justify-content: center;">
-        <h1>{{idUser}}</h1>
+        <h1 id="username-profile">{{idUser}}</h1>
       </div>
       <div class="col rowButtonFollow">
         <div class="row">
           <div class="col" style="display: flex; justify-content: flex-end;">
-            <button class="btn btn-primary" type="submit" (click)="unFollowOrFollow()">{{nameButton}}</button>
+            <button id="follow-btn" class="btn btn-primary" type="submit" (click)="unFollowOrFollow()">{{nameButton}}</button>
           </div>
           <div class="col" style="flex: 1 0 0%; display: flex; align-items: baseline;">
             <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>

@@ -20,7 +20,7 @@ describe('Archive post', () => {
 
     // Compruebo que esté en la lista de archivados
     cy.contains('Archived posts').click();
-    cy.get('div[id="post-mr501"]');
+    cy.get('div[id="post-mr501"]').should('have.text', 'Hello World!');
 
     // Desarchivo el post
     cy.get('div[id="archived-btn-mr501"]').click();
@@ -28,8 +28,6 @@ describe('Archive post', () => {
     // Compruebo que esté en la lista de posts desarchivados
     cy.contains('Posts').click();
     cy.get('div[id="post-mr501"]');
-
-    // Eliminar cuenta? -> eliminarla en el último test que se haga
 
   })
 

@@ -9,7 +9,7 @@
     align-items: center;
     width: 100%">
     <div style="display: flex; flex-direction: column;">
-      <span class="user-nickname" (click)="goToProfileUser(userInfo.username)">{{userInfo.username}}</span>
+      <span id="username-follow" class="user-nickname" (click)="goToProfileUser(userInfo.username)">{{userInfo.username}}</span>
       <span class="username"> @{{userInfo.username}}</span>
     </div>
     <div *ngIf="accountFollowsUser()">

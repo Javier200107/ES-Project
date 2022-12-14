@@ -19,8 +19,8 @@
           <div class="col" style="display: flex; justify-content: flex-end;">
           </div>
           <div class="col" style="flex: 1 0 0%; display: flex; align-items: baseline;">
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>
-            <p style="padding-left: 20px"><p [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Followings {{numSeguidos}}<p></p>
+            <p style="padding-left: 20px"><p id="followers-btn" [ngClass]="!isFollowersVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowersTextClicked()">Followers {{numSeguidores}}<p></p>
+            <p style="padding-left: 20px"><p id="followings-btn" [ngClass]="!isFollowingVisible ? 'hover-underline-animation': 'underline'" (click)="onFollowingTextClicked()">Followings {{numSeguidos}}<p></p>
           </div>
         </div>
       </div>

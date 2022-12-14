@@ -47,8 +47,6 @@ describe('Search user', () => {
     cy.contains('@mr50').click();
     cy.contains('mr50');
 
-    // Eliminar cuenta? -> eliminarla en el último test que se haga
-
   })
 
 })
