@@ -11,6 +11,7 @@ import {ConfirmationService, MessageService, PrimeNGConfig} from "primeng/api";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PostSimplified} from "../../models/PostSimplified";
 import {environment} from "../../../environments/environment";
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
@@ -56,6 +57,9 @@ export class ProfileComponent implements OnInit {
   selectedFile!: File
   selectedFileBanner!: File
 
+  public firstForm!: FormGroup
+  public secondForm!: FormGroup
+
   constructor(
     private followService: FollowService,
     private postCreationService: PostCreationService,
@@ -67,6 +71,7 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
+    private formBuilder: FormBuilder
   ) {
     this.route.queryParams
       .subscribe(params => {
@@ -83,6 +88,7 @@ export class ProfileComponent implements OnInit {
     this.getListFollowers()
     this.getListFollowing()
     this.getLikedPosts()
+    this.buildForm()
     this.primengConfig.ripple = true;
   }
 
@@ -439,5 +445,36 @@ export class ProfileComponent implements OnInit {
   })
   showBannerDialog() {
     this.displayBannerDialog = true
+  }
+
+    private buildForm () {
+    this.firstForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['',
+        [Validators.required,
+          Validators.minLength(8),
+          this.patternValidator(/\d/, { hasNumber: true }),
+          this.patternValidator(/[A-Z]/, { hasUpperCase: true }),
+          this.patternValidator(/[a-z]/, { hasLowerCase: true }),
+          this.patternValidator(/^.{8,}$/, { hasMinLength: true })]],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      birthdate: ['', Validators.required]
+    })
+  }
+
+  patternValidator (regex:RegExp, error: ValidationErrors): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return null // Si control esta buit no retorna cap error
+      }
+
+      // Es comprova si compleix el requisit indicat al primer parametre
+      const valid = regex.test(control.value)
+
+      // Si compleix el requisit retorna null, sinó l'error especificat al segon parametre
+      return valid ? null : error
+    }
   }
 }
