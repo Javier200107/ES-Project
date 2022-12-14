@@ -27,7 +27,8 @@ describe('Search user', () => {
   })
 
   it('Entro con la cuenta creada y hago una busqueda de un usuario', () => {
-    cy.visit('/login');
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('rinko');
     cy.get('input[id="password"]').type('Rinko678');

@@ -1,6 +1,7 @@
 describe('Post', () => {
   it('Entro con una cuenta existente y hago un post', () => {
-    cy.visit('/login');
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('mr50');
     cy.get('input[id="password"]').type('Mr345678');

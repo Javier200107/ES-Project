@@ -1,6 +1,7 @@
 describe('Delete accounts', () => {
   it('Delete mr50', () => {
-    cy.visit('/login')
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('mr50');
     cy.get('input[id="password"]').type('Mr345678');
@@ -25,7 +26,8 @@ describe('Delete accounts', () => {
   })
 
   it('Delete rinko', () => {
-    cy.visit('/login');
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('rinko');
     cy.get('input[id="password"]').type('Rinko678');
@@ -50,7 +52,8 @@ describe('Delete accounts', () => {
   })
 
   it('Delete epera', () => {
-    cy.visit('/login');
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('epera');
     cy.get('input[id="password"]').type('Epera678');
