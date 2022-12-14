@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Input} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PostCreationService} from "../../services/post-creation.service";
+import {SessionService} from "../../services/session.service";
+import {InfoUserCreated} from "../../models/InfoUserCreated";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user-item',
@@ -10,16 +13,18 @@ import {PostCreationService} from "../../services/post-creation.service";
 })
 export class UserItemComponent implements OnInit {
 
-  @Input() username!:String;
+  @Input() username!:string;
 
   following: Boolean = false;
-  followText: String = 'Follow';
-  isYou: boolean = false;
+  followText: String = 'Follow'
+  isYou: boolean = false
+  userAccountInfo!: InfoUserCreated
+  environment = `${environment.baseApiUrl}/`
 
   user!: string
   token!: string
 
-  constructor(private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  constructor(private router : Router, private postCreationService: PostCreationService, private sessionService: SessionService, private route : ActivatedRoute) {
   this.route.queryParams
     .subscribe(params => {
       this.user = params["user"]
@@ -28,7 +33,7 @@ export class UserItemComponent implements OnInit {
     )
   }
   ngOnInit(): void {
-
+    this.getInfoUser()
   }
 
   goToProfile(){
@@ -49,4 +54,13 @@ export class UserItemComponent implements OnInit {
       this.followText = 'Unfollow';
     }
   }
+
+  getInfoUser() {
+    this.sessionService.getInfoAccount(this.username, this.token).subscribe(
+      (result) => {
+        this.userAccountInfo = result.account
+      }
+    )
+  }
+
 }
