@@ -27,7 +27,8 @@ describe('Follow & Unfollow', () => {
   })
 
   it('Entro con la cuenta creada, busco un usuario, lo sigo y lo dejo de seguir', () => {
-    cy.visit('/login');
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('lolita');
     cy.get('input[id="password"]').type('Lolita78');

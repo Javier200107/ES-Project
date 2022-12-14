@@ -1,6 +1,7 @@
 describe('Edit profile', () => {
   it('Entro con una cuenta existente y edito el perfil', () => {
-    cy.visit('/login');
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('lolita');
     cy.get('input[id="password"]').type('Lolita78');

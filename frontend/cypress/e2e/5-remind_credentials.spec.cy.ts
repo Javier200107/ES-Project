@@ -1,7 +1,8 @@
 describe('Remind credentials', () => {
 
   it('Deberia poder hacer login recordando las credenciales, cerrar sesion y comprobar que se hayan recordado', () => {
-    cy.visit('/login')
+    cy.visit('/')
+    cy.contains('Log in').click();
     // Rellena el formulario con los datos necesarios
     cy.get('input[id="usuari"]').type('mr50');
     cy.get('input[id="password"]').type('Mr345678');
