@@ -132,7 +132,7 @@ class ListUserLikes(Resource):
         else:
             account = g.user
         if account:
-            return {"ListUserLikes": [like.json() for like in account.posts_like]}, 200
+            return {"ListUserLikes": [like.json() for like in account.posts_like if like.archived ==0]}, 200
         else:
             return {
                 "message": "Account with id [{}] doesn't exists".format(userid)
