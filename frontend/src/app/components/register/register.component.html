@@ -5,7 +5,7 @@
     <div class="backFormButton" *ngIf="!firstSlide">
       <span (click)="onBackBtn()" class="material-icons md-24">arrow_back</span>
     </div>
-    <div class="register-title"><img alt="App logo" class="tw-logo" src="{{environment}}assets/Logo_register.png"></div>
+    <div class="register-title"><img alt="App logo" class="tw-logo" src="{{environment}}Logo_navbar.png"></div>
 
     <div class="form-container">
       <form  *ngIf="firstSlide" [formGroup]="firstForm" class="register-form" (ngSubmit)="firstSubmit()">

@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {PostCreationService} from "../../services/post-creation.service";
-import {Post} from "../../models/Post";
-import {User} from "../../models/User";
 import {InfoUserCreated} from "../../models/InfoUserCreated";
 import {FollowService} from "../../services/follow.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user',
@@ -25,6 +24,8 @@ export class UserComponent implements OnInit {
   disabled = ""
   textButton = "Follow"
   buttonActived = ""
+  userAccountInfo!: InfoUserCreated
+  environment = `${environment.baseApiUrl}/`
 
   constructor(private followService: FollowService, private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParams
@@ -36,6 +37,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAvatar()
   }
 
   goToProfileUser(account_name: string){
@@ -59,8 +61,6 @@ export class UserComponent implements OnInit {
           }
         }
       }
-      console.log("Esoooo;")
-      console.log(this.list)
       return bool
     }
     return false
@@ -75,6 +75,17 @@ export class UserComponent implements OnInit {
         this.buttonActived = "bi bi-check2-circle"
         this.onButtonFollowClicked.emit()
       }
+    )
+  }
+
+  getAvatar() {
+    this.followService.getInfoUser(this.userInfo.username, this.token).subscribe(
+      (result) =>{
+        this.userAccountInfo = result.account
+      },
+      err => {
+        console.error('Error: status = ', err.status, ' and statusText = ', err.statusText)
+      },
     )
   }
 }

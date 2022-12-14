@@ -3,6 +3,7 @@ import { Post } from '../../models/Post'
 import {PostCreationService} from "../../services/post-creation.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-comment',
@@ -19,6 +20,7 @@ export class CommentComponent implements OnInit {
   token!: string
   numLikes!: number
   hasLike!: boolean
+  environment = `${environment.baseApiUrl}/`
 
   public postForm!: FormGroup;
 
