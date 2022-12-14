@@ -4,6 +4,7 @@ import {MessageBackend} from "../models/MessageBackend";
 import {environment} from "../../environments/environment";
 import {Follow} from "../models/Follow";
 import {Following} from "../models/Following";
+import {AccountInfo} from "../models/AccountInfo";
 
 @Injectable({
   providedIn: 'root'
@@ -70,5 +71,14 @@ export class FollowService {
     return this.http.delete(`${environment.baseApiUrl}/follow/${idUser}`,
       headerOptions
     )
+  }
+  getInfoUser(idUser: string, token: string){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    return this.http.get<AccountInfo>(`${environment.baseApiUrl}/account/${idUser}`, httpOptions)
   }
 }
