@@ -1,6 +1,7 @@
-<div class="post" id="post-{{postInfo.account_name + postInfo.id}}">
-
-  <div class="commentModal" *ngIf="seeComments" >
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
+<div id="post-{{postInfo.account_name + postInfo.id}}" class="post">
+  <div class="commentModal" *ngIf="seeComments">
     <div class="commentsContainer">
       <div class="closeBtn" (click)="goToComment()">
         <div class="material-icons arrowIcon ">arrow_back</div>
