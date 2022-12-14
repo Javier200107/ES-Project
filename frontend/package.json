@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "postbuild": "mkdir ../templates",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "postbuild": "mkdir -p ../templates && mv ../static/index.html ../templates/index.html",
+    "build": "ng build -c production --baseHref=\"/static/\"",
+    "watch": "ng build -c development --baseHref=\"/static/\" --watch",
     "test": "ng test",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
