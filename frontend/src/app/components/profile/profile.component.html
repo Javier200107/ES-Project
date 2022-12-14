@@ -9,10 +9,10 @@
            src="{{environment}}{{userAccountInfo.banner}}">
     </div>
     <div class="photo_profile">
-      <img *ngIf="userAccountInfo.avatar!=''" style="position: absolute; margin-top: 8%; margin-left: 5%"
+      <img *ngIf="userAccountInfo.avatar!=''" style="position: absolute; margin-top: 8%; margin-left: 5%; object-fit: cover;"
            src="{{environment}}{{userAccountInfo.avatar}}" alt="" width="128" height="128"
            class="rounded-circle me-2">
-      <img *ngIf="userAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%"
+      <img *ngIf="userAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%; object-fit: cover;"
            src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
            alt="" width="128" height="128" class="rounded-circle me-2">
       <div style="position: absolute; margin-top: 16%; margin-left: 20%;">
