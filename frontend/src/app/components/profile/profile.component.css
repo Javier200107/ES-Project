@@ -17,6 +17,13 @@ section {
   object-fit: cover;
 }
 
+objetfitcover2 > img {
+  object-fit: cover;
+  position: absolute;
+  margin-top: 8%;
+  margin-left: 5%
+}
+
 .image {
   margin-top: 20px;
   width: 95%;
