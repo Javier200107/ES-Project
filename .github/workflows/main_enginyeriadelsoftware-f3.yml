@@ -65,8 +65,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Instalar dependencias
-        run: npm install
+        run: cd frontend && npm install
       - name: Ejecutar tests e2e con Cypress
-        run: npx cypress run
+        run: cd frontend && npx cypress run
 
 

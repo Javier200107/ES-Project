@@ -50,9 +50,13 @@ describe('Edit profile', () => {
     cy.get('p-dialog')
       .find('input[id="birthdate"]').type('2000-10-31');
 
+    cy.wait(1000);
+
     cy.get('p-button[label="Apply"]').click();
 
     cy.contains('Yes').click();
+
+    cy.wait(1000);
 
     // Haz clic en el boton de login
     cy.get('button[id="login-btn"]').click();
