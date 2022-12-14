@@ -3,7 +3,7 @@ import { defineConfig } from 'cypress'
 export default defineConfig({
 
   e2e: {
-    'baseUrl': 'https://enginyeriadelsoftware-f3.azurewebsites.net',
+    'baseUrl': 'http://localhost:4200',
     supportFile: false
   },
 

@@ -74,6 +74,7 @@
   </div>
   <p-dialog header="Edit profile" [formGroup]="firstForm" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [baseZIndex]="10000"
             [draggable]="false" [resizable]="false">
+    <div [formGroup]="firstForm"></div>
 
     <div class="padding_bottom center">
       <label for="profile-photo" style="padding-bottom: 1%">Profile photo</label>
@@ -90,7 +91,7 @@
     </div>
     <div class="padding_bottom center">
       <label for="username" style="padding-bottom: 1%">Username</label>
-      <input id="username" type="text" pInputText [(ngModel)]="newUsername" class="maxWidth"
+      <input formControlName="username" id="username" type="text" pInputText [(ngModel)]="newUsername" class="maxWidth"
              placeholder="{{this.userAccountInfo.username}}">
     </div>
     <div class="padding_bottom center">
@@ -114,18 +115,18 @@
     </div>
     <div class="padding_bottom center">
       <label for="name" style="padding-bottom: 1%">Name</label>
-      <input id="name" type="text" pInputText [(ngModel)]="newName" class="maxWidth"
+      <input formControlName="name" id="name" type="text" pInputText [(ngModel)]="newName" class="maxWidth"
              placeholder="{{this.userAccountInfo.nom}}">
     </div>
     <div class="padding_bottom center">
       <label for="surname" style="padding-bottom: 1%">Surname</label>
-      <input id="surname" type="text" pInputText [(ngModel)]="newSurname" class="maxWidth"
+      <input formControlName="surname" id="surname" type="text" pInputText [(ngModel)]="newSurname" class="maxWidth"
              placeholder="{{this.userAccountInfo.cognom}}">
     </div>
     <div class="padding_bottom center">
       <label for="birthdate" style="padding-bottom: 1%">Birth date</label>
       <p id="birthdate-saved">: {{this.userAccountInfo.birthdate}}</p>
-      <input type="date" [(ngModel)]="newBirthday" id="birthdate" class="text-form maxWidth"/>
+      <input formControlName="birthdate" type="date" [(ngModel)]="newBirthday" id="birthdate" class="text-form maxWidth"/>
     </div>
     <ng-template pTemplate="footer">
       <p-button icon="pi pi-check" (click)="confirm()" label="Apply" styleClass="p-button-sm"></p-button>
