@@ -1,20 +1,22 @@
 <div class="create-post">
-
   <div class="create-post-profile">
     <img class="profile-pic" src="assets/img/profilePic.png" alt="">
   </div>
-
   <div class="create-post-form">
-    <form  class="register-form" (ngSubmit)="createPost()">
-      <input  class="new-post-text" type="text" [(ngModel)]="post_content" name="postText" id="postText" placeholder="What's happening?" >
+    <form class="register-form">
+      <input class="new-post-text" type="text" [(ngModel)]="post_content" name="postText" id="postText"
+             placeholder="What's happening?">
       <div class="post-btn-container">
-      <button mat-icon-button (click)="attachPhoto()">
-        <mat-icon>add_photo_alternate</mat-icon>
-      </button>
-      <input [disabled]="!(postForm.controls['postText'].valid)"
-             type="submit" value="Post"  class="post-button">
+        <input id="post-photo" (change)="attachPhoto($event)" type="file" accept="image/*" class="cdk-visually-hidden"
+               #file>
+        <img *ngIf="previsualization!=''" [src]="previsualization" width="10%" height="10%" alt="">
+        <button mat-icon-button (click)="file.click()">
+          <mat-icon>add_photo_alternate</mat-icon>
+        </button>
+        <input [disabled]="!(postForm.controls['postText'].valid)"
+               type="submit" value="Post" class="post-button" style="height: 2%; width: 15%; text-align: center"
+               (click)="createPost(this.selectedFile); clearData()">
       </div>
     </form>
   </div>
-
 </div>

@@ -2,11 +2,13 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 import {environment} from "../../../environments/environment";
 import {PostCreationService} from "../../services/post-creation.service";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [ConfirmationService, MessageService],
 })
 export class NavbarComponent implements OnInit {
   isChecked = false
@@ -28,7 +30,13 @@ export class NavbarComponent implements OnInit {
 
   environment = `${environment.baseApiUrl}/`
 
-  constructor(private router: Router, private postCreationService: PostCreationService, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private postCreationService: PostCreationService,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+  ) {
     this.route.queryParams
       .subscribe(params => {
           this.user = params['user']
@@ -91,4 +99,24 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  deleteAccount(){
+    this.postCreationService.deleteAccount(this.token, this.user).subscribe(
+      (result2) => {
+         this.router.navigate(['/login'])
+      }
+    )
+  }
+  confirmDeleteAccount(){
+    this.confirmationService.confirm({
+        message: 'Do you want to delete the account?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+          this.deleteAccount()
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        }
+    });
+  }
 }

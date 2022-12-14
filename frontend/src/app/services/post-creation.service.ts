@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import { NewPostForm } from '../models/NewPostForm'
+import { NewPostText} from "../models/NewPostText";
 import { GetNumPosts } from '../models/GetNumPosts'
 import { Post } from '../models/Post'
 import { GetPost } from '../models/GetPost'
@@ -10,34 +11,49 @@ import {ArchivedPost} from "../models/ArchivedPost";
 import {MessageBackend} from "../models/MessageBackend";
 import {Follow} from "../models/Follow";
 import {InfoUserCreated} from "../models/InfoUserCreated";
+import {User} from "../models/User";
+import {ProfileSimplified} from "../models/ProfileSimplified";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostCreationService {
+  newPostText!: NewPostText
 
   constructor(private http: HttpClient) {
   }
 
   createPost(newPost: NewPostForm, token: String): Observable<Post> {
+    this.newPostText = newPost
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       }),
     };
-    return this.http.post<Post>(`${environment.baseApiUrl}/posts`, newPost, httpOptions);
+    return this.http.post<Post>(`${environment.baseApiUrl}/posts`, this.newPostText, httpOptions);
   }
 
   createCommunityPost(newPost:NewPostForm, token:String): Observable<Post> {
+    this.newPostText.text = newPost.text
+    this.newPostText.parent_id = newPost.parent_id
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       }),
     };
-    return this.http.post<Post>(`${environment.baseApiUrl}/posts/1`,newPost, httpOptions);
+    return this.http.post<Post>(`${environment.baseApiUrl}/posts/1`,this.newPostText, httpOptions);
+  }
+
+  putPostImage(formDades: FormData, postId: number, token:String) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    return this.http.put<Post>(`${environment.baseApiUrl}/posts/${postId}/files`, formDades, httpOptions)
   }
 
   getPostsUser (getPostsForm: GetNumPosts, token: String) {
@@ -106,7 +122,6 @@ export class PostCreationService {
         Authorization: `Bearer ${token}`
       })
     }
-    console.log("add")
     return this.http.post(`${environment.baseApiUrl}/likes/${id}`, {}, headerOptions)
   }
 
@@ -117,7 +132,6 @@ export class PostCreationService {
         Authorization: `Bearer ${token}`
       })
     }
-    console.log("quit")
     return this.http.delete(`${environment.baseApiUrl}/likes/${id}`,
       headerOptions
     )
@@ -207,7 +221,7 @@ export class PostCreationService {
     )
   }
 
-  getAvatar(token:string, id_post: number) {
+  getPost(token:string, id_post: number) {
     const headerOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -215,6 +229,30 @@ export class PostCreationService {
       }),
     }
     return this.http.get<InfoUserCreated>(`${environment.baseApiUrl}/post/${id_post}`,
+      headerOptions
+    )
+  }
+
+  deletePost(token: string, id_post: number){
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }),
+    }
+    return this.http.delete(`${environment.baseApiUrl}/posts/${id_post}`,
+      headerOptions
+      )
+  }
+
+  deleteAccount(token: string, user: string) {
+    const headerOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }),
+    }
+    return this.http.delete(`${environment.baseApiUrl}/account/${user}`,
       headerOptions
     )
   }

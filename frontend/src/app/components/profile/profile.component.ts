@@ -9,7 +9,7 @@ import {FollowService} from "../../services/follow.service";
 import {SessionService} from "../../services/session.service";
 import {ConfirmationService, MessageService, PrimeNGConfig} from "primeng/api";
 import {DomSanitizer} from "@angular/platform-browser";
-import {PostSimplified} from "../../models/PostSimplified";
+import {ProfileSimplified} from "../../models/ProfileSimplified";
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -88,14 +88,17 @@ export class ProfileComponent implements OnInit {
 
   // TODO OPTIMIZAR liked posts emitter updatea todo
   // TODO NO PUC TENIR 2 events emitter com a output
-  refreshListPosts() {
-    this.getPostsUser()
-    this.getPostsUserArchived()
-    this.getLikedPosts()
-  }
-
-  refreshLikedPosts() {
-    this.getLikedPosts()
+  refreshListPosts(event: any) {
+      if(event == 1){
+      this.getPostsUser()
+      this.getPostsUserArchived()
+    }
+    if(event == 2){
+      this.getLikedPosts()
+    }
+    if(event == 3){
+      this.getPostsUser()
+    }
   }
 
   getPostsUserArchived() {
@@ -367,16 +370,11 @@ export class ProfileComponent implements OnInit {
   //TODO file extension should be checked
   uploadFile(): any {
     this.uploaded = false
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`
-      }),
-    };
     try {
       const formDades = new FormData()
       formDades.append('avatar', this.selectedFile)
-      this.http.put<PostSimplified>(`${environment.baseApiUrl}/account/files`, formDades, httpOptions).subscribe(
-        (res: PostSimplified) => {
+      this.sessionService.putProfileImage(formDades).subscribe(
+        (res: ProfileSimplified) => {
           // @ts-ignore
           this.newProfilePhotoURL = res['account']['avatar']
           this.uploaded = true
@@ -390,16 +388,11 @@ export class ProfileComponent implements OnInit {
 
   uploadBannerFile(): any {
     this.uploadedBanner = false
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`
-      }),
-    };
     try {
       const formDades = new FormData()
       formDades.append('banner', this.selectedFileBanner)
-      this.http.put<PostSimplified>(`${environment.baseApiUrl}/account/files`, formDades, httpOptions).subscribe(
-        (res: PostSimplified) => {
+      this.sessionService.putProfileImage(formDades).subscribe(
+        (res: ProfileSimplified) => {
           // @ts-ignore
           this.newBannerURL = res['account']['banner']
           this.uploadedBanner = true

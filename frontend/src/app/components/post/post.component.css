@@ -135,7 +135,6 @@
 .content-title {
   height: 20px;
 }
-
 .content-space {
   width: 400px;
   text-align: start;
@@ -165,11 +164,19 @@
 }
 
 .content-interaction {
-  height: 36px;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: flex-end;
+  height: 36px;
   padding-right: 8%;
+}
+
+.content-interaction-profile {
+  display: flex;
+  justify-content: space-around;
+  height: 36px;
+  padding-right: 8%;
+  flex-wrap: wrap;
 }
 
 .media-btn {
@@ -191,6 +198,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-left: 10px;
 }
 
 .media-container:hover > .btn-comments {
@@ -200,6 +208,15 @@
 
 .media-container:hover > .num-comments {
   color: #1c9bf0;
+}
+
+.media-container:hover > .btn-delete {
+  background-color: black;
+  color: #c45656;
+}
+
+.media-container:hover > .btn-delete {
+  color: #c45656;
 }
 
 .media-container:hover > .btn-rep {

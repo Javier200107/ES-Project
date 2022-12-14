@@ -40,6 +40,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {CalendarModule} from "primeng/calendar";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ToastModule} from "primeng/toast";
+import {SlideMenuModule} from "primeng/slidemenu";
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import {ToastModule} from "primeng/toast";
     InputTextModule,
     CalendarModule,
     ConfirmPopupModule,
-    ToastModule
+    ToastModule,
+    SlideMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

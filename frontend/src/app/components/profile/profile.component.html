@@ -2,14 +2,12 @@
 <p-confirmPopup></p-confirmPopup>
 <section>
   <div>
-    <button style="border-color: var(--background); color: var(--background); background-color: var(--background)" (click)="showBannerDialog()">
-      <div class="objetfitcover">
-        <img *ngIf="userAccountInfo.banner==''" style="position: absolute"
-             src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
-        <img *ngIf="userAccountInfo.banner!=''" style="position: absolute"
-             src="{{environment}}{{userAccountInfo.banner}}">
-      </div>
-    </button>
+    <div class="objetfitcover">
+      <img (click)="showBannerDialog()" *ngIf="userAccountInfo.banner==''" style="position: absolute"
+           src="https://images.unsplash.com/photo-1549247796-5d8f09e9034b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1458&q=80">
+      <img (click)="showBannerDialog()" *ngIf="userAccountInfo.banner!=''" style="position: absolute"
+           src="{{environment}}{{userAccountInfo.banner}}">
+    </div>
     <div class="photo_profile">
       <img *ngIf="userAccountInfo.avatar!=''" style="position: absolute; margin-top: 8%; margin-left: 5%"
            src="{{environment}}{{userAccountInfo.avatar}}" alt="" width="128" height="128"
@@ -17,6 +15,9 @@
       <img *ngIf="userAccountInfo.avatar==''" style="position: absolute; margin-top: 8%; margin-left: 5%"
            src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
            alt="" width="128" height="128" class="rounded-circle me-2">
+      <div style="position: absolute; margin-top: 16%; margin-left: 17%;">
+        <h1>{{user}}</h1>
+      </div>
     </div>
   </div>
   <div class="container_" style="margin-top: 23%">
@@ -44,17 +45,17 @@
         <mat-tab-group style="width: 500px">
           <mat-tab label="Posts">
             <div *ngFor="let post of posts">
-              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Archived posts">
             <div *ngFor="let post of postsArchived">
-              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshListPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
           <mat-tab label="Liked posts">
             <div *ngFor="let post of likedPosts">
-              <app-post [postInfo]="post" [isProfile]="true" (postArchived)="refreshLikedPosts()"></app-post>
+              <app-post [postInfo]="post" [isProfile]="true" (postChanges)="refreshListPosts($event)"></app-post>
             </div>
           </mat-tab>
         </mat-tab-group>
@@ -71,13 +72,15 @@
       </div>
     </div>
   </div>
-  <p-dialog header="Edit profile" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '40vw'}"
+  <p-dialog header="Edit profile"
+            [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '40vw'}"
             [maximizable]="true" [baseZIndex]="10000"
             [draggable]="false" [resizable]="false">
 
     <div class="padding_bottom center">
       <label for="profile-photo" style="padding-bottom: 1%">Profile photo</label>
-      <input id="profile-photo" (change)="getProfileImage($event)" type="file" accept="image/*"
+      <input id="profile-photo" (change)="getProfileImage($event)" type="file"
+             accept="image/png, image/jpg, image/jpeg, image/gif"
              class="maxWidth" style="padding-bottom: 1%">
       <div>
         <img *ngIf="previsualization!=''" [src]="previsualization" width="30%" height="15%"
@@ -128,14 +131,16 @@
             [draggable]="false" [resizable]="false">
 
     <div class="padding_bottom center">
-      <input id="banner-image" (change)="getBannerImage($event)" type="file" accept="image/*"
+      <input id="banner-image" (change)="getBannerImage($event)" type="file"
+             accept="image/png, image/jpg, image/jpeg, image/gif"
              class="maxWidth" style="padding-bottom: 1%">
       <div>
         <img *ngIf="previsualizationBanner!=''" [src]="previsualizationBanner" width="30%" height="15%"
              style="padding-bottom: 1%">
       </div>
       <div>
-        <button *ngIf="selectedFileBanner!=null && uploadedBanner==false" type="button" (click)="uploadBannerFile()">Upload
+        <button *ngIf="selectedFileBanner!=null && uploadedBanner==false" type="button" (click)="uploadBannerFile()">
+          Upload
           file
         </button>
       </div>
