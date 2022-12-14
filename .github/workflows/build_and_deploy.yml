@@ -3,10 +3,8 @@ name: Build and Deploy to Azure
 on:
   push:
     branches:
-      - BuildGithubAction
-  pull_request:
-    branches:
-      - BuildGithubAction
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -31,7 +29,52 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: python-app-test
+          name: python-app
           path: |
             .
             !frontend/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: "Production"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: python-app
+          path: .
+
+      - name: "Deploy to Azure Web App"
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
+        with:
+          app-name: "enginyeriadelsoftware-f3"
+          slot-name: "Production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_450800F79A3B4F5F9EF0AE9ABB61B502 }}
+
+  tests_e2e:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: |
+          npm ci
+
+      - name: Execute tests e2e with Cypress
+        working-directory: frontend
+        run: |
+          npx cypress run

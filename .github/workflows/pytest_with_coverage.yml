@@ -3,10 +3,12 @@ name: PyTest with Coverage
 on:
   push:
     branches:
-      - BuildGithubAction
+      - main
+      - testing
   pull_request:
     branches:
-      - BuildGithubAction
+      - main
+      - testing
 
 jobs:
   test:
