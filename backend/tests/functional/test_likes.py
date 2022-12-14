@@ -57,7 +57,7 @@ def test_getListUserLikes(client):
     response = client.put(f"/posts/{post['id']}", json={"archived": 1})
     assert response.status_code == 200
     list3 = client.get("/likeUlist").json["ListUserLikes"]
-    assert len(list3)  == len(list2) -1
+    assert len(list3) == len(list2) - 1
 
 
 def test_DoubleLike(client):

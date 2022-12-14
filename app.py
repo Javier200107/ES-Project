@@ -1,11 +1,11 @@
 from backend.config import environment
 from backend.db import db
-from backend.resources.accounts import Accounts, AccountsList, AccountsFiles
+from backend.resources.accounts import Accounts, AccountsFiles, AccountsList
 from backend.resources.follow import Follow, ListFollowing, ListFollows, PostsFollowing
 from backend.resources.like import Like, ListPostLikes, ListUserLikes
 from backend.resources.login import Login
-from backend.resources.posts import Posts, UserPosts, Comments, Post, PostsFiles
-from backend.resources.notifications import NotificationList, Notification
+from backend.resources.notifications import Notification, NotificationList
+from backend.resources.posts import Comments, Post, Posts, PostsFiles, UserPosts
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_migrate import Migrate

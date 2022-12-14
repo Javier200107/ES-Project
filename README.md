@@ -4,12 +4,12 @@
 [![Build and Deploy to Azure](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/build_and_deploy.yml)
 [![PyTest with Coverage](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/pytest_with_coverage.yml/badge.svg)](https://github.com/UB-ES-2022-F3/ES-Project/actions/workflows/pytest_with_coverage.yml)
 
-### Execució FRONTEND:
+### Execució FRONTEND
 
-Execució BACKEND:
+Execució BACKEND
 ============
 
-### _Creació base de dades_:
+### _Creació base de dades_
 
 A la terminal de Pycharm o al cmd executem:
 ```python
@@ -17,9 +17,9 @@ flask db init
 flask db migrate -m "Initial migration"
 flask db upgrade
 ```
-> *Nota:* Si hi ha canvis a backend, cal eliminar la carpeta `migration` i `instance` on es crea la ddb, per poder utilitzar els nous canvis.
+> _Nota:_ Si hi ha canvis a backend, cal eliminar la carpeta `migration` i `instance` on es crea la ddb, per poder utilitzar els nous canvis.
 
-### _Executem backend_:
+### _Executem backend_
 ```python
 flask run
 ```
@@ -28,7 +28,7 @@ Requests Backend
 ============
 
 > **Nota:** La tabla està en format HTML, motiu pel qual per escriure codi dins faig servir
-> el tag `<pre>`. 
+> el tag `<pre>`.
 > A la columna de `body`, si podeu subratllar els paràmetres que no siguin necessaris per fer la request.
 
 ### [Registre](/backend/resources/accounts.py)
@@ -56,7 +56,7 @@ Requests Backend
     </tr>
         <td>POST</td>
         <td><pre>
-{ 
+{
   "username": "Buenas",
   "password": "Lolita1234"
   "email": "hol@gails.com"
@@ -68,12 +68,12 @@ Requests Backend
         <td>Crear compte</td>
         <td>
             · Username exist<br/>
-            · Email exist<br/> 
+            · Email exist<br/>
             · Contraseña error
         </td>
         <td><pre>
-{ 
-  "account": { 
+{
+  "account": {
      "id": 1,
      "username": "Buenas",
      "password": "Lolita1234"
@@ -117,7 +117,7 @@ Requests Backend
         <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/account</code></pre></th>
         <td>GET</td>
         <td><pre>
-{ 
+{
   "username": "Buenas",
   "password": "Lolita1234"
 }</pre></td>
@@ -127,7 +127,7 @@ Requests Backend
             · Contrassenya error
         </td>
         <td><pre>
-{ 
+{
   "token": String
 }</pre></td>
     <tr>
@@ -153,7 +153,7 @@ Requests Backend
     </tr>
 </table>
 
-## post.json 
+## post.json
 
 "id": self.id,<br/>
 "text": text del post,<br/>
@@ -165,7 +165,7 @@ Requests Backend
 "accounts_like": json de comptes que han donat like,<br/>
 "num_likes": numero de likes del post ,<br/>
 "community": post realitzat a community (1) o no (0)
-            
+
 
 ### [Posts](/backend/resources/posts.py)
 <table>
@@ -184,7 +184,7 @@ Requests Backend
         <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/posts, posts/*int:id*</code></pre></th>
     <tr>
         <td>GET</td>
-        <td>{ 
+        <td>{
   "limit": 10,
   "offset": 0
         }</td>
@@ -193,7 +193,7 @@ Requests Backend
         <td>return {"posts": [post.json() for post in posts]}, 200  </td>
     </tr>
         <td>POST</td>
-        <td>{ 
+        <td>{
   "text": "text del post",
   "parent_id": 1
         }</td>
@@ -234,23 +234,23 @@ Requests Backend
         <th rowspan="5" scope="colgroup"><pre><code>http://127.0.0.1:5000/uposts, /uposts/*string:user*</code></pre></th>
     <tr>
         <td>GET</td>
-        <td>{ 
+        <td>{
   "limit": 10,
   "offset": 0,
   "archived":0
         }</td>
-        <td> -Retorna els posts de l'usuari (archivats o no segons el valor d'archived)<br/>         
-            -Són els posts de l'usuari amb el nom concret de l'string, si no és passa string, retorna els del usuari loguejat.<br/>             
+        <td> -Retorna els posts de l'usuari (archivats o no segons el valor d'archived)<br/>
+            -Són els posts de l'usuari amb el nom concret de l'string, si no és passa string, retorna els del usuari loguejat.<br/>
             -En cas de retornar els posts d'un usuari diferent del loguejat no retorna els posts de community<br/>
         </td>
         <td>
             · No userr<br/>
             · Archived posts can only be seen by the owner<br/>
-            · No posts                     
+            · No posts
         </td>
         <td>return {"posts": [post.json() for post in posts]}, 200  </td>
     </tr>
-        
+
 </table>
 
 ### [Likes](/backend/resources/like.py)
@@ -452,9 +452,9 @@ Requests Backend
 </table>
 
 ***
-Pequeños ejemplos con codigo Markdown:
+Pequeños ejemplos con codigo Markdown
 -
-> **Nota:** Esto es codigo random que he cogido por internet con 
+> **Nota:** Esto es codigo random que he cogido por internet con
 > cosas que pueden ser útiles sin tener que ir a buscarlo así no perdeis tanto tiempo :)
 <!--sec data-title="Prompt: OS X and Linux" data-id="OSX_Linux_prompt" data-collapse=true ces-->
 
@@ -471,7 +471,7 @@ Esto que  `pasa podemos` explicar de esta manera
 
 Para poner un enlace [nombreEnlace]()
 
-```json 
+```json
 {"username" : "Estela", "esd": "sdsd"}
 ```
 [`dist`](/backend) (Tengo que probarlo)

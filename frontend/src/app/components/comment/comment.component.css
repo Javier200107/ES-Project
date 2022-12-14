@@ -47,32 +47,31 @@
   width: 400px;
   text-align: start;
 }
-.post-text{
-  word-break: break-all;
-  /* Non standard for webkit */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 
+.post-text {
+  word-break: break-all;
+
+  /* Non standard for webkit */
+  hyphens: auto;
+  hyphens: auto;
+  hyphens: auto;
   hyphens: auto;
   overflow: auto;
 }
 
-.post-text{
+.post-text {
   word-break: break-all;
-  /* Non standard for webkit */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 
+  /* Non standard for webkit */
+  hyphens: auto;
+  hyphens: auto;
+  hyphens: auto;
   hyphens: auto;
   width: 93%;
   overflow: auto;
 }
 
-
 .content-interaction {
-
   width: 25px;
   display: flex;
   align-items: center;

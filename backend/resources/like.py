@@ -1,7 +1,7 @@
-from backend.models.notifications import NotificationsModel
-from backend.utils import lock
 from backend.models.accounts import AccountsModel, auth, g
+from backend.models.notifications import NotificationsModel
 from backend.models.posts import PostsModel
+from backend.utils import lock
 from flask_restful import Resource
 
 
@@ -55,7 +55,7 @@ class Like(Resource):
                                 )
                             }, 404
                 accounts.append(acc)
-                if(pt.account_id!=acc.id):
+                if pt.account_id != acc.id:
                     noti = NotificationsModel(1)
                     noti.account_id2 = acc.id
                     acc2 = AccountsModel.get_by_id(pt.account_id)
@@ -65,7 +65,9 @@ class Like(Resource):
                         noti.save_to_db()
                     except:
                         noti.rollback()
-                        return {"message": "An error occurred inserting the Like-Notification."}, 500
+                        return {
+                            "message": "An error occurred inserting the Like-Notification."
+                        }, 500
 
                 try:
                     pt.save_to_db()
@@ -132,7 +134,11 @@ class ListUserLikes(Resource):
         else:
             account = g.user
         if account:
-            return {"ListUserLikes": [like.json() for like in account.posts_like if like.archived ==0]}, 200
+            return {
+                "ListUserLikes": [
+                    like.json() for like in account.posts_like if like.archived == 0
+                ]
+            }, 200
         else:
             return {
                 "message": "Account with id [{}] doesn't exists".format(userid)

@@ -1,6 +1,6 @@
-from backend.utils import lock
 from backend.models.accounts import AccountsModel, auth, g
-from  backend.models.notifications import NotificationsModel
+from backend.models.notifications import NotificationsModel
+from backend.utils import lock
 from flask_restful import Resource, reqparse
 
 
@@ -69,13 +69,15 @@ class Follow(Resource):
                 noti.save_to_db()
             except:
                 noti.rollback()
-                return {"message": "An error occurred inserting the Follow-Notification."}, 500
+                return {
+                    "message": "An error occurred inserting the Follow-Notification."
+                }, 500
             try:
-               # acc1.save_to_db()
+                # acc1.save_to_db()
                 acc2.save_to_db()
                 return {"Account": acc1.json()}, 200
             except:
-               # acc1.rollback()
+                # acc1.rollback()
                 acc2.rollback()
                 return {"message": "An error occurred inserting the Follow."}, 500
         else:
@@ -101,11 +103,11 @@ class Follow(Resource):
                         if i.id == acc2.id:
                             follow.remove(i)
                             try:
-                             #   acc1.save_to_db()
+                                #   acc1.save_to_db()
                                 acc2.save_to_db()
                                 return {"Account": acc1.json()}, 200
                             except:
-                              #  acc1.rollback()
+                                #  acc1.rollback()
                                 acc2.rollback()
                                 return {
                                     "message": "An error occurred deleting the Follow."

@@ -39,8 +39,14 @@ class AccountsModel(db.Model):
     avatar = db.Column(db.String(), nullable=False, default="")
     banner = db.Column(db.String(), nullable=False, default="")
 
-    posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
-    notifications = db.relationship("NotificationsModel", cascade="all, delete-orphan",foreign_keys = 'NotificationsModel.account_id')
+    posts = db.relationship(
+        "PostsModel", back_populates="account", cascade="all, delete-orphan"
+    )
+    notifications = db.relationship(
+        "NotificationsModel",
+        cascade="all, delete-orphan",
+        foreign_keys="NotificationsModel.account_id",
+    )
 
     following = db.relationship(
         "AccountsModel",
@@ -73,15 +79,11 @@ class AccountsModel(db.Model):
             "banner": self.banner,
             "followers": [t.username for t in self.followers],
             "following": [t.username for t in self.following],
-            "Num_notificacions": len(self.notifications)
+            "Num_notificacions": len(self.notifications),
         }
 
     def json2(self):
-        return {
-            "username": self.username,
-            "avatar": self.avatar,
-            "banner": self.banner
-        }
+        return {"username": self.username, "avatar": self.avatar, "banner": self.banner}
 
     def save_to_db(self):
         db.session.add(self)
@@ -96,7 +98,9 @@ class AccountsModel(db.Model):
         db.session.commit()
 
     def getFilesFolder(self):
-        account_folder = current_app.config["STATIC_FOLDER"] + f"/api/accounts/{self.id}"
+        account_folder = (
+            current_app.config["STATIC_FOLDER"] + f"/api/accounts/{self.id}"
+        )
         os.makedirs(account_folder, exist_ok=True)
         return account_folder
 
@@ -116,11 +120,16 @@ class AccountsModel(db.Model):
         return (
             (
                 object_session(self)
-                .query(PostsModel).filter_by(archived=0)
+                .query(PostsModel)
+                .filter_by(archived=0)
                 .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
                 .filter(Poster.followers.any(AccountsModel.id == user_id))
             )
-            .union(PostsModel.query.filter_by(account_id=user_id,archived=0,parent_id=None))
+            .union(
+                PostsModel.query.filter_by(
+                    account_id=user_id, archived=0, parent_id=None
+                )
+            )
             .order_by(PostsModel.time.desc())
             .limit(number)
             .offset(off)

@@ -1,5 +1,5 @@
-from backend.utils import lock
 from backend.models.accounts import AccountsModel, auth, g
+from backend.utils import lock
 from flask_restful import Resource, reqparse
 
 

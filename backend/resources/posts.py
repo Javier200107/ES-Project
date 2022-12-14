@@ -1,10 +1,9 @@
-from werkzeug.datastructures import FileStorage
-
-from backend.models.notifications import NotificationsModel
-from backend.utils import lock, CustomException
 from backend.models.accounts import AccountsModel, auth, g
+from backend.models.notifications import NotificationsModel
 from backend.models.posts import PostsModel
+from backend.utils import CustomException, lock
 from flask_restful import Resource, reqparse
+from werkzeug.datastructures import FileStorage
 
 
 class Posts(Resource):
@@ -57,19 +56,21 @@ class Posts(Resource):
             if parent_id != None:
                 parent = PostsModel.get_by_id(parent_id)
                 new_post.parent = parent
-                if(parent.account_id!=acc.id):
+                if parent.account_id != acc.id:
                     noti = NotificationsModel(2)
                     noti.account_id2 = acc.id
                     noti.account_id = parent.account_id
-                    noti.post_id = new_post.id #Retorna el comentari
+                    noti.post_id = new_post.id  # Retorna el comentari
                     try:
 
                         noti.save_to_db()
                     except Exception:
                         noti.rollback()
-                        return {"message": "An error occurred with post-Notification"}, 500
+                        return {
+                            "message": "An error occurred with post-Notification"
+                        }, 500
 
-            if (id):
+            if id:
                 new_post.community = 1
             try:
                 new_post.save_to_db()
@@ -87,10 +88,30 @@ class Posts(Resource):
                 return {"message": "Unauthorized!"}, 403
 
             parser = reqparse.RequestParser()
-            parser.add_argument("text", type=str, required=False, nullable=False, default=post.text)
-            parser.add_argument("parent_id", type=int, required=False, nullable=True, default=post.parent_id)
-            parser.add_argument("archived", type=int, required=False, nullable=False, default=post.archived)
-            parser.add_argument("community", type=int, required=False, nullable=False, default=post.community)
+            parser.add_argument(
+                "text", type=str, required=False, nullable=False, default=post.text
+            )
+            parser.add_argument(
+                "parent_id",
+                type=int,
+                required=False,
+                nullable=True,
+                default=post.parent_id,
+            )
+            parser.add_argument(
+                "archived",
+                type=int,
+                required=False,
+                nullable=False,
+                default=post.archived,
+            )
+            parser.add_argument(
+                "community",
+                type=int,
+                required=False,
+                nullable=False,
+                default=post.community,
+            )
             data = parser.parse_args()
 
             try:
@@ -203,11 +224,14 @@ class Post(Resource):
 
 
 class PostsFiles(Resource):
-    allowed_extensions = {"image": ["png", "jpg", "jpeg", "gif"], "video": ["mp4", "webm", "mov"]}
+    allowed_extensions = {
+        "image": ["png", "jpg", "jpeg", "gif"],
+        "video": ["mp4", "webm", "mov"],
+    }
 
     @classmethod
     def get_allowed_extension(cls, filename, fileType):
-        ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else ""
+        ext = filename.rsplit(".", 1)[1].lower() if "." in filename else ""
         if ext in cls.allowed_extensions[fileType]:
             return ext
         raise CustomException("Invalid file extension.")
@@ -227,9 +251,15 @@ class PostsFiles(Resource):
     @auth.login_required()
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument("image1", type=FileStorage, location="files", required=False, default=None)
-        parser.add_argument("image2", type=FileStorage, location="files", required=False, default=None)
-        parser.add_argument("video1", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument(
+            "image1", type=FileStorage, location="files", required=False, default=None
+        )
+        parser.add_argument(
+            "image2", type=FileStorage, location="files", required=False, default=None
+        )
+        parser.add_argument(
+            "video1", type=FileStorage, location="files", required=False, default=None
+        )
         data = parser.parse_args()
 
         account = g.user
@@ -250,18 +280,39 @@ class PostsFiles(Resource):
                 if video1 and video1.filename:
                     self.update_account_post_file(account, post, video1, "video1")
             except CustomException as e:
-                return {'message': str(e)}, 400
+                return {"message": str(e)}, 400
             except Exception:
-                return {'message': "Failed to update the post."}, 500
+                return {"message": "Failed to update the post."}, 500
 
         return {"post": post.json()}, 200
 
     @auth.login_required()
     def delete(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument("image1", type=int, required=False, nullable=False, default=0, location="args")
-        parser.add_argument("image2", type=int, required=False, nullable=False, default=0, location="args")
-        parser.add_argument("video1", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument(
+            "image1",
+            type=int,
+            required=False,
+            nullable=False,
+            default=0,
+            location="args",
+        )
+        parser.add_argument(
+            "image2",
+            type=int,
+            required=False,
+            nullable=False,
+            default=0,
+            location="args",
+        )
+        parser.add_argument(
+            "video1",
+            type=int,
+            required=False,
+            nullable=False,
+            default=0,
+            location="args",
+        )
         data = parser.parse_args()
 
         account = g.user
@@ -284,6 +335,6 @@ class PostsFiles(Resource):
                     post.video1 = ""
                 post.save_to_db()
             except Exception:
-                return {'message': "Failed to update the post."}, 500
+                return {"message": "Failed to update the post."}, 500
 
         return {"post": post.json()}, 200

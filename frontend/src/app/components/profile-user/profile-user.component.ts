@@ -1,12 +1,12 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
-import {Post} from "../../models/Post";
-import {PostCreationService} from "../../services/post-creation.service";
-import {ActivatedRoute} from "@angular/router";
-import {GetNumPosts} from "../../models/GetNumPosts";
-import {FollowService} from "../../services/follow.service";
-import {InfoUserCreated} from "../../models/InfoUserCreated";
-import {environment} from "../../../environments/environment";
-import {SessionService} from "../../services/session.service";
+import { Component, EventEmitter, OnInit } from '@angular/core'
+import { Post } from '../../models/Post'
+import { PostCreationService } from '../../services/post-creation.service'
+import { ActivatedRoute } from '@angular/router'
+import { GetNumPosts } from '../../models/GetNumPosts'
+import { FollowService } from '../../services/follow.service'
+import { InfoUserCreated } from '../../models/InfoUserCreated'
+import { environment } from '../../../environments/environment'
+import { SessionService } from '../../services/session.service'
 
 @Component({
   selector: 'app-profile-user',
@@ -16,8 +16,8 @@ import {SessionService} from "../../services/session.service";
 export class ProfileUserComponent implements OnInit {
   postsUser: Post[] = []
   listFollowersOrFollowing: InfoUserCreated[] = []
-  listFollowers:  InfoUserCreated[] = []
-  listFollowing:  InfoUserCreated[] = []
+  listFollowers: InfoUserCreated[] = []
+  listFollowing: InfoUserCreated[] = []
   sessionUser!: string
   token!: string
   visitedUsername!: string
@@ -25,8 +25,7 @@ export class ProfileUserComponent implements OnInit {
   numSeguidores!: number
   numSeguidos!: number
   showFiller = false
-  environment =`${environment.baseApiUrl}/`
-
+  environment = `${environment.baseApiUrl}/`
 
   isFollowersVisible = false
   isFollowingVisible = false
@@ -34,25 +33,25 @@ export class ProfileUserComponent implements OnInit {
   ep = false
   visitedUserAccountInfo!: InfoUserCreated
 
-  constructor(
+  constructor (
     private followService: FollowService,
     private postCreationService: PostCreationService,
     private sessionService: SessionService,
     private route : ActivatedRoute
   ) {
     this.route.queryParams
-    .subscribe(params => {
-        this.sessionUser = params["user"]
-        this.token = params["token"]
-        this.visitedUsername = params["idUser"]
+      .subscribe(params => {
+        this.sessionUser = params.user
+        this.token = params.token
+        this.visitedUsername = params.idUser
       }
       )
   }
 
   // TODO se podria optimizar llamando una sola vez para conseguir toda
   // TODO la info de la cuenta visitada de golpe (getVisitedProfile)
-  ngOnInit(): void {
-    this.nameButton = "Follow"
+  ngOnInit (): void {
+    this.nameButton = 'Follow'
     this.getVisitedProfile()
     this.getPostsUser()
     this.isFollow()
@@ -60,66 +59,66 @@ export class ProfileUserComponent implements OnInit {
     this.getListFollowing()
   }
 
-  isFollow() {
+  isFollow () {
     this.followService.isFollowUser(this.visitedUsername, this.token).subscribe(
       (result) => {
-        if(result.message != `Account [${this.visitedUsername}] doesn't follow any account`) {
-          this.nameButton = "UnFollow"
+        if (result.message != `Account [${this.visitedUsername}] doesn't follow any account`) {
+          this.nameButton = 'UnFollow'
         }
       }
     )
   }
 
-  getListFollowers() {
+  getListFollowers () {
     this.followService.followList(this.visitedUsername, this.token).subscribe(
       (result) => {
-          this.listFollowers = []
-          this.numSeguidores = result.ListFollows.length
-          this.listFollowers = result.ListFollows
-          if(this.isFollowersVisible) {
-            this.listFollowersOrFollowing = this.listFollowers
-          }
-          if(this.isFollowersVisible) {
-            this.listFollowersOrFollowing = this.listFollowers
-          }
+        this.listFollowers = []
+        this.numSeguidores = result.ListFollows.length
+        this.listFollowers = result.ListFollows
+        if (this.isFollowersVisible) {
+          this.listFollowersOrFollowing = this.listFollowers
+        }
+        if (this.isFollowersVisible) {
+          this.listFollowersOrFollowing = this.listFollowers
+        }
       }
     )
   }
 
-  ng() {
+  ng () {
     this.ep = true
     this.getListFollowing()
   }
 
-  getListFollowing() {
+  getListFollowing () {
     this.followService.followingList(this.visitedUsername, this.token).subscribe(
       (result) => {
-          this.numSeguidos = result.ListFollowing.length
-          this.listFollowing = result.ListFollowing
+        this.numSeguidos = result.ListFollowing.length
+        this.listFollowing = result.ListFollowing
       }
     )
   }
 
-  unFollowOrFollow() {
-      if(this.nameButton == "Follow"){
-          this.followService.follow(this.visitedUsername, this.token).subscribe(
-          (result) => {
-              this.nameButton = "unFollow"
-              this.getListFollowers()
-          }
-          )
-      } else {
-        this.followService.unfollow(this.visitedUsername, this.token).subscribe(
-          (result) => {
-            this.nameButton = "Follow"
-            this.getListFollowers()
-          }
-          )
-      }
-      if(this.isFollowersVisible) {
-        this.getListFollowers()
-        this.listFollowersOrFollowing = this.listFollowers
-      }
+  unFollowOrFollow () {
+    if (this.nameButton == 'Follow') {
+      this.followService.follow(this.visitedUsername, this.token).subscribe(
+        (result) => {
+          this.nameButton = 'unFollow'
+          this.getListFollowers()
+        }
+      )
+    } else {
+      this.followService.unfollow(this.visitedUsername, this.token).subscribe(
+        (result) => {
+          this.nameButton = 'Follow'
+          this.getListFollowers()
+        }
+      )
+    }
+    if (this.isFollowersVisible) {
+      this.getListFollowers()
+      this.listFollowersOrFollowing = this.listFollowers
+    }
   }
 
   getPostsUser () {
@@ -136,37 +135,37 @@ export class ProfileUserComponent implements OnInit {
     )
   }
 
-  onFollowersTextClicked() {
+  onFollowersTextClicked () {
     if (this.isFollowingVisible) {
       this.isFollowingVisible = false
       this.isFollowersVisible = true
       this.listFollowersOrFollowing = this.listFollowers
     } else {
-      this.isFollowersVisible = !this.isFollowersVisible;
-      if(this.isFollowersVisible){
+      this.isFollowersVisible = !this.isFollowersVisible
+      if (this.isFollowersVisible) {
         this.listFollowersOrFollowing = this.listFollowers
       }
     }
   }
 
-  onFollowingTextClicked() {
+  onFollowingTextClicked () {
     if (this.isFollowersVisible) {
       this.isFollowersVisible = false
       this.isFollowingVisible = true
       this.listFollowersOrFollowing = this.listFollowing
     } else {
-      this.isFollowingVisible = !this.isFollowingVisible;
-      if(this.isFollowingVisible){
+      this.isFollowingVisible = !this.isFollowingVisible
+      if (this.isFollowingVisible) {
         this.listFollowersOrFollowing = this.listFollowing
       }
     }
   }
 
-  visibilityComponentUser() {
-    return !(!this.isFollowingVisible && !this.isFollowersVisible);
+  visibilityComponentUser () {
+    return !(!this.isFollowingVisible && !this.isFollowersVisible)
   }
 
-  getVisitedProfile() {
+  getVisitedProfile () {
     this.sessionService.getInfoAccount(this.visitedUsername, this.token).subscribe(
       (result) => {
         this.visitedUserAccountInfo = result.account

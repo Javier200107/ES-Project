@@ -36,9 +36,7 @@ def test_getPosts(client):
     response = client.get("/posts?limit=10&offset=0")
     assert response.status_code == 200
     assert len(response.json["posts"]) == 2
-    assert (
-        response.json["posts"][0]["id"] == 2
-    )  # most recent post is first in the list
+    assert response.json["posts"][0]["id"] == 2  # most recent post is first in the list
 
 
 def test_getPost(client):
@@ -61,7 +59,9 @@ def test_updatePost(client):
     post = client.post("/posts", json=data_posts[0]).json["post"]
     response = client.put(f"/posts/{post['id']}", json={"archived": 1})
     assert response.status_code == 200
-    assert client.get(f"/uposts/{username}?archived=1").json["posts"][0]["archived"] == 1
+    assert (
+        client.get(f"/uposts/{username}?archived=1").json["posts"][0]["archived"] == 1
+    )
 
 
 def test_post_multimedia(client):
@@ -70,8 +70,8 @@ def test_post_multimedia(client):
 
     postID = client.post("/posts", json=data_posts[0]).json["post"]["id"]
 
-    file = (io.BytesIO(b"MyVideoData"), 'test.mp4')
-    response = client.put(f"/posts/{postID}/files", data={'video1': file})
+    file = (io.BytesIO(b"MyVideoData"), "test.mp4")
+    response = client.put(f"/posts/{postID}/files", data={"video1": file})
     assert response.json["post"]["video1"].startswith("static/api/accounts/1/")
 
     response = client.delete(f"/posts/{postID}/files?video1=1")
@@ -103,15 +103,17 @@ def test_deletePost_delete_all(client):
     assert response.json["Post"]["num_likes"] == 1
 
     list1 = client.get("/likeUlist").json["ListUserLikes"]
-    assert len(list1)==1
+    assert len(list1) == 1
 
-    #Eliminem el post
+    # Eliminem el post
     assert client.delete(f"/posts/{post['id']}").status_code == 200
 
-    #s'elimina el like
+    # s'elimina el like
     list1 = client.get("/likeUlist").json["ListUserLikes"]
-    assert len(list1)==0
+    assert len(list1) == 0
 
     # s'elimnen els comentaris fets al post de l'usuari eliminat
-    message = client.get("/comments/"+str(post["id"])+"?limit=10&offset=0").json["message"]
+    message = client.get("/comments/" + str(post["id"]) + "?limit=10&offset=0").json[
+        "message"
+    ]
     assert message == "No comments were found"

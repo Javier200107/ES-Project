@@ -1,14 +1,14 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
-import {environment} from "../../../environments/environment";
-import {PostCreationService} from "../../services/post-creation.service";
-import {ConfirmationService, MessageService} from "primeng/api";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { environment } from '../../../environments/environment'
+import { PostCreationService } from '../../services/post-creation.service'
+import { ConfirmationService, MessageService } from 'primeng/api'
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService, MessageService]
 })
 export class NavbarComponent implements OnInit {
   isChecked = false
@@ -22,44 +22,43 @@ export class NavbarComponent implements OnInit {
   active_user_search = ''
   nomLogoNavbar = 'Logo_navbar.png'
 
-  displayMaximizable!: boolean;
-  displayPosition!: boolean;
-  position!: string;
+  displayMaximizable!: boolean
+  displayPosition!: boolean
+  position!: string
 
   user!: string
   token!: string
 
   environment = `${environment.baseApiUrl}/`
   environmentAssets = `${environment.assets}/img/`
-  constructor(
+  constructor (
     private router: Router,
     private postCreationService: PostCreationService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
+    private confirmationService: ConfirmationService
   ) {
     this.route.queryParams
       .subscribe(params => {
-          this.user = params['user']
-          this.token = params['token']
-        }
+        this.user = params.user
+        this.token = params.token
+      }
       )
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
   }
 
-  showMaximizableDialog() {
-    this.displayMaximizable = true;
+  showMaximizableDialog () {
+    this.displayMaximizable = true
   }
 
-  showPositionDialog(position: string) {
-    this.position = position;
-    this.displayPosition = true;
+  showPositionDialog (position: string) {
+    this.position = position
+    this.displayPosition = true
   }
 
-
-  changeTheme() {
+  changeTheme () {
     if (this.isChecked) {
       this.theme_icon = 'bi bi-moon-fill'
       this.theme_sidebar = 'bg-dark'
@@ -75,8 +74,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-
-  areActive(active: string) {
+  areActive (active: string) {
     this.active_home = ''
     this.active_notif = ''
     this.active_saved = ''
@@ -84,42 +82,43 @@ export class NavbarComponent implements OnInit {
     this.active_user_search = ''
     if (active == 'home') {
       this.active_home = 'active',
-        this.router.navigate(['/home'], {queryParams: {user: this.user, token: this.token}})
+      this.router.navigate(['/home'], { queryParams: { user: this.user, token: this.token } })
     } else if (active == 'notif') {
       this.active_notif = 'active'
     } else if (active == 'saved') {
       this.active_saved = 'active'
     } else if (active == 'profile') {
-      this.router.navigate(['/profile'], {queryParams: {user: this.user, token: this.token}})
+      this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
     } else if (active == 'community') {
       this.active_community = 'active'
-      this.router.navigate(['/community'], {queryParams: {user: this.user, token: this.token}})
+      this.router.navigate(['/community'], { queryParams: { user: this.user, token: this.token } })
     } else if (active == 'userSearch') {
       this.active_user_search = 'active'
-      this.router.navigate(['/userSearch'], {queryParams: {user: this.user, token: this.token}})
+      this.router.navigate(['/userSearch'], { queryParams: { user: this.user, token: this.token } })
     } else if (active == 'settings') {
-      this.router.navigate(['/settings'], {queryParams: {user: this.user, token: this.token}})
+      this.router.navigate(['/settings'], { queryParams: { user: this.user, token: this.token } })
     }
   }
 
-  deleteAccount(){
+  deleteAccount () {
     this.postCreationService.deleteAccount(this.token, this.user).subscribe(
       (result2) => {
-         this.router.navigate(['/login'])
+        this.router.navigate(['/login'])
       }
     )
   }
-  confirmDeleteAccount(){
+
+  confirmDeleteAccount () {
     this.confirmationService.confirm({
-        message: 'Do you want to delete the account?',
-        header: 'Delete Confirmation',
-        icon: 'pi pi-info-circle',
-        accept: () => {
-          this.deleteAccount()
-        },
-        reject: () => {
-          this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-        }
-    });
+      message: 'Do you want to delete the account?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.deleteAccount()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' })
+      }
+    })
   }
 }
