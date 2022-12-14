@@ -1,4 +1,6 @@
-<div class="post">
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
+<div id="post-{{postInfo.account_name + postInfo.id}}" class="post">
   <div class="commentModal" *ngIf="seeComments">
     <div class="commentsContainer">
       <div class="closeBtn" (click)="goToComment()">
@@ -26,10 +28,10 @@
 
       <div class="addComment"></div>
 
-      <div class="add-comment">
+      <div id="add-comment" class="add-comment">
         <div class="create-post-form">
           <form class="register-form" (ngSubmit)="addComment()">
-            <input class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="postText"
+            <input class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="comment-input"
                    placeholder="Add Comment">
             <div class="post-btn-container">
               <input type="submit" value="Publicar" class="post-button">
@@ -70,20 +72,20 @@
 
     <div [ngClass]="!isProfile ? 'content-interaction': 'content-interaction-profile'" style="margin-top: 7%; margin-bottom: 5%">
       <div class="media-container">
-        <div class="media-btn btn-comments" (click)="goToComment()">
+        <div id="comment-post" class="media-btn btn-comments" (click)="goToComment()">
           <div class="material-icons media-icon icon">chat_bubble_outline</div>
         </div>
         <div class="num-comments">{{postInfo.num_comments}}</div>
       </div>
       <div class="media-container">
-        <div class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
+        <div id="like" class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
           <div *ngIf=hasLike style="color:red;" class="material-icons media-icon">favorite</div>
           <div *ngIf=!hasLike class="material-icons media-icon icon">favorite_outline</div>
         </div>
         <div class="num-likes">{{numLikes}}</div>
       </div>
       <div class="media-container" *ngIf=isProfile>
-        <div class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
+        <div id="archived-btn-{{postInfo.account_name + postInfo.id}}" class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
           <div class="material-icons media-icon icon">archived</div>
         </div>
       </div>

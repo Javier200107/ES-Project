@@ -1,4 +1,4 @@
-<div class="post">
+<div id="comment-{{postInfo.account_name + postInfo.id}}" class="post">
 
   <div class="post-image-side">
     <img *ngIf="postInfo.account_avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px; object-fit: cover;"
@@ -15,7 +15,7 @@
       <span class="username"> @{{postInfo.account_name}}</span>
     </div>
 
-    <div class="content-space">
+    <div id="comment-{{postInfo.account_name + postInfo.id}}" class="content-space">
       <p class="post-text">{{postInfo.text}}</p>
     </div>
 

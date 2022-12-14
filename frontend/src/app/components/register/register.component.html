@@ -10,11 +10,11 @@
     <div class="form-container">
       <form  *ngIf="firstSlide" [formGroup]="firstForm" class="register-form" (ngSubmit)="firstSubmit()">
         <div class="form-field-container" >
-          <input formControlName="username" class="text-form" type="text" name="day" [(ngModel)]="username" id="username" placeholder="Username"/>
+          <input formControlName="username" class="text-form" type="text" name="username" [(ngModel)]="username" id="username" placeholder="Username"/>
         </div>
         <div class="form-field-container">
           <div class="popup-container">
-            <input formControlName="email" class="text-form" type="text" name="day" [(ngModel)]="email" id="email" placeholder="Email"/>
+            <input formControlName="email" class="text-form" type="text" name="email" [(ngModel)]="email" id="email" placeholder="Email"/>
             <label class="text-danger-1" *ngIf="firstForm.controls['email'].hasError('email')">
               Enter a valid email please
             </label>
@@ -22,7 +22,7 @@
         </div>
         <div class="form-field-container">
           <div class="popup-container">
-            <input formControlName="password" class="text-form" type="password" name="day" [(ngModel)]="password" id="password" placeholder="Password"/>
+            <input formControlName="password" class="text-form" type="password" name="password" [(ngModel)]="password" id="password" placeholder="Password"/>
             <label class="text-danger-2" *ngIf="firstForm.controls['password'].hasError('hasNumber') ||
             firstForm.controls['password'].hasError('hasUpperCase') ||
             firstForm.controls['password'].hasError('hasLowerCase') ||
@@ -44,14 +44,14 @@
 
       <form *ngIf="!firstSlide" [formGroup]="secondForm" class="register-form" (ngSubmit)="secondSubmit()">
           <div class="form-field-container" >
-            <input formControlName="name" class="text-form" type="text" name="day" [(ngModel)]="name" id="name" placeholder="Name"/>
+            <input formControlName="name" class="text-form" type="text" name="name" [(ngModel)]="name" id="name" placeholder="Name"/>
             <label class="text-danger-1" *ngIf="secondForm.controls['name'].hasError('name')">
               Enter a name please
             </label>
           </div>
           <div class="form-field-container">
             <div class="popup-container">
-              <input formControlName="surname" class="text-form" type="text" name="day" [(ngModel)]="surname" id="surname" placeholder="Surname"/>
+              <input formControlName="surname" class="text-form" type="text" name="surname" [(ngModel)]="surname" id="surname" placeholder="Surname"/>
               <label class="text-danger-1" *ngIf="secondForm.controls['surname'].hasError('surname')">
                 Enter a surname please
               </label>
@@ -59,7 +59,7 @@
           </div>
           <div class="form-field-container">
             <div class="popup-container">
-              <input formControlName="birthdate" class="text-form" type="date" name="day" [(ngModel)]="birthdate" id="birthdate" placeholder="ex.2002-06-15"/>
+              <input formControlName="birthdate" class="text-form" type="date" name="birthdate" [(ngModel)]="birthdate" id="birthdate" placeholder="ex.2002-06-15"/>
               <label class="text-danger-1" *ngIf="secondForm.controls['birthdate'].hasError('birthdate')">
                 Enter a valid email please
               </label>
@@ -80,7 +80,7 @@
 
 
     <div style="display: flex; justify-content: center; margin-top: 20px">
-      <a> Have an account already? <a routerLink="/login">Log in</a></a>
+      <a> Have an account already? <a id="login" routerLink="/login">Log in</a></a>
     </div>
 
   </div>

@@ -59,6 +59,7 @@ objetfitcover2 > img {
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
+
 .hover-underline-animation:hover{
   cursor: pointer;
 }
@@ -101,4 +102,10 @@ objetfitcover2 > img {
 .rowReverse {
   display: flex;
   flex-direction: row-reverse;
+}
+
+.text-danger-2 {
+  color: red;
+  font-size: 15px;
+  z-index: 3;
 }

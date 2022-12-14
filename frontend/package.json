@@ -7,7 +7,10 @@
     "postbuild": "mkdir ../templates",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -31,9 +34,13 @@
     "@angular-devkit/build-angular": "~13.1.1",
     "@angular/cli": "~13.1.1",
     "@angular/compiler-cli": "~13.1.0",
+    "@cypress/schematic": "^2.4.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
+    "cypress": "latest",
+    "cypress-file-upload": "^5.0.8",
     "jasmine-core": "~3.10.0",
+    "jquery": "^3.6.2",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.1.0",

@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   active_saved = ''
   active_community = ''
   active_user_search = ''
+  nomLogoNavbar = 'Logo_navbar.png'
 
   displayMaximizable!: boolean;
   displayPosition!: boolean;
@@ -63,11 +64,13 @@ export class NavbarComponent implements OnInit {
       this.theme_icon = 'bi bi-moon-fill'
       this.theme_sidebar = 'bg-dark'
       this.theme_dropdown_menu = 'dropdown-menu-dark'
+      this.nomLogoNavbar = 'Logo_navbar.png'
       document.documentElement.setAttribute('tema', 'dark')
     } else {
       this.theme_icon = 'bi bi-brightness-high-fill'
       this.theme_sidebar = 'bg-light'
       this.theme_dropdown_menu = 'dropdown-menu-light'
+      this.nomLogoNavbar = 'Logo_navbar_black.png'
       document.documentElement.setAttribute('tema', 'light')
     }
   }
