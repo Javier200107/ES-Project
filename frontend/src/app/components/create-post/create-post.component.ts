@@ -4,8 +4,9 @@ import {NewPostForm} from "../../models/NewPostForm";
 import {Post} from "../../models/Post";
 import {DomSanitizer} from "@angular/platform-browser";
 import {HttpHeaders} from "@angular/common/http";
-import {PostSimplified} from "../../models/PostSimplified";
+import {ProfileSimplified} from "../../models/ProfileSimplified";
 import {SessionService} from "../../services/session.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-create-post',
@@ -21,9 +22,10 @@ export class CreatePostComponent implements OnInit {
   post_content!: string;
 
   newPost!: Post;
-  uploaded = false
   previsualization = ''
-  selectedFile!: File
+  selectedFile!: File | null
+  avatar!: string
+  environment = `${environment.baseApiUrl}/`
 
   constructor(private formBuilder: FormBuilder, private sanitizer: DomSanitizer, private sessionService: SessionService) {
 
@@ -33,32 +35,31 @@ export class CreatePostComponent implements OnInit {
     this.buildForm()
   }
 
-  createPost() {
-
+  createPost(selectedFile: File | null) {
     if (!this.post_content) {
       alert("Post cannot be empty!")
       return;
     }
     const postContent: NewPostForm = {
       text: this.post_content,
+      post_file: selectedFile
     }
     this.newPostEvent.emit(postContent)
-    this.post_content = ''
   }
 
   private buildForm() {
     this.postForm = this.formBuilder.group({
       postText: ['',
-        [Validators.maxLength(256)]]
+      ]
     })
   }
 
   attachPhoto($event: Event) {
-    this.uploaded = false
     // @ts-ignore
     this.selectedFile = <File>event.target.files[0];
-    let precopy = this.selectedFile
-    this.extreureBase64(precopy).then((imatge: any) => {
+    let copy = this.selectedFile
+    // @ts-ignore
+    this.extreureBase64(copy).then((imatge: any) => {
       this.previsualization = imatge.base
     })
   }
@@ -86,4 +87,10 @@ export class CreatePostComponent implements OnInit {
       return null;
     }
   })
+
+  clearData() {
+    this.previsualization = ''
+    this.post_content = ''
+    this.selectedFile = null
+  }
 }

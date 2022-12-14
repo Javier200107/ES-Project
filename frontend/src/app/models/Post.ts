@@ -5,8 +5,13 @@ export interface Post {
   archived: number;
   account_id: number;
   account_name: string;
+  account_avatar: string;
   parent_id?: number;
   accounts_like:[];
   num_likes: number;
   community: number;
+  num_comments: number;
+  image1: string;
+  image2: string;
+  video1: string;
 }

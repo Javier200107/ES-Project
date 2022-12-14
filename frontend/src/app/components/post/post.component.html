@@ -1,79 +1,77 @@
-<div class="post"  >
+<div class="post">
 
-  <div class="commentModal" *ngIf="seeComments" >
+  <div class="commentModal" *ngIf="seeComments">
     <div class="commentsContainer">
-
-        <div class="closeBtn" (click)="goToComment()">
-          <div class="material-icons arrowIcon ">arrow_back</div>
+      <div class="closeBtn" (click)="goToComment()">
+        <div class="material-icons arrowIcon ">arrow_back</div>
+      </div>
+      <div class="post">
+        <div class="post-image-side">
+          <img class="post-profile-pic"
+               src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
+               alt="">
         </div>
-
-        <div class="post">
-          <div class="post-image-side">
-            <img class="post-profile-pic" src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg=" alt="">
+        <div class="post-content-side">
+          <div class="content-title">
+            <span class="user-nickname"
+                  (click)="goToProfileUser(postInfo.account_name)">{{postInfo.account_name}}</span>
+            <span class="username"> @{{postInfo.account_name}}</span>
           </div>
-          <div class="post-content-side">
-            <div class="content-title">
-              <span class="user-nickname" (click)="goToProfileUser(postInfo.account_name)">{{postInfo.account_name}}</span>
-              <span class="username"> @{{postInfo.account_name}}</span>
+          <div class="content-space">
+            <p class="post-text">{{postInfo.text}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="addComment"></div>
+
+      <div class="add-comment">
+        <div class="create-post-form">
+          <form class="register-form" (ngSubmit)="addComment()">
+            <input class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="postText"
+                   placeholder="Add Comment">
+            <div class="post-btn-container">
+              <input type="submit" value="Publicar" class="post-button">
             </div>
-            <div class="content-space">
-              <p class="post-text">{{postInfo.text}}</p>
-            </div>
-          </div>
+          </form>
         </div>
+      </div>
 
-        <div class="addComment"></div>
-
-        <div class="add-comment">
-          <div class="create-post-form">
-            <form  class="register-form" (ngSubmit)="addComment()">
-              <input  class="new-post-text" type="text" [(ngModel)]="commentText" name="postText" id="postText" placeholder="Add Comment" >
-              <div class="post-btn-container">
-                <input type="submit" value="Publicar"  class="post-button">
-              </div>
-            </form>
-          </div>
+      <div>
+        <div *ngFor="let comment of postComments">
+          <app-comment [postInfo]="comment"></app-comment>
         </div>
-
-        <div>
-          <div *ngFor="let comment of postComments">
-            <app-comment [postInfo]="comment" ></app-comment>
-          </div>
-        </div>
+      </div>
 
 
     </div>
   </div>
 
 
-
-  <div class="post-image-side" >
-    <img *ngIf="avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px" src="{{environment}}{{avatar}}" alt="">
-    <img *ngIf="avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px"
+  <div class="post-image-side">
+    <img *ngIf="postInfo.account_avatar!=''" class="rounded-circle me-2" style="height: 45px; width: 45px"
+         src="{{environment}}{{postInfo.account_avatar}}" alt="">
+    <img *ngIf="postInfo.account_avatar==''" class="rounded-circle me-2" style="height: 45px; width: 45px"
          src="https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=612x612&w=0&h=D6OBNUY7ZxQTAHNVtL9mm2wbHb_dP6ogIsCCWCqiYQg="
          alt="">
   </div>
 
   <div class="post-content-side" [ngClass]="{'communityPost': postInfo.community == 1}">
-
     <div class="content-title">
       <span class="user-nickname" (click)="goToProfileUser(postInfo.account_name)">{{postInfo.account_name}}</span>
       <span class="username"> @{{postInfo.account_name}}</span>
     </div>
-
     <div class="content-space">
       <p class="post-text">{{postInfo.text}}</p>
+      <img *ngIf="postInfo.image1!=''" height=200px width="100%" src="{{environment}}{{postInfo.image1}}">
     </div>
-
     <div class="content-interaction">
-
       <div class="media-container">
         <div class="media-btn btn-comments" (click)="goToComment()">
           <div class="material-icons media-icon ">chat_bubble_outline</div>
         </div>
         <div class="num-comments">0</div>
       </div>
-
       <div class="media-container">
         <div class="media-btn btn-likes" (click)="likeFunction(postInfo.id)">
           <div *ngIf=hasLike style="color:red;" class="material-icons media-icon">favorite</div>
@@ -81,14 +79,11 @@
         </div>
         <div class="num-likes">{{numLikes}}</div>
       </div>
-
       <div class="media-container" *ngIf=isProfile>
         <div class="media-btn btn-up" (click)="archivedPost(postInfo.id, postInfo.archived)">
           <div class="material-icons media-icon">archived</div>
         </div>
       </div>
-
     </div>
-
   </div>
 </div>

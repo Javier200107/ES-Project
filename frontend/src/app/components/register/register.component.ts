@@ -20,7 +20,6 @@ export class RegisterComponent implements OnInit {
 
   firstSlide: boolean = true
   nextButton: string = 'Next'
-
   sessionUser!: User
   public firstForm!: FormGroup
   public secondForm!: FormGroup

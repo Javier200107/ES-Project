@@ -24,17 +24,17 @@ export class PostComponent implements OnInit {
   hasLike!: boolean
   avatar!: string
   environment = `${environment.baseApiUrl}/`
-
   postComments: Post[] = []
-  seeComments: boolean=false
-  commentText:string = ''
+  seeComments: boolean = false
+  commentText: string = ''
+  postImage = ''
   public postForm!: FormGroup;
 
-  constructor (private router : Router,
-               private postCreationService: PostCreationService,
-               private commentService: CommentsService,
-               private route : ActivatedRoute,
-               private formBuilder: FormBuilder) {
+  constructor(private router: Router,
+              private postCreationService: PostCreationService,
+              private commentService: CommentsService,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder) {
 
     this.route.queryParams
       .subscribe(params => {
@@ -47,29 +47,28 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.getNumLikes()
     this.hasLikeF()
-    this.updateAvatar()
-    console.log(this.postInfo.community)
+    this.getPostInfo()
   }
 
 
-  goToComment(){
+  goToComment() {
     this.getComments()
     this.seeComments = !this.seeComments
-    if(this.seeComments){
+    if (this.seeComments) {
       this.postComments = []
     }
   }
 
-  getComments(){
+  getComments() {
     const requestParams = {
-      limit:50,
+      limit: 50,
       offset: 0
     }
     // @ts-ignore
-    this.commentService.getPostComments(this.postInfo.id,requestParams, this.token).subscribe((newPosts: Object) => {
+    this.commentService.getPostComments(this.postInfo.id, requestParams, this.token).subscribe((newPosts: Object) => {
       // @ts-ignore
       let postList = newPosts['comments']
-      for (let postNum = 0; postNum < postList.length; postNum++){
+      for (let postNum = 0; postNum < postList.length; postNum++) {
         this.postComments.push(postList[postNum]);
       }
     }, (error: any) => {
@@ -77,8 +76,8 @@ export class PostComponent implements OnInit {
     })
   }
 
-  addComment(){
-    if(!this.commentText){
+  addComment() {
+    if (!this.commentText) {
       alert("Post cannot be empty!")
       return;
     }
@@ -87,23 +86,23 @@ export class PostComponent implements OnInit {
       text: this.commentText,
       parent_id: this.postInfo.id
     }
-    this.postCreationService.createPost(newComment, this.token).subscribe((newPost: Post) =>{
+    this.postCreationService.createPost(newComment, this.token).subscribe((newPost: Post) => {
       // @ts-ignore
       this.postComments.push(newPost['post'])
-      this.commentText =  ''
+      this.commentText = ''
     }, (error: any) => {
       console.log(error);
     })
   }
-  private buildForm () {
+
+  private buildForm() {
     this.postForm = this.formBuilder.group({
       postText: ['']
     })
   }
 
 
-
-  getNumLikes(){
+  getNumLikes() {
     this.postCreationService.getLikesPost(this.postInfo.id, this.token).subscribe(
       (result) => {
         // @ts-ignore
@@ -157,15 +156,15 @@ export class PostComponent implements OnInit {
     )
   }
 
-  updateAvatar() {
-    this.postCreationService.getAvatar(this.token, this.postInfo.id).subscribe((result) => {
+  getPostInfo() {
+    this.postCreationService.getPost(this.token, this.postInfo.id).subscribe((result) => {
         // @ts-ignore
-        this.avatar = result['post']['account_avatar']
-        console.log(this.avatar)
+        let resultat = result['post']
+        this.avatar = resultat['account_avatar']
+        this.postImage = resultat['image1']
       },
       (error: any) => {
         console.log(error);
       })
   }
-
 }
