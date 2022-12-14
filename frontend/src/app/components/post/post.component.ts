@@ -1,7 +1,11 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
-import { Post } from '../../models/Post'
+import {Post} from '../../models/Post'
 import {PostCreationService} from "../../services/post-creation.service";
+import {CommentsService} from "../../services/comments.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {NewPostForm} from "../../models/NewPostForm";
 
 @Component({
   selector: 'app-post',
@@ -10,6 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class PostComponent implements OnInit {
   @Input() postInfo!: Post
+  @Input() isProfile!: boolean
 
   @Output() postArchived: EventEmitter<any> = new EventEmitter();
 
@@ -17,36 +22,111 @@ export class PostComponent implements OnInit {
   token!: string
   numLikes!: number
   hasLike!: boolean
+  avatar!: string
+  environment = `${environment.baseApiUrl}/`
 
-  constructor (private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
+  postComments: Post[] = []
+  seeComments: boolean=false
+  commentText:string = ''
+  public postForm!: FormGroup;
+
+  constructor (private router : Router,
+               private postCreationService: PostCreationService,
+               private commentService: CommentsService,
+               private route : ActivatedRoute,
+               private formBuilder: FormBuilder) {
+
     this.route.queryParams
       .subscribe(params => {
-        this.user = params["user"]
-        this.token = params["token"]
-      }
+          this.user = params["user"]
+          this.token = params["token"]
+        }
       )
   }
 
-
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.getNumLikes()
     this.hasLikeF()
+    this.updateAvatar()
+    console.log(this.postInfo.community)
   }
+
+
+  goToComment(){
+    this.getComments()
+    this.seeComments = !this.seeComments
+    if(this.seeComments){
+      this.postComments = []
+    }
+  }
+
+  getComments(){
+    const requestParams = {
+      limit:50,
+      offset: 0
+    }
+    // @ts-ignore
+    this.commentService.getPostComments(this.postInfo.id,requestParams, this.token).subscribe((newPosts: Object) => {
+      // @ts-ignore
+      let postList = newPosts['comments']
+      for (let postNum = 0; postNum < postList.length; postNum++){
+        this.postComments.push(postList[postNum]);
+      }
+    }, (error: any) => {
+      console.log(error);
+    })
+  }
+
+  addComment(){
+    if(!this.commentText){
+      alert("Post cannot be empty!")
+      return;
+    }
+
+    let newComment: NewPostForm = {
+      text: this.commentText,
+      parent_id: this.postInfo.id
+    }
+    this.postCreationService.createPost(newComment, this.token).subscribe((newPost: Post) =>{
+      // @ts-ignore
+      this.postComments.push(newPost['post'])
+      this.postInfo.num_comments = this.postInfo.num_comments+1
+      this.commentText =  ''
+    }, (error: any) => {
+      console.log(error);
+    })
+  }
+  private buildForm () {
+    this.postForm = this.formBuilder.group({
+      postText: ['']
+    })
+  }
+
+
 
   getNumLikes(){
     this.postCreationService.getLikesPost(this.postInfo.id, this.token).subscribe(
       (result) => {
-          // @ts-ignore
-          this.numLikes = result["NumberOfLikes"]
+        // @ts-ignore
+        this.numLikes = result["NumberOfLikes"]
       }
     )
   }
 
-  goToProfileUser(account_name: string){
-    if (this.user != account_name){
-      this.router.navigate(['/profileUser'], { queryParams: { user: this.user, token: this.token, idUser: account_name } })
+  hasLikeF() {
+    this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
+      (result) => {
+        this.hasLike = true;
+      }, error => {
+        this.hasLike = false;
+      })
+  }
+
+  goToProfileUser(account_name: string) {
+    if (this.user != account_name) {
+      this.router.navigate(['/profileUser'], {queryParams: {user: this.user, token: this.token, idUser: account_name}})
     } else {
-      this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
+      this.router.navigate(['/profile'], {queryParams: {user: this.user, token: this.token}})
     }
   }
 
@@ -58,32 +138,35 @@ export class PostComponent implements OnInit {
     )
   }
 
-  hasLikeF() {
-    this.postCreationService.getLike(this.postInfo.id, this.token).subscribe(
-      (result) =>{
-        this.hasLike = true;
-      }, error => {
-        this.hasLike = false;
-      })
-  }
-
   likeFunction(id: number) {
     this.postCreationService.getLike(id, this.token).subscribe(
-      (result) =>{
+      (result) => {
         this.postCreationService.quitLike(id, this.token).subscribe((result) => {
-            this.hasLike = false
-            this.getNumLikes()
-            this.postArchived.emit()
+          this.hasLike = false
+          this.getNumLikes()
+          this.postArchived.emit()
         })
       },
-        err => {
+      err => {
         console.error('Error: status = ', err.status, ' and statusText = ', err.statusText)
-          this.postCreationService.addLike(id, this.token).subscribe((result) => {
-            this.hasLike = true
-            this.getNumLikes()
-            this.postArchived.emit()
-          })
+        this.postCreationService.addLike(id, this.token).subscribe((result) => {
+          this.hasLike = true
+          this.getNumLikes()
+          this.postArchived.emit()
+        })
       },
     )
   }
+
+  updateAvatar() {
+    this.postCreationService.getAvatar(this.token, this.postInfo.id).subscribe((result) => {
+        // @ts-ignore
+        this.avatar = result['post']['account_avatar']
+        console.log(this.avatar)
+      },
+      (error: any) => {
+        console.log(error);
+      })
+  }
+
 }

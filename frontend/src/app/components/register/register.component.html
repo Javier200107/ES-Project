@@ -1,18 +1,13 @@
 <div class="register-container">
+
   <div class="register-form-container">
 
     <div class="backFormButton" *ngIf="!firstSlide">
       <span (click)="onBackBtn()" class="material-icons md-24">arrow_back</span>
     </div>
-
-    <div style="display: flex; justify-content: center; margin-bottom: 30px">
-      <img alt="App logo" class="tw-logo" src="https://wwwhatsnew.com/wp-content/uploads/2015/04/logo-secret-app.png">
-    </div>
-
-    <div class="register-title">Join Share.It today </div>
+    <div class="register-title"><img alt="App logo" class="tw-logo" src="{{environment}}assets/Logo_register.png"></div>
 
     <div class="form-container">
-
       <form  *ngIf="firstSlide" [formGroup]="firstForm" class="register-form" (ngSubmit)="firstSubmit()">
         <div class="form-field-container" >
           <input formControlName="username" class="text-form" type="text" name="username" [(ngModel)]="username" id="username" placeholder="Username"/>

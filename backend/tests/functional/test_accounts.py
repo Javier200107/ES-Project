@@ -1,8 +1,6 @@
 from backend.data import data_accounts, data_posts
 import io
 
-from backend.data import data_accounts
-
 
 def test_create_user(client):
     account = data_accounts[0]
@@ -70,8 +68,9 @@ def test_user_avatar(client):
     response = client.put("/account/files", data={'avatar': file})
     assert response.json["account"]["avatar"].startswith("static/api/accounts/1/")
 
-    response = client.delete("/account/files", json={'avatar': 1})
+    response = client.delete("/account/files?avatar=1")
     assert response.json["account"]["avatar"] == ""
+
 
 def test_delete_user_delete_all(client):
     account = data_accounts[0]
@@ -133,6 +132,3 @@ def test_delete_user_delete_all(client):
     # s'elimnen els comentaris fets al post de l'usuari eliminat
     message = client.get("/comments/1?limit=10&offset=0").json["message"]
     assert message == "No comments were found"
-
-
-

@@ -211,8 +211,8 @@ class AccountsFiles(Resource):
     @auth.login_required()
     def delete(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("avatar", type=int, required=False, nullable=False, default=0)
-        parser.add_argument("banner", type=int, required=False, nullable=False, default=0)
+        parser.add_argument("avatar", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("banner", type=int, required=False, nullable=False, default=0, location="args")
         data = parser.parse_args()
         account = g.user
 

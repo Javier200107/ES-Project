@@ -1,7 +1,7 @@
 <div class="login_container">
   <mat-card class="login_card">
 
-    <mat-card-title class="title">Sign in</mat-card-title>
+    <mat-card-title class="title">Log in</mat-card-title>
 
     <mat-form-field class="settings_inputs" appearance="fill">
       <mat-label class="labels_inputs">Username</mat-label>
@@ -23,14 +23,11 @@
         (change)="changeRememberCredentials($event)"
       />
       <label class="form-check-label" for="flexCheckDefault">
-        Remember credentials
+        Remind credentials
       </label>
     </div>
-    <div>
-      <a class="forgot_passw" routerLink="#">Forgot password?</a>
-    </div>
 
-      <button class="button_login" id="login-btn" (click)="checkLogin()" mat-raised-button color="primary">Sign in</button>
+    <button id="login-btn" class="button_login" (click)="checkLogin()" mat-raised-button color="primary">Log in</button>
 
   </mat-card>
   <a> Don't have an account? <a style="color: var(--primary)" routerLink="/register">create</a></a>
