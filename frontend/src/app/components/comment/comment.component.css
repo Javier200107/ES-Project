@@ -54,7 +54,6 @@
   /* Non standard for webkit */
   hyphens: auto;
   hyphens: auto;
-  hyphens: auto;
   overflow: auto;
 }
 
@@ -62,7 +61,6 @@
   word-break: break-all;
 
   /* Non standard for webkit */
-  hyphens: auto;
   hyphens: auto;
   hyphens: auto;
   width: 93%;
