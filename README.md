@@ -14,4 +14,4 @@ Documentation can be found in the [GitHub Wiki](https://github.com/UB-ES-2022-F3
 - [API Endpoints](https://github.com/UB-ES-2022-F3/ES-Project/wiki/Api-Endpoints)
 
 ## Website URL
-https://enginyeriadelsoftware-f3.azurewebsites.net/
+<https://enginyeriadelsoftware-f3.azurewebsites.net/>
