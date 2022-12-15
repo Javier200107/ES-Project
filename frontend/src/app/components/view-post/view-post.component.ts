@@ -20,8 +20,8 @@ export class ViewPostComponent implements OnInit {
 
   constructor (private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParamMap.subscribe(params => {
-        this.postId = +params.get("postId")!
-        this.token = params.get("token")!
+      this.postId = +params.get('postId')!
+      this.token = params.get('token')!
     })
     console.log('')
   }

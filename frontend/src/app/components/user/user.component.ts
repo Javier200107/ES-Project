@@ -28,8 +28,8 @@ export class UserComponent implements OnInit {
 
   constructor (private followService: FollowService, private router : Router, private postCreationService: PostCreationService, private route : ActivatedRoute) {
     this.route.queryParamMap.subscribe(params => {
-        this.user = params.get("user")!
-        this.token = params.get("token")!
+      this.user = params.get('user')!
+      this.token = params.get('token')!
     })
   }
 

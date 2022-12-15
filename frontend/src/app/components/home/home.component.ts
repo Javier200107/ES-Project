@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   // TODO Pass a session service with the token
   constructor (private homeFeed: HomeFeedService, private route: ActivatedRoute, private postCreator: PostCreationService) {
     this.route.queryParamMap.subscribe(params => {
-        this.token = params.get("token")!
+      this.token = params.get('token')!
     })
   }
 

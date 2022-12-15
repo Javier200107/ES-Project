@@ -18,27 +18,13 @@ class Follow(Resource):
                 for i in follows:
                     if i.id == acc2.id:
                         return {
-                            "message": "Account1 follows Account2 [{}] ".format(
-                                account1, account2
-                            )
+                            "message": "Account1 follows Account2 [{}] ".format(account1, account2)
                         }, 200 if i else 404
-                return {
-                    "message": "Account1 [{}] doesn't follow Account2 [{}] ".format(
-                        account1, account2
-                    )
-                }, 404
+                return {"message": "Account1 [{}] doesn't follow Account2 [{}] ".format(account1, account2)}, 404
             else:
-                return {
-                    "message": "Account [{}] doesn't follow any account".format(
-                        account1
-                    )
-                }, 404
+                return {"message": "Account [{}] doesn't follow any account".format(account1)}, 404
         else:
-            return {
-                "message": "Account [{}] or [{}] doesn't exist".format(
-                    account1, account2
-                )
-            }, 404
+            return {"message": "Account [{}] or [{}] doesn't exist".format(account1, account2)}, 404
 
     @auth.login_required()
     def post(self, account1, account2=None):
@@ -57,9 +43,7 @@ class Follow(Resource):
                     if i.id == acc2.id:
                         # es podria fer que si ja el segueix el deixi de seguir
                         return {
-                            "message": "Account1 [{}] already follows Account2 [{}]".format(
-                                account1, account2
-                            )
+                            "message": "Account1 [{}] already follows Account2 [{}]".format(account1, account2)
                         }, 404
             follow.append(acc2)
             noti = NotificationsModel(0)
@@ -69,9 +53,7 @@ class Follow(Resource):
                 noti.save_to_db()
             except:
                 noti.rollback()
-                return {
-                    "message": "An error occurred inserting the Follow-Notification."
-                }, 500
+                return {"message": "An error occurred inserting the Follow-Notification."}, 500
             try:
                 # acc1.save_to_db()
                 acc2.save_to_db()
@@ -81,11 +63,7 @@ class Follow(Resource):
                 acc2.rollback()
                 return {"message": "An error occurred inserting the Follow."}, 500
         else:
-            return {
-                "message": "Account1 [{}] or Account2 [{}] doesn't exist".format(
-                    account1, account2
-                )
-            }, 404
+            return {"message": "Account1 [{}] or Account2 [{}] doesn't exist".format(account1, account2)}, 404
 
     @auth.login_required()
     def delete(self, account1, account2=None):
@@ -109,24 +87,12 @@ class Follow(Resource):
                             except:
                                 #  acc1.rollback()
                                 acc2.rollback()
-                                return {
-                                    "message": "An error occurred deleting the Follow."
-                                }, 500
-                    return {
-                        "message": "Follow with [{}] and [{}] doesn't exist".format(
-                            account1, account2
-                        )
-                    }, 404
+                                return {"message": "An error occurred deleting the Follow."}, 500
+                    return {"message": "Follow with [{}] and [{}] doesn't exist".format(account1, account2)}, 404
                 else:
-                    return {
-                        "message": "Account [{}] doesn't have follows".format(account1)
-                    }, 404
+                    return {"message": "Account [{}] doesn't have follows".format(account1)}, 404
             else:
-                return {
-                    "message": "Account1 [{}] or Account2 [{}] doesn't exist".format(
-                        account1, account2
-                    )
-                }, 404
+                return {"message": "Account1 [{}] or Account2 [{}] doesn't exist".format(account1, account2)}, 404
 
 
 class ListFollows(Resource):

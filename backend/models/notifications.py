@@ -54,13 +54,7 @@ class NotificationsModel(db.Model):
 
     @classmethod
     def get_groups(cls, number, off, id):
-        return (
-            cls.query.filter_by(account_id=id)
-            .order_by(cls.time.desc())
-            .limit(number)
-            .offset(off)
-            .all()
-        )
+        return cls.query.filter_by(account_id=id).order_by(cls.time.desc()).limit(number).offset(off).all()
 
     @classmethod
     def delete_by_acc_id(cls, id):

@@ -41,8 +41,8 @@ export class PostComponent implements OnInit {
                private confirmationService: ConfirmationService
   ) {
     this.route.queryParamMap.subscribe(params => {
-        this.user = params.get("user")!
-        this.token = params.get("token")!
+      this.user = params.get('user')!
+      this.token = params.get('token')!
     })
   }
 

@@ -12,9 +12,7 @@ class Notification(Resource):
                 try:
                     noti.delete_from_db()
                 except:
-                    return {
-                        "message": "An error occurred deleting the Notification"
-                    }, 500
+                    return {"message": "An error occurred deleting the Notification"}, 500
                 return {"message": "Notification deleted successfully!"}, 200
             else:
                 return {"message": "Unauthorized!"}, 403

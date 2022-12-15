@@ -18,9 +18,7 @@ auth = HTTPTokenAuth(scheme="Bearer")
 user_following = db.Table(
     "user_following",
     db.Column("user_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
-    db.Column(
-        "following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True
-    ),
+    db.Column("following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
 )
 
 
@@ -39,9 +37,7 @@ class AccountsModel(db.Model):
     avatar = db.Column(db.String(), nullable=False, default="")
     banner = db.Column(db.String(), nullable=False, default="")
 
-    posts = db.relationship(
-        "PostsModel", back_populates="account", cascade="all, delete-orphan"
-    )
+    posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
     notifications = db.relationship(
         "NotificationsModel",
         cascade="all, delete-orphan",
@@ -98,9 +94,7 @@ class AccountsModel(db.Model):
         db.session.commit()
 
     def getFilesFolder(self):
-        account_folder = (
-            current_app.config["STATIC_FOLDER"] + f"/api/accounts/{self.id}"
-        )
+        account_folder = current_app.config["STATIC_FOLDER"] + f"/api/accounts/{self.id}"
         os.makedirs(account_folder, exist_ok=True)
         return account_folder
 
@@ -125,11 +119,7 @@ class AccountsModel(db.Model):
                 .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
                 .filter(Poster.followers.any(AccountsModel.id == user_id))
             )
-            .union(
-                PostsModel.query.filter_by(
-                    account_id=user_id, archived=0, parent_id=None
-                )
-            )
+            .union(PostsModel.query.filter_by(account_id=user_id, archived=0, parent_id=None))
             .order_by(PostsModel.time.desc())
             .limit(number)
             .offset(off)

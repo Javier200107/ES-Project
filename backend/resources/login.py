@@ -31,9 +31,7 @@ class Login(Resource):
 
         account = AccountsModel.get_by_username(username)
         if not account:
-            return {
-                "message": f"Login failed! No account was found with username: {username}"
-            }, 404
+            return {"message": f"Login failed! No account was found with username: {username}"}, 404
 
         if not account.verify_password(password):
             return {"message": "Invalid password!"}, 404

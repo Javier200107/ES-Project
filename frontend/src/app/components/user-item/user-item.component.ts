@@ -24,8 +24,8 @@ export class UserItemComponent implements OnInit {
 
   constructor (private router : Router, private postCreationService: PostCreationService, private sessionService: SessionService, private route : ActivatedRoute) {
     this.route.queryParamMap.subscribe(params => {
-        this.user = params.get("user")!
-        this.token = params.get("token")!
+      this.user = params.get('user')!
+      this.token = params.get('token')!
     })
   }
 

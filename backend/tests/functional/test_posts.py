@@ -59,9 +59,7 @@ def test_updatePost(client):
     post = client.post("/posts", json=data_posts[0]).json["post"]
     response = client.put(f"/posts/{post['id']}", json={"archived": 1})
     assert response.status_code == 200
-    assert (
-        client.get(f"/uposts/{username}?archived=1").json["posts"][0]["archived"] == 1
-    )
+    assert client.get(f"/uposts/{username}?archived=1").json["posts"][0]["archived"] == 1
 
 
 def test_post_multimedia(client):
@@ -113,7 +111,5 @@ def test_deletePost_delete_all(client):
     assert len(list1) == 0
 
     # s'elimnen els comentaris fets al post de l'usuari eliminat
-    message = client.get("/comments/" + str(post["id"]) + "?limit=10&offset=0").json[
-        "message"
-    ]
+    message = client.get("/comments/" + str(post["id"]) + "?limit=10&offset=0").json["message"]
     assert message == "No comments were found"

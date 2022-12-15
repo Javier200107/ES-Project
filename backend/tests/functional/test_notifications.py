@@ -91,7 +91,4 @@ def test_deleteNotification(client):
     response = client.delete("/notificationList/")
     assert response.status_code == 200
     deleted_n = client.get("/notificationList/")
-    assert (
-        deleted_n.json["message"] == "No notifications were found"
-        and deleted_n.status_code == 404
-    )
+    assert deleted_n.json["message"] == "No notifications were found" and deleted_n.status_code == 404

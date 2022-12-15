@@ -5,15 +5,11 @@ def test_login_action(client):
     account = data_accounts[0]
     client.post("/account", json=account)
 
-    response = client.post(
-        "/login", json={"username": "User1", "password": account["password"]}
-    )
+    response = client.post("/login", json={"username": "User1", "password": account["password"]})
     assert response.status_code == 404
     assert "Login failed!" in response.json["message"]
 
-    response = client.post(
-        "/login", json={"username": account["username"], "password": "Pwd1"}
-    )
+    response = client.post("/login", json={"username": account["username"], "password": "Pwd1"})
     assert response.status_code == 404
     assert "Invalid password!" in response.json["message"]
 

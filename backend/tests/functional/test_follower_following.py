@@ -74,6 +74,4 @@ def test_getPostFollowing(client):
     response2 = client.get("/followingPosts/" + acc1["username"] + "?limit=10&offset=0")
     response3 = client.get("/uposts/" + acc2["username"] + "?limit=10&offset=0")
 
-    assert response2.status_code == 200 and len(response2.json["posts"]) == len(
-        response3.json["posts"]
-    )
+    assert response2.status_code == 200 and len(response2.json["posts"]) == len(response3.json["posts"])

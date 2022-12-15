@@ -40,9 +40,9 @@ export class ProfileUserComponent implements OnInit {
     private route : ActivatedRoute
   ) {
     this.route.queryParamMap.subscribe(params => {
-      this.sessionUser = params.get("user")!
-      this.token = params.get("token")!
-      this.visitedUsername = params.get("idUser")!
+      this.sessionUser = params.get('user')!
+      this.token = params.get('token')!
+      this.visitedUsername = params.get('idUser')!
     })
   }
 

@@ -19,19 +19,11 @@ class Accounts(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "username", type=str, required=True, nullable=False, help="nom d'usuari"
-        )
-        parser.add_argument(
-            "password", type=str, required=True, nullable=False, help="contrasenya"
-        )
-        parser.add_argument(
-            "email", type=str, required=True, nullable=False, help="correu electrònic"
-        )
+        parser.add_argument("username", type=str, required=True, nullable=False, help="nom d'usuari")
+        parser.add_argument("password", type=str, required=True, nullable=False, help="contrasenya")
+        parser.add_argument("email", type=str, required=True, nullable=False, help="correu electrònic")
         parser.add_argument("nom", type=str, required=True, nullable=False, help="nom")
-        parser.add_argument(
-            "cognom", type=str, required=True, nullable=False, help="cognom"
-        )
+        parser.add_argument("cognom", type=str, required=True, nullable=False, help="cognom")
         parser.add_argument(
             "birthdate",
             type=str,
@@ -89,21 +81,11 @@ class Accounts(Resource):
             nullable=False,
             default=account.username,
         )
-        parser.add_argument(
-            "password", type=str, required=False, nullable=False, default=None
-        )
-        parser.add_argument(
-            "email", type=str, required=False, nullable=False, default=account.email
-        )
-        parser.add_argument(
-            "nom", type=str, required=False, nullable=False, default=account.nom
-        )
-        parser.add_argument(
-            "cognom", type=str, required=False, nullable=False, default=account.cognom
-        )
-        parser.add_argument(
-            "birthdate", type=str, required=False, nullable=False, default=None
-        )
+        parser.add_argument("password", type=str, required=False, nullable=False, default=None)
+        parser.add_argument("email", type=str, required=False, nullable=False, default=account.email)
+        parser.add_argument("nom", type=str, required=False, nullable=False, default=account.nom)
+        parser.add_argument("cognom", type=str, required=False, nullable=False, default=account.cognom)
+        parser.add_argument("birthdate", type=str, required=False, nullable=False, default=None)
         parser.add_argument(
             "is_admin",
             type=int,
@@ -124,17 +106,13 @@ class Accounts(Resource):
             try:
                 if data["username"] != account.username:
                     if AccountsModel.get_by_username(data["username"]):
-                        return {
-                            "message": "An account with this username already exists!"
-                        }, 409
+                        return {"message": "An account with this username already exists!"}, 409
                     account.username = data["username"]
                 if data["password"] is not None:
                     account.hash_password(data["password"])
                 if data["email"] != account.email:
                     if AccountsModel.get_by_email(data["email"]):
-                        return {
-                            "message": "An account with this email already exists!"
-                        }, 409
+                        return {"message": "An account with this email already exists!"}, 409
                     account.email = data["email"]
                 if data["birthdate"] is not None:
                     account.birth = datetime.strptime(data["birthdate"], "%Y-%m-%d")
@@ -186,14 +164,10 @@ class AccountsList(Resource):
         )
         data = parser.parse_args()
 
-        accounts = AccountsModel.get_like_username(
-            username, data["limit"], data["offset"]
-        )
+        accounts = AccountsModel.get_like_username(username, data["limit"], data["offset"])
         if accounts:
             return {"accounts": [account.json2() for account in accounts]}, 200
-        return {
-            "message": f"Could not find any account username matching [{username}]"
-        }, 404
+        return {"message": f"Could not find any account username matching [{username}]"}, 404
 
 
 class AccountsFiles(Resource):
@@ -221,12 +195,8 @@ class AccountsFiles(Resource):
     @auth.login_required()
     def put(self):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "avatar", type=FileStorage, location="files", required=False, default=None
-        )
-        parser.add_argument(
-            "banner", type=FileStorage, location="files", required=False, default=None
-        )
+        parser.add_argument("avatar", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument("banner", type=FileStorage, location="files", required=False, default=None)
         data = parser.parse_args()
 
         account = g.user

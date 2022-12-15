@@ -16,9 +16,7 @@ app.config.from_object(environment)
 db.init_app(app)
 Migrate(app, db)
 
-print(
-    f"-> PRODUCTION={app.config['PRODUCTION']}, RECREATE_DB_ON_STARTUP={app.config['RECREATE_DB_ON_STARTUP']}"
-)
+print(f"-> PRODUCTION={app.config['PRODUCTION']}, RECREATE_DB_ON_STARTUP={app.config['RECREATE_DB_ON_STARTUP']}")
 
 if app.config["RECREATE_DB_ON_STARTUP"]:
     with app.app_context():
@@ -44,9 +42,7 @@ api.add_resource(Like, "/likes/<string:account>/<int:post>", "/likes/<int:post>"
 api.add_resource(ListPostLikes, "/likePlist/<int:postid>")
 api.add_resource(ListUserLikes, "/likeUlist/<int:userid>", "/likeUlist")
 
-api.add_resource(
-    Follow, "/follow/<string:account1>/<string:account2>", "/follow/<string:account1>"
-)
+api.add_resource(Follow, "/follow/<string:account1>/<string:account2>", "/follow/<string:account1>")
 api.add_resource(ListFollows, "/followList/<string:account>", "/followList/")
 api.add_resource(ListFollowing, "/followingList/<string:account>", "/followingList/")
 api.add_resource(PostsFollowing, "/followingPosts/", "/followingPosts/<string:user>")

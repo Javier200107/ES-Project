@@ -19,25 +19,15 @@ class Like(Resource):
                 for i in accounts:
                     if i.id == acc.id:
                         return {
-                            "message": "Post with Id [{}] have a like from user with Id [{}] ".format(
-                                post, acc.id
-                            )
+                            "message": "Post with Id [{}] have a like from user with Id [{}] ".format(post, acc.id)
                         }, 200 if i else 404
                 return {
-                    "message": "Post with Id [{}] doesn't have likes from user with Id [{}] ".format(
-                        post, acc.id
-                    )
+                    "message": "Post with Id [{}] doesn't have likes from user with Id [{}] ".format(post, acc.id)
                 }, 404
             else:
-                return {
-                    "message": "Post with Id [{}] doesn't have likes".format(post)
-                }, 404
+                return {"message": "Post with Id [{}] doesn't have likes".format(post)}, 404
         else:
-            return {
-                "message": "Post with Id [{}] or Account [{}] doesn't exist".format(
-                    post, account
-                )
-            }, 404
+            return {"message": "Post with Id [{}] or Account [{}] doesn't exist".format(post, account)}, 404
 
     @auth.login_required()
     def post(self, post):
@@ -65,9 +55,7 @@ class Like(Resource):
                         noti.save_to_db()
                     except:
                         noti.rollback()
-                        return {
-                            "message": "An error occurred inserting the Like-Notification."
-                        }, 500
+                        return {"message": "An error occurred inserting the Like-Notification."}, 500
 
                 try:
                     pt.save_to_db()
@@ -76,9 +64,7 @@ class Like(Resource):
                     pt.rollback()
                     return {"message": "An error occurred inserting the Like."}, 500
             else:
-                return {
-                    "message": "Post with Id [{}] or Account doesn't exist".format(post)
-                }, 404
+                return {"message": "Post with Id [{}] or Account doesn't exist".format(post)}, 404
 
     @auth.login_required()
     def delete(self, post):
@@ -96,22 +82,14 @@ class Like(Resource):
                                 return {"Post": pt.json()}, 200
                             except:
                                 pt.rollback()
-                                return {
-                                    "message": "An error occurred deleting the Like."
-                                }, 500
+                                return {"message": "An error occurred deleting the Like."}, 500
                     return {
-                        "message": "Like with accountId [{}] and postId [{}] doesn't exists".format(
-                            acc.id, post
-                        )
+                        "message": "Like with accountId [{}] and postId [{}] doesn't exists".format(acc.id, post)
                     }, 404
                 else:
-                    return {
-                        "message": "Post with Id [{}] doesn't have likes".format(post)
-                    }, 404
+                    return {"message": "Post with Id [{}] doesn't have likes".format(post)}, 404
             else:
-                return {
-                    "message": "Post with Id [{}] or Account doesn't exist".format(post)
-                }, 404
+                return {"message": "Post with Id [{}] or Account doesn't exist".format(post)}, 404
 
 
 class ListPostLikes(Resource):
@@ -134,12 +112,6 @@ class ListUserLikes(Resource):
         else:
             account = g.user
         if account:
-            return {
-                "ListUserLikes": [
-                    like.json() for like in account.posts_like if like.archived == 0
-                ]
-            }, 200
+            return {"ListUserLikes": [like.json() for like in account.posts_like if like.archived == 0]}, 200
         else:
-            return {
-                "message": "Account with id [{}] doesn't exists".format(userid)
-            }, 404
+            return {"message": "Account with id [{}] doesn't exists".format(userid)}, 404

@@ -15,9 +15,7 @@ def createPosts(client):
 def test_createComment(client):
     createPosts(client)
     client.loginAs(data_accounts[0])
-    numcomments = client.get("/uposts?limit=10&offset=0").json["posts"][0][
-        "num_comments"
-    ]
+    numcomments = client.get("/uposts?limit=10&offset=0").json["posts"][0]["num_comments"]
     assert numcomments == 1
 
 
@@ -42,8 +40,4 @@ def test_deletePostPrincipal_delete_comment(client):
     client.delete(f"/posts/1")
     response = client.get("/comments/1?limit=10&offset=0")
     response2 = client.get("/comments/2?limit=10&offset=0")
-    assert (
-        response2.json["message"]
-        == response.json["message"]
-        == "No comments were found"
-    )
+    assert response2.json["message"] == response.json["message"] == "No comments were found"

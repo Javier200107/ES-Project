@@ -35,9 +35,7 @@ class Posts(Resource):
     @auth.login_required()
     def post(self, id=None):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "text", type=str, required=True, nullable=False, help={"Text of the post"}
-        )
+        parser.add_argument("text", type=str, required=True, nullable=False, help={"Text of the post"})
         parser.add_argument(
             "parent_id",
             type=int,
@@ -66,9 +64,7 @@ class Posts(Resource):
                         noti.save_to_db()
                     except Exception:
                         noti.rollback()
-                        return {
-                            "message": "An error occurred with post-Notification"
-                        }, 500
+                        return {"message": "An error occurred with post-Notification"}, 500
 
             if id:
                 new_post.community = 1
@@ -88,9 +84,7 @@ class Posts(Resource):
                 return {"message": "Unauthorized!"}, 403
 
             parser = reqparse.RequestParser()
-            parser.add_argument(
-                "text", type=str, required=False, nullable=False, default=post.text
-            )
+            parser.add_argument("text", type=str, required=False, nullable=False, default=post.text)
             parser.add_argument(
                 "parent_id",
                 type=int,
@@ -179,9 +173,7 @@ class UserPosts(Resource):
             if data["archived"]:
                 return {"message": "Archived posts can only be seen by the owner"}, 403
 
-        posts = PostsModel.get_groups_by_account(
-            account.id, data["limit"], data["offset"], data["archived"], same
-        )
+        posts = PostsModel.get_groups_by_account(account.id, data["limit"], data["offset"], data["archived"], same)
         if posts:
             return {"posts": [post.json() for post in posts]}, 200
         return {"message": "No posts were found"}, 404
@@ -251,15 +243,9 @@ class PostsFiles(Resource):
     @auth.login_required()
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "image1", type=FileStorage, location="files", required=False, default=None
-        )
-        parser.add_argument(
-            "image2", type=FileStorage, location="files", required=False, default=None
-        )
-        parser.add_argument(
-            "video1", type=FileStorage, location="files", required=False, default=None
-        )
+        parser.add_argument("image1", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument("image2", type=FileStorage, location="files", required=False, default=None)
+        parser.add_argument("video1", type=FileStorage, location="files", required=False, default=None)
         data = parser.parse_args()
 
         account = g.user
