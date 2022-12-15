@@ -39,13 +39,11 @@ export class ProfileUserComponent implements OnInit {
     private sessionService: SessionService,
     private route : ActivatedRoute
   ) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.sessionUser = params.user
-        this.token = params.token
-        this.visitedUsername = params.idUser
-      }
-      )
+    this.route.queryParamMap.subscribe(params => {
+      this.sessionUser = params.get("user")!
+      this.token = params.get("token")!
+      this.visitedUsername = params.get("idUser")!
+    })
   }
 
   // TODO se podria optimizar llamando una sola vez para conseguir toda

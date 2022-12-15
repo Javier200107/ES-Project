@@ -13,12 +13,10 @@ export class AppComponent {
   token!: string
 
   constructor (private sessionService: SessionService, private route : ActivatedRoute) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.user = params.user
-        this.token = params.token
-      }
-      )
+    this.route.queryParamMap.subscribe(params => {
+        this.user = params.get("user")!
+        this.token = params.get("token")!
+    })
   }
 
   comprovarURL () {

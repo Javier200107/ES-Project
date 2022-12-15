@@ -23,12 +23,10 @@ export class CommunityComponent implements OnInit {
 
   // TODO Pass a session service with the token
   constructor (private homeFeed: HomeFeedService, private route: ActivatedRoute, private postCreator: PostCreationService) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.token = params.token
-        this.user = params.user
-      }
-      )
+    this.route.queryParamMap.subscribe(params => {
+        this.user = params.get("user")!
+        this.token = params.get("token")!
+    })
     console.log('token', this.token)
   }
 

@@ -19,12 +19,10 @@ export class UserSearchComponent implements OnInit {
   activeUser!: User
 
   constructor (private searchService: SearchService, private route : ActivatedRoute) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.token = params.token
-        this.activeUser = params.user
-      }
-      )
+    this.route.queryParamMap.subscribe(params => {
+      this.token = params.get("token")!
+      //this.activeUser = params.get("user")!
+    })
     console.log('token', this.token)
   }
 

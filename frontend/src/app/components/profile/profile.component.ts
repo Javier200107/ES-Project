@@ -73,12 +73,10 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder
   ) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.user = params.user
-        this.token = params.token
-      }
-      )
+    this.route.queryParamMap.subscribe(params => {
+        this.user = params.get("user")!
+        this.token = params.get("token")!
+    })
   }
 
   ngOnInit (): void {

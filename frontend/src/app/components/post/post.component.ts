@@ -40,12 +40,10 @@ export class PostComponent implements OnInit {
                private messageService: MessageService,
                private confirmationService: ConfirmationService
   ) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.user = params.user
-        this.token = params.token
-      }
-      )
+    this.route.queryParamMap.subscribe(params => {
+        this.user = params.get("user")!
+        this.token = params.get("token")!
+    })
   }
 
   ngOnInit (): void {
