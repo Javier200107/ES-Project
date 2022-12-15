@@ -19,34 +19,14 @@ class Accounts(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("username", type=str, required=True, nullable=False, help="nom d'usuari")
-        parser.add_argument("password", type=str, required=True, nullable=False, help="contrasenya")
-        parser.add_argument("email", type=str, required=True, nullable=False, help="correu electrònic")
-        parser.add_argument("nom", type=str, required=True, nullable=False, help="nom")
-        parser.add_argument("cognom", type=str, required=True, nullable=False, help="cognom")
-        parser.add_argument(
-            "birthdate",
-            type=str,
-            required=True,
-            nullable=False,
-            help="data de naixement",
-        )
-        parser.add_argument(
-            "is_admin",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            help="admin",
-        )
-        parser.add_argument(
-            "description",
-            type=str,
-            required=False,
-            nullable=False,
-            default="",
-            help="Profile bio",
-        )
+        parser.add_argument("username", type=str, required=True, nullable=False)
+        parser.add_argument("password", type=str, required=True, nullable=False)
+        parser.add_argument("email", type=str, required=True, nullable=False)
+        parser.add_argument("nom", type=str, required=True, nullable=False)
+        parser.add_argument("cognom", type=str, required=True, nullable=False)
+        parser.add_argument("birthdate", type=str, required=True, nullable=False)
+        parser.add_argument("is_admin", type=int, required=False, nullable=False, default=0)
+        parser.add_argument("description", type=str, required=False, nullable=False, default="")
         data = parser.parse_args()
 
         with lock.lock:
@@ -74,32 +54,14 @@ class Accounts(Resource):
     def put(self):
         account = g.user
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "username",
-            type=str,
-            required=False,
-            nullable=False,
-            default=account.username,
-        )
+        parser.add_argument("username", type=str, required=False, nullable=False, default=account.username)
         parser.add_argument("password", type=str, required=False, nullable=False, default=None)
         parser.add_argument("email", type=str, required=False, nullable=False, default=account.email)
         parser.add_argument("nom", type=str, required=False, nullable=False, default=account.nom)
         parser.add_argument("cognom", type=str, required=False, nullable=False, default=account.cognom)
         parser.add_argument("birthdate", type=str, required=False, nullable=False, default=None)
-        parser.add_argument(
-            "is_admin",
-            type=int,
-            required=False,
-            nullable=False,
-            default=account.is_admin,
-        )
-        parser.add_argument(
-            "description",
-            type=str,
-            required=False,
-            nullable=False,
-            default=account.description,
-        )
+        parser.add_argument("is_admin", type=int, required=False, nullable=False, default=account.is_admin)
+        parser.add_argument("description", type=str, required=False, nullable=False, default=account.description)
         data = parser.parse_args()
 
         with lock.lock:
@@ -146,22 +108,8 @@ class AccountsList(Resource):
     @auth.login_required()
     def get(self, username):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            default=100,
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, default=100, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, default=0, location="args")
         data = parser.parse_args()
 
         accounts = AccountsModel.get_like_username(username, data["limit"], data["offset"])
@@ -219,22 +167,8 @@ class AccountsFiles(Resource):
     @auth.login_required()
     def delete(self):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "avatar",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
-        parser.add_argument(
-            "banner",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
+        parser.add_argument("avatar", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("banner", type=int, required=False, nullable=False, default=0, location="args")
         data = parser.parse_args()
         account = g.user
 

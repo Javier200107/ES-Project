@@ -10,22 +10,8 @@ class Posts(Resource):
     @auth.login_required()
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            help={"Number of posts to retrieve"},
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            help={"Number of posts to skip"},
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, location="args")
         data = parser.parse_args()
         posts = PostsModel.get_groups(data["limit"], data["offset"])
         if posts:
@@ -35,14 +21,8 @@ class Posts(Resource):
     @auth.login_required()
     def post(self, id=None):
         parser = reqparse.RequestParser()
-        parser.add_argument("text", type=str, required=True, nullable=False, help={"Text of the post"})
-        parser.add_argument(
-            "parent_id",
-            type=int,
-            required=False,
-            nullable=True,
-            help={"Parent of the post"},
-        )
+        parser.add_argument("text", type=str, required=True, nullable=False)
+        parser.add_argument("parent_id", type=int, required=False, nullable=True)
         data = parser.parse_args()
 
         with lock.lock:
@@ -60,7 +40,6 @@ class Posts(Resource):
                     noti.account_id = parent.account_id
                     noti.post_id = new_post.id  # Retorna el comentari
                     try:
-
                         noti.save_to_db()
                     except Exception:
                         noti.rollback()
@@ -85,27 +64,9 @@ class Posts(Resource):
 
             parser = reqparse.RequestParser()
             parser.add_argument("text", type=str, required=False, nullable=False, default=post.text)
-            parser.add_argument(
-                "parent_id",
-                type=int,
-                required=False,
-                nullable=True,
-                default=post.parent_id,
-            )
-            parser.add_argument(
-                "archived",
-                type=int,
-                required=False,
-                nullable=False,
-                default=post.archived,
-            )
-            parser.add_argument(
-                "community",
-                type=int,
-                required=False,
-                nullable=False,
-                default=post.community,
-            )
+            parser.add_argument("parent_id", type=int, required=False, nullable=True, default=post.parent_id)
+            parser.add_argument("archived", type=int, required=False, nullable=False, default=post.archived)
+            parser.add_argument("community", type=int, required=False, nullable=False, default=post.community)
             data = parser.parse_args()
 
             try:
@@ -139,30 +100,9 @@ class UserPosts(Resource):
     @auth.login_required()
     def get(self, user=None):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            default=100,
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
-        parser.add_argument(
-            "archived",
-            type=int,
-            required=False,
-            nullable=True,
-            default=None,
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, default=100, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("archived", type=int, required=False, nullable=True, default=None, location="args")
         data = parser.parse_args()
         same = 0
         account = g.user if user is None else AccountsModel.get_by_username(user)
@@ -183,22 +123,8 @@ class Comments(Resource):
     @auth.login_required()
     def get(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Number of posts to retrieve"},
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Number of posts to skip"},
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=True, nullable=False, location="args")
+        parser.add_argument("offset", type=int, required=True, nullable=False, location="args")
         data = parser.parse_args()
         posts = PostsModel.get_comments(data["limit"], data["offset"], id)
         if posts:
@@ -275,30 +201,9 @@ class PostsFiles(Resource):
     @auth.login_required()
     def delete(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "image1",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
-        parser.add_argument(
-            "image2",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
-        parser.add_argument(
-            "video1",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
+        parser.add_argument("image1", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("image2", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("video1", type=int, required=False, nullable=False, default=0, location="args")
         data = parser.parse_args()
 
         account = g.user

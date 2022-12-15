@@ -25,23 +25,8 @@ class NotificationList(Resource):
     @auth.login_required()
     def get(self):
         parser = reqparse.RequestParser()
-
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            help={"Number of posts to retrieve"},
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            help={"Number of posts to skip"},
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, location="args")
         id = g.user.id
         data = parser.parse_args()
         notis = NotificationsModel.get_groups(data["limit"], data["offset"], id)
@@ -53,9 +38,8 @@ class NotificationList(Resource):
     @auth.login_required()
     def delete(self):
         id = g.user.id
-        # try:
-        NotificationsModel.delete_by_acc_id(id)
+        try:
+            NotificationsModel.delete_by_acc_id(id)
+        except Exception:
+            return {"message": "An error occurred deleting the Notifications"}, 500
         return {"message": "Notifications deleted successfully!"}, 200
-
-        # except:
-        # return {"message": "An error occurred deleting the Notifications"}, 500

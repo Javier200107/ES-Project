@@ -17,10 +17,8 @@ class Follow(Resource):
             if follows:
                 for i in follows:
                     if i.id == acc2.id:
-                        return {
-                            "message": "Account1 follows Account2 [{}] ".format(account1, account2)
-                        }, 200 if i else 404
-                return {"message": "Account1 [{}] doesn't follow Account2 [{}] ".format(account1, account2)}, 404
+                        return {"message": "Account1 [{}] follows Account2 [{}]".format(account1, account2)}, 200
+                return {"message": "Account1 [{}] doesn't follow Account2 [{}]".format(account1, account2)}, 404
             else:
                 return {"message": "Account [{}] doesn't follow any account".format(account1)}, 404
         else:
@@ -125,24 +123,10 @@ class PostsFollowing(Resource):
     @auth.login_required()
     def get(self, user=None):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Number of posts to retrieve"},
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Number of posts to skip"},
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=True, nullable=False, location="args")
+        parser.add_argument("offset", type=int, required=True, nullable=False, location="args")
         data = parser.parse_args()
-        if user == None:
+        if user is None:
             us = g.user
         else:
             us = AccountsModel.get_by_username(user)

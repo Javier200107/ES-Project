@@ -19,10 +19,10 @@ class Like(Resource):
                 for i in accounts:
                     if i.id == acc.id:
                         return {
-                            "message": "Post with Id [{}] have a like from user with Id [{}] ".format(post, acc.id)
-                        }, 200 if i else 404
+                            "message": "Post with Id [{}] have a like from user with Id [{}]".format(post, acc.id)
+                        }, 200
                 return {
-                    "message": "Post with Id [{}] doesn't have likes from user with Id [{}] ".format(post, acc.id)
+                    "message": "Post with Id [{}] doesn't have likes from user with Id [{}]".format(post, acc.id)
                 }, 404
             else:
                 return {"message": "Post with Id [{}] doesn't have likes".format(post)}, 404
