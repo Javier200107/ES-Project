@@ -143,7 +143,7 @@ class Post(Resource):
 
 class PostsFiles(Resource):
     allowed_extensions = {
-        "image": ["png", "jpg", "jpeg", "gif"],
+        "image": ["png", "jpg", "jpeg", "webp", "gif"],
         "video": ["mp4", "webm", "mov"],
     }
 

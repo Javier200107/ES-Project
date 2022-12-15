@@ -119,7 +119,7 @@ class AccountsList(Resource):
 
 
 class AccountsFiles(Resource):
-    allowed_extensions = ["png", "jpg", "jpeg", "gif"]
+    allowed_extensions = ["png", "jpg", "jpeg", "webp", "gif"]
 
     @classmethod
     def get_allowed_extension(cls, filename):
