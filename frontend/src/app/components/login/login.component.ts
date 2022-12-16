@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
         }
       },
       err => {
-        console.error('Error: status = ', err.status, ' and statusText = ', err.statusText)
         alert('Username or password are wrong, please try again!')
       },
       () => this.router.navigate(['/home'], { queryParams: { user: this.sessionUser.username, token: this.sessionUser.token } }))
