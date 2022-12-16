@@ -4,6 +4,7 @@ import time
 import uuid
 from pathlib import Path
 
+from azure.storage.blob import BlobServiceClient
 from backend.db import db
 from backend.models.posts import PostsModel
 from flask import current_app, g
@@ -12,8 +13,6 @@ from jwt import ExpiredSignatureError, InvalidSignatureError, decode, encode
 from passlib.apps import custom_app_context as pwd_context
 from sqlalchemy import func
 from sqlalchemy.orm import aliased, object_session
-
-from azure.storage.blob import BlobServiceClient
 
 auth = HTTPTokenAuth(scheme="Bearer")
 
@@ -205,7 +204,6 @@ def get_user_roles(user):
 
 
 class AzureBlobStorage(object):
-
     @staticmethod
     def _get_bsc():
         try:

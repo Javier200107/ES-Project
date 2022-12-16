@@ -1,12 +1,11 @@
 from datetime import datetime
 
-from flask import send_from_directory
-from werkzeug.utils import secure_filename
-
 from backend.models.accounts import AccountsModel, auth, g
 from backend.utils import CustomException, lock
+from flask import send_from_directory
 from flask_restful import Resource, reqparse
 from werkzeug.datastructures import FileStorage
+from werkzeug.utils import secure_filename
 
 
 class Accounts(Resource):
