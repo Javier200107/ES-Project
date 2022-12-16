@@ -53,24 +53,27 @@ describe('Follow & Unfollow', () => {
 
     // Compruebo que se haya encontrado el usuario y accedo a su perfil
     cy.contains('@mr50').click()
+    cy.wait(1000)
     cy.get('h1').should('have.text', 'mr50')
 
     // le doy al boton de follow
     cy.get('button[id="follow-btn"]').click()
-    cy.wait(1000)
+    cy.wait(2000)
     cy.get('button[id="follow-btn"]').should('have.text', 'unFollow')
 
     // compruebo que este en su lista de seguidores
     cy.get('p').contains('Followers').click()
+    cy.wait(1000)
     cy.get('span[id="username-follow"]').should('have.text', 'lolita').click()
 
     // compruebo que este en mi lista de seguidos
     cy.get('p').contains('Following').click()
+    cy.wait(1000)
     cy.get('span[id="username-follow"]').should('have.text', 'mr50').click()
 
     // lo dejo de seguir y hago la comprobacion
     cy.get('button[id="follow-btn"]').click()
-    cy.wait(1000)
+    cy.wait(2000)
     cy.get('button[id="follow-btn"]').should('have.text', 'Follow')
   })
 })
