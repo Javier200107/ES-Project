@@ -179,8 +179,7 @@ export class PostComponent implements OnInit {
     )
   }
 
-  confirmDeletePost () {
-    console.log('Confirmamos el post')
+  confirmDeletePost() {
     this.confirmationService.confirm({
       message: 'Do you want to delete this post?',
       header: 'Delete Confirmation',
