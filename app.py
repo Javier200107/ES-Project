@@ -1,6 +1,6 @@
 from backend.config import environment
 from backend.db import db
-from backend.resources.accounts import Accounts, AccountsFiles, AccountsList
+from backend.resources.accounts import Accounts, AccountsFiles, AccountsList, AccountsFilesStatic
 from backend.resources.follow import Follow, ListFollowing, ListFollows, PostsFollowing
 from backend.resources.like import Like, ListPostLikes, ListUserLikes
 from backend.resources.login import Login
@@ -22,7 +22,7 @@ if app.config["RECREATE_DB_ON_STARTUP"]:
     with app.app_context():
         db.drop_all()
         db.create_all()
-        # TODO: init with some data, clear /static/api/
+        # TODO: init with some data, clear /static/api/, clear blob storage
 
 api = Api(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -31,6 +31,7 @@ api.add_resource(Login, "/login")
 api.add_resource(Accounts, "/account/<string:username>", "/account")
 api.add_resource(AccountsList, "/accounts/search/<string:username>")
 api.add_resource(AccountsFiles, "/account/files")
+api.add_resource(AccountsFilesStatic, "/static/api/accounts/<int:id>/<string:file>")
 
 api.add_resource(Post, "/post/<int:id>")
 api.add_resource(Posts, "/posts/<int:id>", "/posts")

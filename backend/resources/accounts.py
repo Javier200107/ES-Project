@@ -1,5 +1,8 @@
 from datetime import datetime
 
+from flask import send_from_directory
+from werkzeug.utils import secure_filename
+
 from backend.models.accounts import AccountsModel, auth, g
 from backend.utils import CustomException, lock
 from flask_restful import Resource, reqparse
@@ -132,6 +135,7 @@ class AccountsFiles(Resource):
         extension = self.get_allowed_extension(file.filename)
         unique_file_path = account.getUniqueFilePath(extension)
         file.save(unique_file_path)
+        account.saveFileToStorage(unique_file_path)
         return unique_file_path
 
     def update_account_file(self, account, file, account_file):
@@ -185,3 +189,13 @@ class AccountsFiles(Resource):
                 return {"message": "Failed to update the account."}, 500
 
         return {"account": account.json2()}, 200
+
+
+class AccountsFilesStatic(Resource):
+    @auth.login_required(optional=True)
+    def get(self, id, file):
+        filePath = f"static/api/accounts/{id}/{secure_filename(file)}"
+        account = AccountsModel.get_by_id(id)
+        if account:
+            account.loadFileFromStorage(filePath)
+        return send_from_directory("static", filePath[7:], as_attachment=False)

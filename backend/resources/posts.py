@@ -158,6 +158,7 @@ class PostsFiles(Resource):
         extension = self.get_allowed_extension(file.filename, fileType)
         unique_file_path = account.getUniqueFilePath(extension)
         file.save(unique_file_path)
+        account.saveFileToStorage(unique_file_path)
         return unique_file_path
 
     def update_account_post_file(self, account, post, file, post_file):
