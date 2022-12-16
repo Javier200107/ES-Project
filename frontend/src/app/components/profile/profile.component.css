@@ -21,7 +21,7 @@ objetfitcover2 > img {
   object-fit: cover;
   position: absolute;
   margin-top: 8%;
-  margin-left: 5%
+  margin-left: 5%;
 }
 
 .image {
@@ -48,7 +48,7 @@ objetfitcover2 > img {
 }
 
 .hover-underline-animation::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -60,7 +60,7 @@ objetfitcover2 > img {
   transition: transform 0.25s ease-out;
 }
 
-.hover-underline-animation:hover{
+.hover-underline-animation:hover {
   cursor: pointer;
 }
 
@@ -78,7 +78,7 @@ objetfitcover2 > img {
   text-line-through-color: #0087ca;
 }
 
-.underline:hover{
+.underline:hover {
   cursor: pointer;
 }
 

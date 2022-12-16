@@ -1,36 +1,35 @@
-.commentModal{
-  background-color: rgba(131, 131, 131, 0.61);
+.commentModal {
+  background-color: rgb(131 131 131 / 61%);
   position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
   height: 100vh;
-
 }
-.commentsContainer{
+
+.commentsContainer {
   position: fixed;
-  left: calc(50% - (263px)) ;
+  left: calc(50% - (263px));
   top: 8%;
   height: 100vh;
-
   background-color: var(--background);
-  border-width: 1px 1px 0 1px;
+  border-width: 1px 1px 0;
   border-color: var(--border);
   border-style: solid;
   width: 526px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
-.closeBtn{
+
+.closeBtn {
   width: 100%;
   display: flex;
   align-items: center;
-
   padding: 2px;
 }
-.arrowIcon{
+
+.arrowIcon {
   font-size: 24px;
 }
 
@@ -50,10 +49,12 @@
   border-width: 0;
   border-bottom-width: 1px;
 }
+
 .create-post-form {
   padding-top: 10px;
   width: 80%;
 }
+
 .new-post-text {
   height: 30px;
   width: 100%;
@@ -64,14 +65,17 @@
   border-style: solid;
   color: var(--letter);
 }
+
 .new-post-text:focus {
   outline: none;
 }
+
 .post-btn-container {
   padding-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
+
 .post-button {
   padding: 9px 16px;
   border-radius: 20px;
@@ -80,25 +84,20 @@
   background-color: var(--primary);
   cursor: pointer;
 }
+
 .post-button:active {
   opacity: 0.7;
 }
 
-
-.post-profile-pic{
+.post-profile-pic {
   width: 48px;
   border-radius: 25px;
 }
 
-
-
-
-
-.communityPost{
+.communityPost {
   border-right-width: 1px;
   box-shadow: inset -2px 0 0 var(--primary);
 }
-
 
 .post {
   max-width: 520px;
@@ -128,8 +127,6 @@
   margin-right: 10px;
 }
 
-
-
 .username {
   color: var(--color_name_card);
 }
@@ -141,29 +138,25 @@
 .content-title {
   height: 20px;
 }
+
 .content-space {
   width: 400px;
   text-align: start;
 }
-.post-text{
-  word-break: break-all;
-  /* Non standard for webkit */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 
+.post-text {
+  word-break: break-all;
+
+  /* Non standard for webkit */
   hyphens: auto;
   width: 400px;
   overflow: auto;
 }
 
-.post-text{
+.post-text {
   word-break: break-all;
-  /* Non standard for webkit */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 
+  /* Non standard for webkit */
   hyphens: auto;
   width: 400px;
   overflow: auto;

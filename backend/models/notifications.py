@@ -3,7 +3,6 @@ from datetime import datetime
 from backend.db import db
 
 
-
 class NotificationsModel(db.Model):
     __tablename__ = "notifications"
 
@@ -18,8 +17,6 @@ class NotificationsModel(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=True)
 
     post = db.relationship("PostsModel")
-
-
 
     def __init__(self, type):
         self.type = type
@@ -56,10 +53,9 @@ class NotificationsModel(db.Model):
         return cls.query.all()
 
     @classmethod
-    def get_groups(cls, number, off,id):
-        return cls.query.filter_by(account_id=id).order_by(cls.time.desc()).limit(
-            number).offset(off).all()
+    def get_groups(cls, number, off, id):
+        return cls.query.filter_by(account_id=id).order_by(cls.time.desc()).limit(number).offset(off).all()
 
     @classmethod
-    def delete_by_acc_id(cls,id):
+    def delete_by_acc_id(cls, id):
         db.session.query(cls).filter_by(account_id=id).delete()

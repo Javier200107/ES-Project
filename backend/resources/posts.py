@@ -1,32 +1,17 @@
-from werkzeug.datastructures import FileStorage
-
-from backend.models.notifications import NotificationsModel
-from backend.utils import lock, CustomException
 from backend.models.accounts import AccountsModel, auth, g
+from backend.models.notifications import NotificationsModel
 from backend.models.posts import PostsModel
+from backend.utils import CustomException, lock
 from flask_restful import Resource, reqparse
+from werkzeug.datastructures import FileStorage
 
 
 class Posts(Resource):
     @auth.login_required()
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            help={"Number of posts to retrieve"},
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            help={"Number of posts to skip"},
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, location="args")
         data = parser.parse_args()
         posts = PostsModel.get_groups(data["limit"], data["offset"])
         if posts:
@@ -36,16 +21,8 @@ class Posts(Resource):
     @auth.login_required()
     def post(self, id=None):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "text", type=str, required=True, nullable=False, help={"Text of the post"}
-        )
-        parser.add_argument(
-            "parent_id",
-            type=int,
-            required=False,
-            nullable=True,
-            help={"Parent of the post"},
-        )
+        parser.add_argument("text", type=str, required=True, nullable=False)
+        parser.add_argument("parent_id", type=int, required=False, nullable=True)
         data = parser.parse_args()
 
         with lock.lock:
@@ -57,19 +34,18 @@ class Posts(Resource):
             if parent_id != None:
                 parent = PostsModel.get_by_id(parent_id)
                 new_post.parent = parent
-                if(parent.account_id!=acc.id):
+                if parent.account_id != acc.id:
                     noti = NotificationsModel(2)
                     noti.account_id2 = acc.id
                     noti.account_id = parent.account_id
-                    noti.post_id = new_post.id #Retorna el comentari
+                    noti.post_id = new_post.id  # Retorna el comentari
                     try:
-
                         noti.save_to_db()
                     except Exception:
                         noti.rollback()
                         return {"message": "An error occurred with post-Notification"}, 500
 
-            if (id):
+            if id:
                 new_post.community = 1
             try:
                 new_post.save_to_db()
@@ -124,30 +100,9 @@ class UserPosts(Resource):
     @auth.login_required()
     def get(self, user=None):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            default=100,
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
-        parser.add_argument(
-            "archived",
-            type=int,
-            required=False,
-            nullable=True,
-            default=None,
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, default=100, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, default=0, location="args")
+        parser.add_argument("archived", type=int, required=False, nullable=True, default=None, location="args")
         data = parser.parse_args()
         same = 0
         account = g.user if user is None else AccountsModel.get_by_username(user)
@@ -158,9 +113,7 @@ class UserPosts(Resource):
             if data["archived"]:
                 return {"message": "Archived posts can only be seen by the owner"}, 403
 
-        posts = PostsModel.get_groups_by_account(
-            account.id, data["limit"], data["offset"], data["archived"], same
-        )
+        posts = PostsModel.get_groups_by_account(account.id, data["limit"], data["offset"], data["archived"], same)
         if posts:
             return {"posts": [post.json() for post in posts]}, 200
         return {"message": "No posts were found"}, 404
@@ -170,22 +123,8 @@ class Comments(Resource):
     @auth.login_required()
     def get(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Number of posts to retrieve"},
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=True,
-            nullable=False,
-            help={"Number of posts to skip"},
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=True, nullable=False, location="args")
+        parser.add_argument("offset", type=int, required=True, nullable=False, location="args")
         data = parser.parse_args()
         posts = PostsModel.get_comments(data["limit"], data["offset"], id)
         if posts:
@@ -203,11 +142,14 @@ class Post(Resource):
 
 
 class PostsFiles(Resource):
-    allowed_extensions = {"image": ["png", "jpg", "jpeg", "gif"], "video": ["mp4", "webm", "mov"]}
+    allowed_extensions = {
+        "image": ["png", "jpg", "jpeg", "webp", "gif"],
+        "video": ["mp4", "webm", "mov"],
+    }
 
     @classmethod
     def get_allowed_extension(cls, filename, fileType):
-        ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else ""
+        ext = filename.rsplit(".", 1)[1].lower() if "." in filename else ""
         if ext in cls.allowed_extensions[fileType]:
             return ext
         raise CustomException("Invalid file extension.")
@@ -216,6 +158,7 @@ class PostsFiles(Resource):
         extension = self.get_allowed_extension(file.filename, fileType)
         unique_file_path = account.getUniqueFilePath(extension)
         file.save(unique_file_path)
+        account.saveFileToStorage(unique_file_path)
         return unique_file_path
 
     def update_account_post_file(self, account, post, file, post_file):
@@ -250,9 +193,9 @@ class PostsFiles(Resource):
                 if video1 and video1.filename:
                     self.update_account_post_file(account, post, video1, "video1")
             except CustomException as e:
-                return {'message': str(e)}, 400
+                return {"message": str(e)}, 400
             except Exception:
-                return {'message': "Failed to update the post."}, 500
+                return {"message": "Failed to update the post."}, 500
 
         return {"post": post.json()}, 200
 
@@ -284,6 +227,6 @@ class PostsFiles(Resource):
                     post.video1 = ""
                 post.save_to_db()
             except Exception:
-                return {'message': "Failed to update the post."}, 500
+                return {"message": "Failed to update the post."}, 500
 
         return {"post": post.json()}, 200

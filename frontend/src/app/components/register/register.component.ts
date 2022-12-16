@@ -3,7 +3,7 @@ import { User } from '../../models/User'
 import { Router, ActivatedRoute } from '@angular/router'
 import { SessionService } from '../../services/session.service'
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
-import { environment } from "../../../environments/environment";
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-register',
@@ -84,25 +84,27 @@ export class RegisterComponent implements OnInit {
       cognom: this.surname,
       birthdate: this.birthdate,
       is_admin: false
-    };
+    }
 
-    this.username = '';
-    this.email = '';
-    this.password = '';
-    this.name = '';
-    this.surname = '';
-    this.birthdate = '';
+    this.username = ''
+    this.email = ''
+    this.password = ''
+    this.name = ''
+    this.surname = ''
+    this.birthdate = ''
 
     this.sessionService.register(newUser).subscribe(
-      (user) =>
-      {
-          if (user) {
-          this.sessionUser=user
+      (user) => {
+        if (user) {
+          this.sessionUser = user
           console.log('Session User', this.sessionUser)
-        }},
-      err => {console.error('Error: status = ', err.status, " and statusText = ", err.statusText),
-        alert('Error on Register');},
-      () => this.router.navigate(['/login']));
+        }
+      },
+      err => {
+        console.error('Error: status = ', err.status, ' and statusText = ', err.statusText),
+        alert('Error on Register')
+      },
+      () => this.router.navigate(['/login']))
   }
 
   private buildForm () {

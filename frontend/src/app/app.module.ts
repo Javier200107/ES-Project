@@ -13,13 +13,13 @@ import { ProfileComponent } from './components/profile/profile.component'
 import { PostComponent } from './components/post/post.component'
 import { CreatePostComponent } from './components/create-post/create-post.component'
 import { NavbarComponent } from './components/navbar/navbar.component'
-import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { ProfileUserComponent } from './components/profile-user/profile-user.component'
 import { CommunityComponent } from './components/community/community.component'
-import { UserSearchComponent } from './components/user-search/user-search.component';
+import { UserSearchComponent } from './components/user-search/user-search.component'
 import { UserItemComponent } from './components/user-item/user-item.component'
-import { UserComponent } from './components/user/user.component';
-import { ViewPostComponent } from './components/view-post/view-post.component';
-import { CommentComponent } from './components/comment/comment.component';
+import { UserComponent } from './components/user/user.component'
+import { ViewPostComponent } from './components/view-post/view-post.component'
+import { CommentComponent } from './components/comment/comment.component'
 
 import { MatInputModule } from '@angular/material/input'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -29,18 +29,18 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatTabsModule } from '@angular/material/tabs';
-import {MatSidenavModule} from "@angular/material/sidenav";
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatSidenavModule } from '@angular/material/sidenav'
 
-import {DialogModule} from "primeng/dialog";
-import {ButtonModule} from "primeng/button";
-import {AvatarModule} from "primeng/avatar";
-import {RippleModule} from "primeng/ripple";
-import {InputTextModule} from "primeng/inputtext";
-import {CalendarModule} from "primeng/calendar";
-import {ConfirmPopupModule} from "primeng/confirmpopup";
-import {ToastModule} from "primeng/toast";
-import {SlideMenuModule} from "primeng/slidemenu";
+import { DialogModule } from 'primeng/dialog'
+import { ButtonModule } from 'primeng/button'
+import { AvatarModule } from 'primeng/avatar'
+import { RippleModule } from 'primeng/ripple'
+import { InputTextModule } from 'primeng/inputtext'
+import { CalendarModule } from 'primeng/calendar'
+import { ConfirmPopupModule } from 'primeng/confirmpopup'
+import { ToastModule } from 'primeng/toast'
+import { SlideMenuModule } from 'primeng/slidemenu'
 
 @NgModule({
   declarations: [

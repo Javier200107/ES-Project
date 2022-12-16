@@ -1,10 +1,11 @@
 from datetime import datetime
 
-from werkzeug.datastructures import FileStorage
-
-from backend.utils import lock, CustomException
 from backend.models.accounts import AccountsModel, auth, g
+from backend.utils import CustomException, lock
+from flask import send_from_directory
 from flask_restful import Resource, reqparse
+from werkzeug.datastructures import FileStorage
+from werkzeug.utils import secure_filename
 
 
 class Accounts(Resource):
@@ -20,42 +21,14 @@ class Accounts(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "username", type=str, required=True, nullable=False, help="nom d'usuari"
-        )
-        parser.add_argument(
-            "password", type=str, required=True, nullable=False, help="contrasenya"
-        )
-        parser.add_argument(
-            "email", type=str, required=True, nullable=False, help="correu electrònic"
-        )
-        parser.add_argument("nom", type=str, required=True, nullable=False, help="nom")
-        parser.add_argument(
-            "cognom", type=str, required=True, nullable=False, help="cognom"
-        )
-        parser.add_argument(
-            "birthdate",
-            type=str,
-            required=True,
-            nullable=False,
-            help="data de naixement",
-        )
-        parser.add_argument(
-            "is_admin",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            help="admin",
-        )
-        parser.add_argument(
-            "description",
-            type=str,
-            required=False,
-            nullable=False,
-            default="",
-            help="Profile bio"
-        )
+        parser.add_argument("username", type=str, required=True, nullable=False)
+        parser.add_argument("password", type=str, required=True, nullable=False)
+        parser.add_argument("email", type=str, required=True, nullable=False)
+        parser.add_argument("nom", type=str, required=True, nullable=False)
+        parser.add_argument("cognom", type=str, required=True, nullable=False)
+        parser.add_argument("birthdate", type=str, required=True, nullable=False)
+        parser.add_argument("is_admin", type=int, required=False, nullable=False, default=0)
+        parser.add_argument("description", type=str, required=False, nullable=False, default="")
         data = parser.parse_args()
 
         with lock.lock:
@@ -71,7 +44,7 @@ class Accounts(Resource):
                     data["cognom"],
                     datetime.strptime(data["birthdate"], "%Y-%m-%d"),
                     data["is_admin"],
-                    data["description"]
+                    data["description"],
                 )
                 new_account.hash_password(data["password"])
                 new_account.save_to_db()
@@ -137,40 +110,22 @@ class AccountsList(Resource):
     @auth.login_required()
     def get(self, username):
         parser = reqparse.RequestParser()
-        parser.add_argument(
-            "limit",
-            type=int,
-            required=False,
-            nullable=False,
-            default=100,
-            location="args",
-        )
-        parser.add_argument(
-            "offset",
-            type=int,
-            required=False,
-            nullable=False,
-            default=0,
-            location="args",
-        )
+        parser.add_argument("limit", type=int, required=False, nullable=False, default=100, location="args")
+        parser.add_argument("offset", type=int, required=False, nullable=False, default=0, location="args")
         data = parser.parse_args()
 
-        accounts = AccountsModel.get_like_username(
-            username, data["limit"], data["offset"]
-        )
+        accounts = AccountsModel.get_like_username(username, data["limit"], data["offset"])
         if accounts:
             return {"accounts": [account.json2() for account in accounts]}, 200
-        return {
-            "message": f"Could not find any account username matching [{username}]"
-        }, 404
+        return {"message": f"Could not find any account username matching [{username}]"}, 404
 
 
 class AccountsFiles(Resource):
-    allowed_extensions = ["png", "jpg", "jpeg", "gif"]
+    allowed_extensions = ["png", "jpg", "jpeg", "webp", "gif"]
 
     @classmethod
     def get_allowed_extension(cls, filename):
-        ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else ""
+        ext = filename.rsplit(".", 1)[1].lower() if "." in filename else ""
         if ext in cls.allowed_extensions:
             return ext
         raise CustomException("Invalid file extension.")
@@ -179,6 +134,7 @@ class AccountsFiles(Resource):
         extension = self.get_allowed_extension(file.filename)
         unique_file_path = account.getUniqueFilePath(extension)
         file.save(unique_file_path)
+        account.saveFileToStorage(unique_file_path)
         return unique_file_path
 
     def update_account_file(self, account, file, account_file):
@@ -205,9 +161,9 @@ class AccountsFiles(Resource):
                 if banner and banner.filename:
                     self.update_account_file(account, banner, "banner")
             except CustomException as e:
-                return {'message': str(e)}, 400
+                return {"message": str(e)}, 400
             except Exception:
-                return {'message': "Failed to update the account."}, 500
+                return {"message": "Failed to update the account."}, 500
 
         return {"account": account.json2()}, 200
 
@@ -229,6 +185,16 @@ class AccountsFiles(Resource):
                     account.banner = ""
                 account.save_to_db()
             except Exception:
-                return {'message': "Failed to update the account."}, 500
+                return {"message": "Failed to update the account."}, 500
 
         return {"account": account.json2()}, 200
+
+
+class AccountsFilesStatic(Resource):
+    @auth.login_required(optional=True)
+    def get(self, id, file):
+        filePath = f"static/api/accounts/{id}/{secure_filename(file)}"
+        account = AccountsModel.get_by_id(id)
+        if account:
+            account.loadFileFromStorage(filePath)
+        return send_from_directory("static", filePath[7:], as_attachment=False)

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Post} from "../../models/Post";
-import {HomeFeedService} from "../../services/home-feed.service";
-import {ActivatedRoute} from "@angular/router";
-import {NewPostForm} from "../../models/NewPostForm";
-import {PostCreationService} from "../../services/post-creation.service";
-
+import { Component, OnInit } from '@angular/core'
+import { Post } from '../../models/Post'
+import { HomeFeedService } from '../../services/home-feed.service'
+import { ActivatedRoute } from '@angular/router'
+import { NewPostForm } from '../../models/NewPostForm'
+import { PostCreationService } from '../../services/post-creation.service'
 
 @Component({
   selector: 'app-community',
@@ -12,34 +11,30 @@ import {PostCreationService} from "../../services/post-creation.service";
   styleUrls: ['./community.component.css']
 })
 export class CommunityComponent implements OnInit {
-
   posts2: Post[] = []
-  numInitialPosts = 25;
-  postsPerLoad = 10;
-  currentPost = 0;
-  token = "";
+  numInitialPosts = 25
+  postsPerLoad = 10
+  currentPost = 0
+  token = ''
   user!: string
   newProfilePhotoURL = null
   postId = null
   justTextPost!: Post
 
-  //TODO Pass a session service with the token
-  constructor(private homeFeed: HomeFeedService, private route: ActivatedRoute, private postCreator: PostCreationService) {
-
-    this.route.queryParams
-      .subscribe(params => {
-          this.token = params['token']
-          this.user = params['user']
-        }
-      );
+  // TODO Pass a session service with the token
+  constructor (private homeFeed: HomeFeedService, private route: ActivatedRoute, private postCreator: PostCreationService) {
+    this.route.queryParamMap.subscribe(params => {
+      this.user = params.get('user')!
+      this.token = params.get('token')!
+    })
     console.log('token', this.token)
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.demanarPost2()
   }
 
-  demanarPost2() {
+  demanarPost2 () {
     this.posts2 = []
     const requestParams2 = {
       limit: this.postsPerLoad,
@@ -48,23 +43,23 @@ export class CommunityComponent implements OnInit {
     // @ts-ignore
     this.homeFeed.getPostsFromFollowing(requestParams2, this.token, this.user).subscribe((newPosts: Object) => {
       // @ts-ignore
-      let postList = newPosts['posts']
+      const postList = newPosts.posts
       for (let postNum = 0; postNum < postList.length; postNum++) {
-        this.posts2.push(postList[postNum]);
-        this.currentPost = this.currentPost + 1;
+        this.posts2.push(postList[postNum])
+        this.currentPost = this.currentPost + 1
       }
     }, (error: any) => {
-      console.log(error);
+      console.log(error)
     })
   }
 
-  addPost(newPost: NewPostForm) {
-    let fileToUpload = newPost.post_file
+  addPost (newPost: NewPostForm) {
+    const fileToUpload = newPost.post_file
     this.postCreator.createCommunityPost(newPost, this.token).subscribe((newPost: Post) => {
       // @ts-ignore
-      this.justTextPost = newPost['post']
+      this.justTextPost = newPost.post
       // @ts-ignore
-      this.postId = this.justTextPost['id']
+      this.postId = this.justTextPost.id
     }, (error: any) => {
       console.log(error)
     }, () => {
@@ -74,8 +69,8 @@ export class CommunityComponent implements OnInit {
         this.postCreator.putPostImage(formDades, this.postId, this.token).subscribe(
           (res: Post) => {
             // @ts-ignore
-            let post = res['post']
-            this.newProfilePhotoURL = post['image1']
+            const post = res.post
+            this.newProfilePhotoURL = post.image1
             this.posts2.unshift(post)
           }, error => {
             console.log(error)

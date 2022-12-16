@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
           this.token = result.token
           user.token = result.token
           this.sessionService.setToken(result.token)
-          if (this.rememberCredentials){
+          if (this.rememberCredentials) {
             localStorage.setItem('username', this.username)
             localStorage.setItem('password', this.password)
           }
@@ -55,17 +55,17 @@ export class LoginComponent implements OnInit {
       () => this.router.navigate(['/home'], { queryParams: { user: this.sessionUser.username, token: this.sessionUser.token } }))
   }
 
-  getLocalCredentials() {
-    let user = localStorage.getItem('username')
-    let pass = localStorage.getItem('password')
-      if (user != null && pass != null) {
-        this.username = user
-        this.password = pass
-        localStorage.clear()
-      }
+  getLocalCredentials () {
+    const user = localStorage.getItem('username')
+    const pass = localStorage.getItem('password')
+    if (user != null && pass != null) {
+      this.username = user
+      this.password = pass
+      localStorage.clear()
+    }
   }
 
-  changeRememberCredentials($event: Event) {
-    this.rememberCredentials = !this.rememberCredentials;
+  changeRememberCredentials ($event: Event) {
+    this.rememberCredentials = !this.rememberCredentials
   }
 }

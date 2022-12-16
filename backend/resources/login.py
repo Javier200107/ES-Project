@@ -1,24 +1,12 @@
-from backend.utils import lock
 from backend.models.accounts import AccountsModel, auth, g
+from backend.utils import lock
 from flask_restful import Resource, reqparse
 
 
 class Login(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(
-        "username",
-        type=str,
-        required=True,
-        nullable=False,
-        help={"A username is required"},
-    )
-    parser.add_argument(
-        "password",
-        type=str,
-        required=True,
-        nullable=False,
-        help={"A password is required"},
-    )
+    parser.add_argument("username", type=str, required=True, nullable=False)
+    parser.add_argument("password", type=str, required=True, nullable=False)
 
     @auth.login_required()
     def get(self):
@@ -31,9 +19,7 @@ class Login(Resource):
 
         account = AccountsModel.get_by_username(username)
         if not account:
-            return {
-                "message": f"Login failed! No account was found with username: {username}"
-            }, 404
+            return {"message": f"Login failed! No account was found with username: {username}"}, 404
 
         if not account.verify_password(password):
             return {"message": "Invalid password!"}, 404

@@ -1,5 +1,6 @@
-from backend.data import data_accounts, data_posts
 import io
+
+from backend.data import data_accounts, data_posts
 
 
 def test_create_user(client):
@@ -64,8 +65,8 @@ def test_user_avatar(client):
     client.post("/account", json=data_accounts[0])
     client.loginAs(data_accounts[0])
 
-    file = (io.BytesIO(b"MyImageData"), 'test.jpg')
-    response = client.put("/account/files", data={'avatar': file})
+    file = (io.BytesIO(b"MyImageData"), "test.jpg")
+    response = client.put("/account/files", data={"avatar": file})
     assert response.json["account"]["avatar"].startswith("static/api/accounts/1/")
 
     response = client.delete("/account/files?avatar=1")
@@ -78,7 +79,7 @@ def test_delete_user_delete_all(client):
     client.post("/account", json=account)
     client.loginAs(account)
     post2 = data_posts[1]
-    response =client.post("/posts", json=post2)
+    response = client.post("/posts", json=post2)
     postuser1 = response.json["post"]
     # Afegim un post
     assert response.status_code == 201
@@ -88,12 +89,12 @@ def test_delete_user_delete_all(client):
     account2 = data_accounts[1]
     client.post("/account", json=account2)
     response = client.post("/follow/" + account2["username"]).json["Account"]
-    assert len(response["followers"]) ==1
+    assert len(response["followers"]) == 1
 
     # Creem post de l'altre usuari
     client.loginAs(account2)
-    response =client.post("/posts", json=post2)
-    postuser2= response.json["post"]
+    response = client.post("/posts", json=post2)
+    postuser2 = response.json["post"]
     assert response.status_code == 201
 
     # afegim un comentari al post de l'usuari que eliminarem
@@ -111,10 +112,10 @@ def test_delete_user_delete_all(client):
 
     post3 = data_posts[0].copy()
     post3.update({"parent_id": str(postuser2["id"])})
-    response =client.post("/posts", json=post3)
+    response = client.post("/posts", json=post3)
     assert response.json["post"]["parent_id"] == postuser2["id"]
 
-    #Eliminem l'usuari
+    # Eliminem l'usuari
 
     assert client.delete(f"/account/{username}").status_code == 200
 

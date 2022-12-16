@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies and Build
@@ -66,7 +66,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
@@ -77,4 +77,4 @@ jobs:
       - name: Execute tests e2e with Cypress
         working-directory: frontend
         run: |
-          npx cypress run
+          npx cypress run --record --key 0c650aba-264b-4c98-9e4b-52fe855be114

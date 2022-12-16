@@ -4,6 +4,7 @@ import time
 import uuid
 from pathlib import Path
 
+from azure.storage.blob import BlobServiceClient
 from backend.db import db
 from backend.models.posts import PostsModel
 from flask import current_app, g
@@ -18,9 +19,7 @@ auth = HTTPTokenAuth(scheme="Bearer")
 user_following = db.Table(
     "user_following",
     db.Column("user_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
-    db.Column(
-        "following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True
-    ),
+    db.Column("following_id", db.Integer, db.ForeignKey("accounts.id"), primary_key=True),
 )
 
 
@@ -40,7 +39,11 @@ class AccountsModel(db.Model):
     banner = db.Column(db.String(), nullable=False, default="")
 
     posts = db.relationship("PostsModel", back_populates="account", cascade="all, delete-orphan")
-    notifications = db.relationship("NotificationsModel", cascade="all, delete-orphan",foreign_keys = 'NotificationsModel.account_id')
+    notifications = db.relationship(
+        "NotificationsModel",
+        cascade="all, delete-orphan",
+        foreign_keys="NotificationsModel.account_id",
+    )
 
     following = db.relationship(
         "AccountsModel",
@@ -73,15 +76,11 @@ class AccountsModel(db.Model):
             "banner": self.banner,
             "followers": [t.username for t in self.followers],
             "following": [t.username for t in self.following],
-            "Num_notificacions": len(self.notifications)
+            "Num_notificacions": len(self.notifications),
         }
 
     def json2(self):
-        return {
-            "username": self.username,
-            "avatar": self.avatar,
-            "banner": self.banner
-        }
+        return {"username": self.username, "avatar": self.avatar, "banner": self.banner}
 
     def save_to_db(self):
         db.session.add(self)
@@ -105,10 +104,20 @@ class AccountsModel(db.Model):
 
     def deleteFilesFolder(self):
         shutil.rmtree(self.getFilesFolder(), ignore_errors=True)
+        AzureBlobStorage.deleteFiles(self.id)
 
     def deleteFile(self, file):
         if file and self.getFilesFolder() in file:
             Path(file).unlink(missing_ok=True)
+            AzureBlobStorage.deleteFile(self.id, file)
+
+    def saveFileToStorage(self, file):
+        if file and self.getFilesFolder() in file and Path(file).exists():
+            AzureBlobStorage.uploadFile(self.id, file)
+
+    def loadFileFromStorage(self, file):
+        if file and self.getFilesFolder() in file and not Path(file).exists():
+            AzureBlobStorage.downloadFile(self.id, file)
 
     def followed_posts_and_self(self, number, off):
         user_id = self.id
@@ -116,11 +125,12 @@ class AccountsModel(db.Model):
         return (
             (
                 object_session(self)
-                .query(PostsModel).filter_by(archived=0)
+                .query(PostsModel)
+                .filter_by(archived=0)
                 .join(Poster, AccountsModel.query.filter_by(id=PostsModel.account_id))
                 .filter(Poster.followers.any(AccountsModel.id == user_id))
             )
-            .union(PostsModel.query.filter_by(account_id=user_id,archived=0,parent_id=None))
+            .union(PostsModel.query.filter_by(account_id=user_id, archived=0, parent_id=None))
             .order_by(PostsModel.time.desc())
             .limit(number)
             .offset(off)
@@ -191,3 +201,64 @@ def get_user_roles(user):
     if user.is_admin:
         roles.append("admin")
     return roles
+
+
+class AzureBlobStorage(object):
+    @staticmethod
+    def _get_bsc():
+        try:
+            connect_str = current_app.config["AZURE_STORAGE_CONNECTION_STRING"]
+            return BlobServiceClient.from_connection_string(connect_str)
+        except Exception:
+            pass
+
+    @staticmethod
+    def _createContainer(bsc, name):
+        try:
+            bsc.create_container(name)
+        except Exception:
+            pass
+
+    @classmethod
+    def uploadFile(cls, account_id, filePath):
+        try:
+            blob_service_client = cls._get_bsc()
+            container_name = f"account-{account_id}"
+            cls._createContainer(blob_service_client, container_name)
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filePath.split("/")[-1])
+            with open(file=filePath, mode="rb") as data:
+                blob_client.upload_blob(data)
+            blob_service_client.close()
+        except Exception:
+            pass
+
+    @classmethod
+    def downloadFile(cls, account_id, filePath):
+        try:
+            blob_service_client = cls._get_bsc()
+            container_client = blob_service_client.get_container_client(container=f"account-{account_id}")
+            with open(file=filePath, mode="wb") as file:
+                file.write(container_client.download_blob(filePath.split("/")[-1]).readall())
+            blob_service_client.close()
+        except Exception:
+            pass
+
+    @classmethod
+    def deleteFile(cls, account_id, filePath):
+        try:
+            blob_service_client = cls._get_bsc()
+            container_client = blob_service_client.get_container_client(container=f"account-{account_id}")
+            container_client.delete_blob(filePath.split("/")[-1])
+            blob_service_client.close()
+        except Exception:
+            pass
+
+    @classmethod
+    def deleteFiles(cls, account_id):
+        try:
+            blob_service_client = cls._get_bsc()
+            container_client = blob_service_client.get_container_client(container=f"account-{account_id}")
+            container_client.delete_container()
+            blob_service_client.close()
+        except Exception:
+            pass

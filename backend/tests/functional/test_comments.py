@@ -15,14 +15,16 @@ def createPosts(client):
 def test_createComment(client):
     createPosts(client)
     client.loginAs(data_accounts[0])
-    numcomments = client.get("/uposts?limit=10&offset=0").json["posts"][0]['num_comments']
+    numcomments = client.get("/uposts?limit=10&offset=0").json["posts"][0]["num_comments"]
     assert numcomments == 1
+
 
 def test_getComments(client):
     createPosts(client)
     client.loginAs(data_accounts[0])
     comments = client.get("/comments/1?limit=10&offset=0").json["comments"]
     assert len(comments) == 1
+
 
 def test_deletePostPrincipal_delete_comment(client):
     createPosts(client)
@@ -31,7 +33,7 @@ def test_deletePostPrincipal_delete_comment(client):
     assert len(comments) == 1
     post3 = data_posts[0].copy()
     post3.update({"parent_id": 2})
-    post=data_posts[0]
+    post = data_posts[0]
     client.post("/posts", json=post3)
     comments2 = client.get("/comments/2?limit=10&offset=0").json["comments"]
     assert len(comments2) == 1

@@ -21,21 +21,20 @@
   flex-direction: column;
 }
 
-
 .btn1 {
   background-color: white;
   color: black;
-  border: 2px solid #008CBA;
+  border: 2px solid #008cba;
   font-size: 12px;
 }
 
 .btn1:hover {
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
- }
+}
 
 .btn1:disabled {
   background-color: white;
-  border: 2px solid #417D0F;
+  border: 2px solid #417d0f;
   font-size: 12px;
 }

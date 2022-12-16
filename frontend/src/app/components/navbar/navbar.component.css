@@ -71,7 +71,7 @@ a { text-decoration: none; }
   margin-right: 10px;
 }
 
-.color{
+.color {
   color: indianred;
 }
 
@@ -91,7 +91,7 @@ a { text-decoration: none; }
 
   color: var(--secondary);
   text-decoration: none !important;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .dropdown-menu {

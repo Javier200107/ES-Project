@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Input} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PostCreationService} from "../../services/post-creation.service";
-import {SessionService} from "../../services/session.service";
-import {InfoUserCreated} from "../../models/InfoUserCreated";
-import {environment} from "../../../environments/environment";
+import { Component, OnInit, Input } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { PostCreationService } from '../../services/post-creation.service'
+import { SessionService } from '../../services/session.service'
+import { InfoUserCreated } from '../../models/InfoUserCreated'
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-user-item',
@@ -12,10 +11,9 @@ import {environment} from "../../../environments/environment";
   styleUrls: ['./user-item.component.css']
 })
 export class UserItemComponent implements OnInit {
+  @Input() username!:string
 
-  @Input() username!:string;
-
-  following: Boolean = false;
+  following: Boolean = false
   followText: String = 'Follow'
   isYou: boolean = false
   userAccountInfo!: InfoUserCreated
@@ -24,43 +22,40 @@ export class UserItemComponent implements OnInit {
   user!: string
   token!: string
 
-  constructor(private router : Router, private postCreationService: PostCreationService, private sessionService: SessionService, private route : ActivatedRoute) {
-  this.route.queryParams
-    .subscribe(params => {
-      this.user = params["user"]
-      this.token = params["token"]
-    }
-    )
+  constructor (private router : Router, private postCreationService: PostCreationService, private sessionService: SessionService, private route : ActivatedRoute) {
+    this.route.queryParamMap.subscribe(params => {
+      this.user = params.get('user')!
+      this.token = params.get('token')!
+    })
   }
-  ngOnInit(): void {
+
+  ngOnInit (): void {
     this.getInfoUser()
   }
 
-  goToProfile(){
-
-    if (this.user != this.username){
+  goToProfile () {
+    if (this.user != this.username) {
       this.router.navigate(['/profileUser'], { queryParams: { user: this.user, token: this.token, idUser: this.username } })
     } else {
       this.router.navigate(['/profile'], { queryParams: { user: this.user, token: this.token } })
     }
   }
 
-  followUser(){
-    if(this.following){
-      this.followText = 'Follow';
-      this.following = false;
-    }else{
-      this.following = true;
-      this.followText = 'Unfollow';
+  followUser () {
+    if (this.following) {
+      this.followText = 'Follow'
+      this.following = false
+    } else {
+      this.following = true
+      this.followText = 'Unfollow'
     }
   }
 
-  getInfoUser() {
+  getInfoUser () {
     this.sessionService.getInfoAccount(this.username, this.token).subscribe(
       (result) => {
         this.userAccountInfo = result.account
       }
     )
   }
-
 }

@@ -1,14 +1,14 @@
 ---
 # MegaLinter GitHub Action configuration file
-# More info at https://megalinter.io
+# More info at https://oxsecurity.github.io/megalinter
 name: MegaLinter
 
 on:
   # Trigger mega-linter at every push. Action will also be visible from Pull Requests to master
   push: # Comment this line to trigger action only on pull-requests (not recommended if you don't pay for GH Actions)
-    - testing
+    branches: [main, testing]
   pull_request:
-    branches: [master, main]
+    branches: [main, testing]
 
 env: # Comment env block if you do not want to apply fixes
   # Apply linter fixes configuration
@@ -36,11 +36,11 @@ jobs:
       - name: MegaLinter
         id: ml
         # You can override MegaLinter flavor used to have faster performances
-        # More info at https://megalinter.io/flavors/
+        # More info at https://oxsecurity.github.io/megalinter/flavors/
         uses: oxsecurity/megalinter@v6
         env:
           # All available variables are described in documentation
-          # https://megalinter.io/configuration/
+          # https://oxsecurity.github.io/megalinter/configuration/
           VALIDATE_ALL_CODEBASE: true # Set ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }} to validate only diff with main branch
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # ADD YOUR CUSTOM ENV VARIABLES HERE TO OVERRIDE VALUES OF .mega-linter.yml AT THE ROOT OF YOUR REPOSITORY
