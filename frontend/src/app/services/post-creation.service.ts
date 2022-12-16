@@ -35,6 +35,7 @@ export class PostCreationService {
   }
 
   createCommunityPost (newPost:NewPostForm, token:String): Observable<Post> {
+    this.newPostText = newPost
     this.newPostText.text = newPost.text
     this.newPostText.parent_id = newPost.parent_id
     const httpOptions = {
