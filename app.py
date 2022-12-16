@@ -1,6 +1,11 @@
 from backend.config import environment
 from backend.db import db
-from backend.resources.accounts import Accounts, AccountsFiles, AccountsFilesStatic, AccountsList
+from backend.resources.accounts import (
+    Accounts,
+    AccountsFiles,
+    AccountsFilesStatic,
+    AccountsList,
+)
 from backend.resources.follow import Follow, ListFollowing, ListFollows, PostsFollowing
 from backend.resources.like import Like, ListPostLikes, ListUserLikes
 from backend.resources.login import Login
