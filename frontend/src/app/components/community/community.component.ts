@@ -60,7 +60,7 @@ export class CommunityComponent implements OnInit {
 
   addPost(newPost: NewPostForm) {
     let fileToUpload = newPost.post_file
-    this.postCreator.createPost(newPost, this.token).subscribe((newPost: Post) => {
+    this.postCreator.createCommunityPost(newPost, this.token).subscribe((newPost: Post) => {
       // @ts-ignore
       this.justTextPost = newPost['post']
       // @ts-ignore

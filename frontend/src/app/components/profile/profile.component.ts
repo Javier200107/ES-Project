@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
   newBirthday = ""
   newProfilePhotoURL = null
   newBannerURL = null
-  environment =`${environment.baseApiUrl}/`
+  environment = `${environment.baseApiUrl}/`
 
   previsualization = ''
   previsualizationBanner = ''
@@ -95,15 +95,18 @@ export class ProfileComponent implements OnInit {
   // TODO OPTIMIZAR liked posts emitter updatea todo
   // TODO NO PUC TENIR 2 events emitter com a output
   refreshListPosts(event: any) {
-      if(event == 1){
+    if (event == 1) {
       this.getPostsUser()
       this.getPostsUserArchived()
     }
-    if(event == 2){
+    if (event == 2) {
       this.getLikedPosts()
     }
-    if(event == 3){
+    if (event == 3) {
       this.getPostsUser()
+      this.getPostsUserArchived()
+      this.getLikedPosts()
+
     }
   }
 
@@ -433,28 +436,29 @@ export class ProfileComponent implements OnInit {
       return null;
     }
   })
+
   showBannerDialog() {
     this.displayBannerDialog = true
   }
 
-    private buildForm () {
+  private buildForm() {
     this.firstForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['',
         [Validators.required,
           Validators.minLength(8),
-          this.patternValidator(/\d/, { hasNumber: true }),
-          this.patternValidator(/[A-Z]/, { hasUpperCase: true }),
-          this.patternValidator(/[a-z]/, { hasLowerCase: true }),
-          this.patternValidator(/^.{8,}$/, { hasMinLength: true })]],
+          this.patternValidator(/\d/, {hasNumber: true}),
+          this.patternValidator(/[A-Z]/, {hasUpperCase: true}),
+          this.patternValidator(/[a-z]/, {hasLowerCase: true}),
+          this.patternValidator(/^.{8,}$/, {hasMinLength: true})]],
       name: ['', Validators.required],
       surname: ['', Validators.required],
       birthdate: ['', Validators.required]
     })
   }
 
-  patternValidator (regex:RegExp, error: ValidationErrors): ValidatorFn {
+  patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
         return null // Si control esta buit no retorna cap error
